@@ -10,4 +10,4 @@
 Lưu ý: nhớ chỉnh lại config trong file application.properties về phần db để hoạt động đúng nhé (những phần liên quan đến db thôi nhé).
 
 ### Khác
-Có gì không rõ thì tự tìm hiểu đi:))
+Có gì không rõ thì tự tìm hiểu hoặc hỏi :))
