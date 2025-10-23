@@ -12,6 +12,10 @@
             <p th:text="${product.name}"></p>
             <h4>Description: </h4>
             <p th:text="${product.description}"></p>
+            <div th:each="variant : ${product.variants}" class="variants">
+                <h5 th:text="${variant.code_product_variant}"></h5>
+                <img th:src="@{${variant.imageUrl}}" alt="image">
+            </div>
         </div>
     </div>
 </body>
