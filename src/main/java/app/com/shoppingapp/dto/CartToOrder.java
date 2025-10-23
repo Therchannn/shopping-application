@@ -1,5 +1,6 @@
 package app.com.shoppingapp.dto;
 
+import app.com.shoppingapp.entity.Order;
 import lombok.Data;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class CartToOrder {
         int quantity;
     }
     List<productToOrder> productVariants;
+    Order.PaymentMethod paymentMethod;
     String userId;
 }
 
