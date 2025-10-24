@@ -22,4 +22,9 @@ public class PageController {
 
         return "home";
     }
+
+    @GetMapping("/")
+    public String index(){
+        return "index";
+    }
 }
