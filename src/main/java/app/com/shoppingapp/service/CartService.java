@@ -3,7 +3,6 @@ package app.com.shoppingapp.service;
 import app.com.shoppingapp.dto.*;
 import app.com.shoppingapp.repository.OrderRepository;
 import app.com.shoppingapp.entity.*;
-import app.com.shoppingapp.mapper.CartMapper;
 import app.com.shoppingapp.repository.CartRepository;
 import app.com.shoppingapp.repository.ProductVariantsRepository;
 import app.com.shoppingapp.repository.UserRepository;
@@ -15,7 +14,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +23,8 @@ public class CartService {
     private final ProductVariantsRepository productVariantsRepository;
     private final OrderRepository orderRepository;
 
-    public List<CartDTO> get(String id){
-        List<Cart> carts = cartRepository.findCartsByIdUserId(id);
-        return carts.stream()
-                .map(CartMapper::toDTO)
-                .collect(Collectors.toList());
+    public List<CartToGet> get(String id){
+        return cartRepository.getAllCart(id);
     }
 
     public String add(ProductAddToCart data){
@@ -89,9 +84,9 @@ public class CartService {
 
             Order newOrder = Order.builder()
                     .user(user)
-                    .status("Pending")
+                    .status("Enrolled")
                     .shippingFee(new BigDecimal("10000.00"))
-                    .paymentMethod(Order.PaymentMethod.TIEN_MAT)
+                    .paymentMethod(data.getPaymentMethod())
                     .createdAt(LocalDateTime.now())
                     .build();
 
@@ -99,6 +94,10 @@ public class CartService {
             List<OrderItem> orderItems = new ArrayList<>();
             for(CartToOrder.productToOrder item : data.getProductVariants()){
                 ProductVariant variant = productVariantsRepository.findByIdProductVariant(item.getProductVariantId());
+
+                if(variant.getQuantity() == 0){
+                    continue;
+                }
 
                 BigDecimal itemPrice = variant.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
                 total = total.add(itemPrice);
@@ -109,7 +108,7 @@ public class CartService {
                         .orderId(itemId)
                         .productVariant(variant)
                         .order(newOrder)
-                        .quantity(item.getQuantity())
+                        .quantity(item.getQuantity() > variant.getQuantity() ? variant.getQuantity() : item.getQuantity())
                         .build();
 
                 orderItems.add(newItem);
