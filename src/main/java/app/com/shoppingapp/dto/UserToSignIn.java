@@ -6,5 +6,4 @@ import lombok.Data;
 public class UserToSignIn {
     String username;
     String password;
-    boolean role;
 }
