@@ -14,7 +14,7 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping("get")
-    public List<CartDTO> getCart(@RequestParam("id") String data){
+    public List<CartToGet> getCart(@RequestParam("id") String data){
         return cartService.get(data);
     }
 
