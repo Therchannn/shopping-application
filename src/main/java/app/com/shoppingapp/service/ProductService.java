@@ -29,6 +29,11 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    // Add: count products for dashboard
+    public long count(){
+        return productRepository.count();
+    }
+
 //    public String add(ProductAddToCart data, String user_id){
 //        try{
 //            cartRepository.save();

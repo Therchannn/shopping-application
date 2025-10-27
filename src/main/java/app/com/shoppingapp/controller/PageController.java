@@ -4,6 +4,8 @@ import app.com.shoppingapp.dto.ProductDTO;
 import app.com.shoppingapp.dto.UserToSignIn;
 import app.com.shoppingapp.service.ProductService;
 import app.com.shoppingapp.service.AuthService;
+import app.com.shoppingapp.service.OrderService;
+import app.com.shoppingapp.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,8 +20,14 @@ import java.util.List;
 @Controller
 public class PageController {
 
+    private static final String AUTH_SESSION_KEY = "isAdmin";
+    private static final String ADMIN_LOGIN_URL = "redirect:/admin/login";
+    private static final String ADMIN_DASHBOARD_URL = "redirect:/admin/dashboard";
+
     private final ProductService productService;
     private final AuthService authService;
+    private final OrderService orderService;
+    private final UserService userService;
 
     @GetMapping("/home")
     public String homePage(Model model){
@@ -32,7 +40,7 @@ public class PageController {
 
     @GetMapping("/admin")
     public String adminRoot() {
-        return "redirect:/admin/login";
+        return ADMIN_LOGIN_URL;
     }
 
     @GetMapping("/admin/login")
@@ -50,29 +58,45 @@ public class PageController {
         req.setPassword(password);
 
         if (authService.authenticateAdmin(req)) {
-            session.setAttribute("isAdmin", true);
-            return "redirect:/admin/home";
+            session.setAttribute(AUTH_SESSION_KEY, true);
+            return ADMIN_DASHBOARD_URL;
         } else {
-            session.removeAttribute("isAdmin");
+            session.removeAttribute(AUTH_SESSION_KEY);
             model.addAttribute("loginError", "Wrong username or password");
             return "admin/login";
         }
     }
 
-    @GetMapping("/admin/home")
-    public String adminHome(Model model, HttpSession session) {
-        Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
-        if (isAdmin == null || !isAdmin) {
-            return "redirect:/admin/login";
+    @GetMapping("/admin/dashboard")
+    public String dashBoard(Model model, HttpSession session,
+                            @RequestParam(name = "q", required = false) String q) {
+        if(session.getAttribute(AUTH_SESSION_KEY) == null){
+            return ADMIN_LOGIN_URL;
         }
-        List<ProductDTO> products = productService.get();
+
+        List<ProductDTO> products = (q != null && !q.isBlank())
+                ? productService.search(q)
+                : productService.get();
+
         model.addAttribute("products", products);
-        return "admin/home";
+        model.addAttribute("q", q);
+
+        // dashboard metrics
+        model.addAttribute("productCount", productService.count());
+        model.addAttribute("orderCount", orderService.count());
+        model.addAttribute("userCount", userService.count());
+
+
+        model.addAttribute("monthlyRevenue", List.of(500,700,800,650,900,1200,1500));
+        model.addAttribute("categoryLabels", List.of("Shirts", "Pants"));
+        model.addAttribute("categoryData", List.of(40,25));
+
+        return "admin/dashboard";
     }
 
     @GetMapping("/admin/logout")
     public String adminLogout(HttpSession session) {
         session.invalidate();
-        return "redirect:/admin/login";
+        return ADMIN_LOGIN_URL;
     }
 }

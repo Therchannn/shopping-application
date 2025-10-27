@@ -31,47 +31,49 @@ import java.util.Optional;
             try{
                 Optional<User> result = userRepository.findUserByUsername(data.getUsername());
 
-                if(result.isPresent()){
-                    return "Username has been used";
-                }
-
-                User user = User.builder()
-                        .username(data.getUsername())
-                        .name(data.getName())
-                        .password(data.getPassword())
-                        .phone(data.getPhone())
-                        .address(data.getAddress())
-                        .build();
-
-                userRepository.save(user);
-                return "Create account successfully";
-            }catch (Exception e){
-                return "Something is error: " + e.getMessage();
+            if (result.isPresent()) {
+                return "Username has been used";
             }
-        }
 
-        public UserDTO getInfo(String id){
-            User user = userRepository.findUserById(id);
-            return UserMapper.toDTO(user);
-        }
+            User user = User.builder()
+                    .username(data.getUsername())
+                    .name(data.getName())
+                    .password(data.getPassword())
+                    .phone(data.getPhone())
+                    .address(data.getAddress())
+                    .build();
 
-        public String update(UserDTO data){
-            try{
-                User user = userRepository.findUserById(data.getId());
-
-                user.setUsername(data.getUsername());
-                user.setName(data.getName());
-                user.setPhone(data.getPhone());
-                user.setAddress(data.getAddress());
-                user.setUpdatedAt(LocalDateTime.now());
-
-                userRepository.save(user);
-
-                return "Update information successfully";
-            }
-            catch (Exception e){
-                return "Something is error: " + e.getMessage();
-            }
+            userRepository.save(user);
+            return "Create account successfully";
+        } catch (Exception e) {
+            return "Something is error: " + e.getMessage();
         }
     }
 
+    public UserDTO getInfo(String id) {
+        User user = userRepository.findUserById(id);
+        return UserMapper.toDTO(user);
+    }
+
+    public String update(UserDTO data) {
+        try {
+            User user = userRepository.findUserById(data.getId());
+
+            user.setUsername(data.getUsername());
+            user.setName(data.getName());
+            user.setPhone(data.getPhone());
+            user.setAddress(data.getAddress());
+            user.setUpdatedAt(LocalDateTime.now());
+
+            userRepository.save(user);
+
+            return "Update information successfully";
+        } catch (Exception e) {
+            return "Something is error: " + e.getMessage();
+        }
+    }
+
+    public long count() {
+        return userRepository.count();
+    }
+}

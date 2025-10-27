@@ -73,4 +73,7 @@ public class OrderService {
             return "Something is error: " + e.getMessage();
         }
     }
+    public long count(){
+        return orderRepository.count();
+    }
 }
