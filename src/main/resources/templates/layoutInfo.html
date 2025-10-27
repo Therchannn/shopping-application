@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/layoutInfo.css}">
+    <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/fontawesome-free-7.1.0-web/css/all.min.css}">
+    <link rel="icon" th:href="@{/images/favicon.png}">
+    <title>Outerity</title>
+</head>
+<body>
+
+    <div th:replace="layout ::header"></div>
+
+    <main class="main-wrap">
+
+        <h1 class="main__title">Tài khoản của bạn</h1>
+
+        <div class="grid">
+
+            <div class="grid__row">
+
+                <div class="grid__column-2">
+
+                    <div class="main__hello">
+                        <p class="hello__title">Xin chào bạn !</p>
+                        <p class="hello__name">Name</p>
+                    </div>
+
+                    <div class="main__nav">
+                        <ul>
+                            <li class="nav__item">
+                                <i class="ti-id-badge"></i>
+                                Thông tin của tôi
+                            </li>
+                            <li class="nav__item">
+                                <i class="ti-package"></i>
+                                Đơn hàng của tôi
+                            </li>
+                            <li class="nav__item">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                Đăng xuất
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+    
+    <div th:replace="layout ::footer"></div>
+
+    <span class="footer">Copyright © 2025 Outerity. Powered by Haravan</span>
+    
+</body>
+</html>

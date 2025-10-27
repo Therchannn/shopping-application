@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="vn" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/layoutProduct.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
     <title>Document</title>
 </head>
 <body>
@@ -13,9 +15,24 @@
 
             <div class="grid__row">
 
-                <div class="grid__column-2-4">
+                <div class=".grid__column-10 product__wrap">
+
+                    <div class="grid__row">
+
+                        <!-- text -->
+                        <div th:each="product : ${products}" class="grid__column-2-4">
+                            <div th:each="variant : ${product.variants}" class="product__item">
+                                <img th:src="@{${variant.imageUrl}}" alt="image" class="product__img">
+                                <p th:text="${product.name}" class="product__name">Product name:</p>
+                                <p th:text="@{${variant.price}}" class="product__price">Price</p>
+                            </div>
+                        </div>
+                        <!-- end test -->
+
+                    </div>
 
                 </div>
+
             </div>
             
         </div>

@@ -39,5 +39,15 @@ public class PageController {
         return "layoutProduct";
     }
 
+    @GetMapping("/about")
+    public String aboutPage(){
+        return "about";
+    }
+
+    @GetMapping("/layoutInfo")
+    public String layoutInfoPage(){
+        return "layoutInfo";
+    }
+
     
 }
