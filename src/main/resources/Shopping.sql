@@ -1,4 +1,12 @@
-CREATE DATABASE IF NOT EXISTS test;
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+SET collation_connection = 'utf8mb4_general_ci';
+
+CREATE DATABASE IF NOT EXISTS test
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_general_ci;
+
+USE test;
 
 CREATE TABLE IF NOT EXISTS `User` (
   `id` varchar(50) PRIMARY KEY,
