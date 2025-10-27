@@ -1,0 +1,181 @@
+  <!DOCTYPE html>
+  <html lang="vn" xmlns:th="http://www.thymeleaf.org">
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Cart</title>
+      <!-- CSS  -->
+      <link rel="stylesheet" th:href="@{/css/base.css}" />
+      <link rel="stylesheet" th:href="@{/css/cart.css}" />
+      <!-- ICON FONTAWESOME -->
+      <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}" />
+    </head>
+    <body>
+      <div class="cart">
+        <!-- Giỏ hàng trống -->
+        <!-- <div class="cart_list">
+          <h2 class="cart-heading">Giỏ hàng của bạn</h2>
+          <div class="cart_empty">
+            <i class="cart-icon fa-solid fa-inbox"></i>
+            <span class="cart-desc">Giỏ hàng của bạn đang trống </span>
+          </div>
+          <button class="btn cart-btn">Tiếp tục mua sắm</button>
+        </div> -->
+        <!-- Giỏ hàng có sản phẩm -->
+        <div class="cart_list">
+          <h2 class="cart-heading">Giỏ hàng của bạn</h2>
+            <div class="cart_solid">
+              <img src="https://product.hstatic.net/200000312481/product/z5334858888217_a9a4579df8f72de94131d211636ce17e_0c6e2045c7a14b51969cd3a7ddc3e2e8_master.jpg" alt="" class="cart_image" />
+            <div class="cart_content">
+              <h3 class="cart_title">ÁO THUN FORM BOXY OUTERITY DREAM NỈ HAI DA</h3>
+              <span class="cart_price">173,000 VND</span>
+              <div class="cart_wrapper">
+                <span class="cart_info">Size:</span>
+                <span></span>
+              </div>
+              <div class="cart_wrapper">
+                <span class="cart_info">Số lượng:</span>
+                <div class="cart_amount">
+                  <button class="btn-justify"><i class="fa-solid fa-plus"></i></button>
+                  <input type="text" name="amount" id="amount" value="1">
+                  <button class="btn-justify"><i class="fa-solid fa-minus"></i></button>
+                </div>
+              </div>
+
+              <div class="cart_wrapper">
+                <span class="cart_info">Color:</span>
+                <span></span>
+              </div>
+
+              <button class="btn cart_del">Xóa</button>
+            </div>
+          </div>
+            <div class="cart_solid">
+              <img src="https://product.hstatic.net/200000312481/product/z5334858888217_a9a4579df8f72de94131d211636ce17e_0c6e2045c7a14b51969cd3a7ddc3e2e8_master.jpg" alt="" class="cart_image" />
+            <div class="cart_content">
+              <h3 class="cart_title"></h3>
+              <span class="cart_price"></span>
+              <div class="cart_wrapper">
+                <span class="cart_info">Size:</span>
+                <span></span>
+              </div>
+              <div class="cart_wrapper">
+                <span class="cart_info">Số lượng:</span>
+                <div class="cart_amount">
+                  <button class="btn-justify"><i class="fa-solid fa-plus"></i></button>
+                  <input type="text" name="amount" id="amount" value="1">
+                  <button class="btn-justify"><i class="fa-solid fa-minus"></i></button>
+                </div>
+              </div>
+
+              <div class="cart_wrapper">
+                <span class="cart_info">Color:</span>
+                <span></span>
+              </div>
+
+              <button class="btn cart_del">Xóa</button>
+            </div>
+          </div>
+            <div class="cart_solid">
+              <img src="https://product.hstatic.net/200000312481/product/z5334858888217_a9a4579df8f72de94131d211636ce17e_0c6e2045c7a14b51969cd3a7ddc3e2e8_master.jpg" alt="" class="cart_image" />
+            <div class="cart_content">
+              <h3 class="cart_title"></h3>
+              <span class="cart_price"></span>
+              <div class="cart_wrapper">
+                <span class="cart_info">Size:</span>
+                <span></span>
+              </div>
+              <div class="cart_wrapper">
+                <span class="cart_info">Số lượng:</span>
+                <div class="cart_amount">
+                  <button class="btn-justify"><i class="fa-solid fa-plus"></i></button>
+                  <input type="text" name="amount" id="amount" value="1">
+                  <button class="btn-justify"><i class="fa-solid fa-minus"></i></button>
+                </div>
+              </div>
+
+              <div class="cart_wrapper">
+                <span class="cart_info">Color:</span>
+                <span></span>
+              </div>
+
+              <button class="btn cart_del">Xóa</button>
+            </div>
+          </div>
+            <div class="cart_solid">
+              <img src="https://product.hstatic.net/200000312481/product/z5334858888217_a9a4579df8f72de94131d211636ce17e_0c6e2045c7a14b51969cd3a7ddc3e2e8_master.jpg" alt="" class="cart_image" />
+            <div class="cart_content">
+              <h3 class="cart_title"></h3>
+              <span class="cart_price"></span>
+              <div class="cart_wrapper">
+                <span class="cart_info">Size:</span>
+                <span></span>
+              </div>
+              <div class="cart_wrapper">
+                <span class="cart_info">Số lượng:</span>
+                <div class="cart_amount">
+                  <button class="btn-justify"><i class="fa-solid fa-plus"></i></button>
+                  <input type="text" name="amount" id="amount" value="1">
+                  <button class="btn-justify"><i class="fa-solid fa-minus"></i></button>
+                </div>
+              </div>
+
+              <div class="cart_wrapper">
+                <span class="cart_info">Color:</span>
+                <span></span>
+              </div>
+
+              <button class="btn cart_del">Xóa</button>
+            </div>
+          </div>
+            <div class="cart_solid">
+              <img src="https://product.hstatic.net/200000312481/product/z5334858888217_a9a4579df8f72de94131d211636ce17e_0c6e2045c7a14b51969cd3a7ddc3e2e8_master.jpg" alt="" class="cart_image" />
+            <div class="cart_content">
+              <h3 class="cart_title"></h3>
+              <span class="cart_price"></span>
+              <div class="cart_wrapper">
+                <span class="cart_info">Size:</span>
+                <span></span>
+              </div>
+              <div class="cart_wrapper">
+                <span class="cart_info">Số lượng:</span>
+                <div class="cart_amount">
+                  <button class="btn-justify"><i class="fa-solid fa-plus"></i></button>
+                  <input type="text" name="amount" id="amount" value="1">
+                  <button class="btn-justify"><i class="fa-solid fa-minus"></i></button>
+                </div>
+              </div>
+
+              <div class="cart_wrapper">
+                <span class="cart_info">Color:</span>
+                <span></span>
+              </div>
+
+              <button class="btn cart_del">Xóa</button>
+            </div>
+          </div>
+
+
+
+               <div class="cart_bottom">
+            <div class="cart_wrapper">
+              <span class="cart_info">TỔNG TIỀN</span>
+              <span class="cart_total"></span>
+            </div>
+            <button class="btn cart-btn">THANH TOÁN</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ICON IONICS -->
+      <script
+        type="module"
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+      ></script>
+      <script
+        nomodule
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+      ></script>
+    </body>
+  </html>

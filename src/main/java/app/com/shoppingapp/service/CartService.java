@@ -89,9 +89,9 @@ public class CartService {
 
             Order newOrder = Order.builder()
                     .user(user)
-                    .status("Pending")
+                    .status("Enrolled")
                     .shippingFee(new BigDecimal("10000.00"))
-                    .paymentMethod(Order.PaymentMethod.TIEN_MAT)
+                    .paymentMethod(data.getPaymentMethod())
                     .createdAt(LocalDateTime.now())
                     .build();
 
