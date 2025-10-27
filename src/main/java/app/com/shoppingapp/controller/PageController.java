@@ -31,11 +31,26 @@ public class PageController {
 
     @GetMapping("/home")
     public String homePage(Model model){
+         List<ProductDTO> products = productService.get();
+
+         model.addAttribute("products", products);
+
+        return "home";
+    }
+
+    @GetMapping("/layout")
+    public String layoutPage(){
+        return "layout";
+    }
+
+    @GetMapping("/layoutProduct")
+    public String layoutProductPage(Model model){
+
         List<ProductDTO> products = productService.get();
 
         model.addAttribute("products", products);
 
-        return "home";
+        return "layoutProduct";
     }
 
     @GetMapping("/admin")
