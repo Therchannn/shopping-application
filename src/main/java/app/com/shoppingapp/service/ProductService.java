@@ -29,9 +29,13 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    // Add: count products for dashboard
+
     public long count(){
         return productRepository.count();
+    }
+
+    public List<Object[]> countByCategory(){
+        return productRepository.countByCategory();
     }
 
 //    public String add(ProductAddToCart data, String user_id){

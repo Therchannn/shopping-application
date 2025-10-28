@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -101,10 +103,22 @@ public class PageController {
         model.addAttribute("orderCount", orderService.count());
         model.addAttribute("userCount", userService.count());
 
+        Map<String, Long> categoryCounts = new HashMap<>();
+        List<Object[]> counts = productService.countByCategory();
+        for (Object[] count : counts) {
+            String category = (String) count[0];
+            Long cnt = (Long) count[1];
+            categoryCounts.put(category, cnt);
+        }
 
-        model.addAttribute("monthlyRevenue", List.of(500,700,800,650,900,1200,1500));
-        model.addAttribute("categoryLabels", List.of("Shirts", "Pants"));
-        model.addAttribute("categoryData", List.of(40,25));
+        List<Integer> monthlyRevenue = List.of(500,700,800,650,900,1200,1500);
+        model.addAttribute("monthlyRevenue", monthlyRevenue);
+        model.addAttribute("categoryLabels", categoryCounts.keySet());
+        model.addAttribute("categoryData", categoryCounts.values());
+
+        // show the latest month revenue as KPI
+        Integer revenue = monthlyRevenue.isEmpty() ? 0 : monthlyRevenue.get(monthlyRevenue.size() - 1);
+        model.addAttribute("revenue", revenue);
 
         return "admin/dashboard";
     }

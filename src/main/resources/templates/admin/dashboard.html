@@ -1,117 +1,114 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Dashboard | Outerity Admin</title>
   <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" th:href="@{/css/base.css}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body>
 <div class="layout">
   <!-- SIDEBAR -->
   <aside class="sidebar">
-    <div class="brand">Shop Admin</div>
-    <nav class="nav">
-      <a th:href="@{/admin/dashboard}" class="active">Dashboard</a>
-      <a th:href="@{/admin/products}">Products</a>
-      <a th:href="@{/admin/orders}">Orders</a>
-      <a th:href="@{/admin/customers}">Customers</a>
-      <a th:href="@{/admin/statistics}">Statistics</a>
-    </nav>
+    <div class="logo-section">
+      <img th:src="@{/images/favicon.png}" alt="Lock" class="logo-icon">
+    </div>
+    <div class="menu-group">
+      <div class="menu-title">MARKETING</div>
+      <a th:href="@{/admin/dashboard}" class="menu-item active"><i class="bi bi-activity"></i> Dashboard</a>
+      <a th:href="@{/admin/products}" class="menu-item"><i class="bi bi-bag"></i> Sản phẩm</a>
+      <a th:href="@{/admin/orders}" class="menu-item"><i class="bi bi-receipt"></i> Đơn hàng</a>
+      <a th:href="@{/admin/customers}" class="menu-item"><i class="bi bi-people"></i> Khách hàng</a>
+      <a th:href="@{/admin/statistics}" class="menu-item"><i class="bi bi-bar-chart"></i> Thống kê</a>
+    </div>
+
+    <div class="menu-group">
+      <div class="menu-title">SYSTEM</div>
+      <a th:href="@{/admin/settings}" class="menu-item"><i class="bi bi-gear"></i> Cài đặt</a>
+    </div>
+
+    <div class="user-section">
+      <div class="user">
+        <i class="bi bi-person-circle"></i>
+        <span>Zair0u</span>
+      </div>
+      <a th:href="@{/admin/logout}" class="logout"><i class="bi bi-box-arrow-right"></i> Đăng xuất</a>
+    </div>
   </aside>
 
   <!-- MAIN CONTENT -->
   <main class="content">
-    <header>
-      <h2>Dashboard</h2>
-      <div class="right">
-        <a class="btn" th:href="@{/admin/logout}">Logout</a>
-      </div>
-    </header>
+    <div class="top-logo">
+      <img th:src="@{/images/logo.svg}" alt="Outerity Logo">
+    </div>
+
+    <h2>Dashboard</h2>
 
     <!-- KPI CARDS -->
-    <section class="grid">
-      <div class="card kpi-card blue">
-        <div class="muted">Products</div>
-        <div class="kpi" th:text="${productCount}">0</div>
+    <section class="kpi-grid">
+      <div class="kpi-card yellow">
+        <div class="kpi-header">
+          <i class="bi bi-people-fill"></i>
+          <span>Tổng số khách hàng</span>
+        </div>
+        <div class="kpi-value" th:text="${userCount}">567,899</div>
+        <i class="bi bi-graph-up-arrow growth-icon"></i>
       </div>
-      <div class="card kpi-card green">
-        <div class="muted">Orders</div>
-        <div class="kpi" th:text="${orderCount}">0</div>
+
+      <div class="kpi-card purple">
+        <div class="kpi-header">
+          <i class="bi bi-coin"></i>
+          <span>Tổng doanh thu</span>
+        </div>
+        <div class="kpi-value" th:text="${revenue}">$3,465 M</div>
+        <i class="bi bi-graph-up-arrow growth-icon"></i>
       </div>
-      <div class="card kpi-card yellow">
-        <div class="muted">Customers</div>
-        <div class="kpi" th:text="${userCount}">0</div>
+
+      <div class="kpi-card green">
+        <div class="kpi-header">
+          <i class="bi bi-cart-check-fill"></i>
+          <span>Tổng đơn hàng</span>
+        </div>
+        <div class="kpi-value" th:text="${orderCount}">1,136 M</div>
+        <i class="bi bi-graph-up-arrow growth-icon"></i>
       </div>
-      <div class="card kpi-card purple">
-        <div class="muted">Revenue (Month)</div>
-        <div class="kpi" th:text="${revenue}">$0</div>
+
+      <div class="kpi-card blue">
+        <div class="kpi-header">
+          <i class="bi bi-box-fill"></i>
+          <span>Tổng số sản phẩm</span>
+        </div>
+        <div class="kpi-value" th:text="${productCount}">1,789</div>
+        <i class="bi bi-graph-up-arrow growth-icon"></i>
       </div>
     </section>
 
     <!-- CHARTS -->
     <section class="charts">
-      <div class="card chart-card">
-        <h3>Monthly Revenue</h3>
+      <div class="chart-card">
+        <h3>Doanh thu theo ngày</h3>
         <canvas id="revenueChart"></canvas>
       </div>
-      <div class="card chart-card">
-        <h3>Sales by Category</h3>
+
+      <div class="chart-card">
+        <h3>Bán theo từng sản phẩm</h3>
         <canvas id="categoryChart"></canvas>
       </div>
     </section>
   </main>
 </div>
 
-<!-- SCRIPT -->
 <script th:inline="javascript">
-  /*<![CDATA[*/
-  const revenueData = /*[[${monthlyRevenue}]]*/ [500,700,800,650,900,1200,1500];
-  const categoryLabels = /*[[${categoryLabels}]]*/ ['Shirts','Pants'];
-  const categoryData = /*[[${categoryData}]]*/ [40,25];
-  /*]]>*/
-
-  const ctx1 = document.getElementById('revenueChart');
-  new Chart(ctx1, {
-    type: 'line',
-    data: {
-      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],
-      datasets: [{
-        label: 'Revenue ($)',
-        data: revenueData,
-        borderColor: '#2563eb',
-        backgroundColor: 'rgba(37,99,235,0.1)',
-        tension: 0.4,
-        fill: true
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: { beginAtZero: true }
-      }
-    }
-  });
-
-  const ctx2 = document.getElementById('categoryChart');
-  new Chart(ctx2, {
-    type: 'doughnut',
-    data: {
-      labels: categoryLabels,
-      datasets: [{
-        data: categoryData,
-        backgroundColor: ['#60a5fa','#34d399','#facc15','#a78bfa']
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { position: 'bottom' }
-      }
-    }
-  });
+  window.DASHBOARD_DATA = {
+    monthlyRevenue: /*[[${monthlyRevenue}]]*/ [],
+    categoryLabels: /*[[${categoryLabels}]]*/ [],
+    categoryData: /*[[${categoryData}]]*/ []
+  };
 </script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script th:src="@{/js/dashboard.js}"></script>
 </body>
 </html>
-

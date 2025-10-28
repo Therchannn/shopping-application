@@ -1,0 +1,98 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f9fafb;
+}
+
+.login-card {
+    background: #fff;
+    padding: 60px 60px;
+    border-radius: 16px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    width: 25%;
+    text-align: center;
+}
+
+.login-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 28px;
+    position: relative;
+}
+
+/* Logo OUTERITY */
+.logo-text {
+    object-fit: contain;
+}
+
+/* Tiêu đề chính */
+.login-card h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+/* Dòng mô tả phụ */
+.subtitle {
+    color: #6b7280;
+    font-size: 12px;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+/* Thông báo lỗi */
+.error {
+    color: #b00020;
+    background: #fde8e8;
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+/* Ô nhập */
+input {
+    width: 100%;
+    padding: 12px 14px;
+    margin: 10px 0;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+/* Nút đăng nhập */
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background: #000;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    transition: background 0.3s ease;
+    margin-top: 28px;
+    font-size: 15px;
+}
+
+.btn-login:hover {
+    background: #333;
+    cursor: pointer;
+}
+
+/* Bao quanh logo */
+.logo-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Logo ổ khóa - chồng lên chữ O */
+.logo-icon {
+    position: absolute;
+    width: 82px;
+    height: 82px;
+    top: -20px;
+    left: -40px;
+}
+
