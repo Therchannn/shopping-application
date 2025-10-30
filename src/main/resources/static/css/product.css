@@ -1,0 +1,42 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.main__product-wrap {
+    flex: 1; 
+    padding-top: 131px;
+}
+
+/* side bar */
+.side__bar{
+    display: flex;
+    flex-direction: column;
+}
+
+.side__bar-item{
+    font-size: 18px;
+    font-weight: 500;
+    padding: 15px 10px;
+}
+
+.side__bar-item:hover{
+    opacity: 0.5;
+    transform: translateX(10px);
+    transition: all ease-in 0.5s;
+}
+
+/* product */
+.product{
+    margin: 100px;
+}
+
+.product__heading{
+    font-size: 24px;
+    padding: 15px 15px 30px 15px;
+}
