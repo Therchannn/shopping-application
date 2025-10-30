@@ -23,8 +23,8 @@ public class CartService {
     private final ProductVariantsRepository productVariantsRepository;
     private final OrderRepository orderRepository;
 
-    public List<CartToGet> get(String id){
-        return cartRepository.getAllCart(id);
+    public List<CartToGet> get(String userid){
+        return cartRepository.getAllCart(userid);
     }
 
     public String add(ProductAddToCart data){

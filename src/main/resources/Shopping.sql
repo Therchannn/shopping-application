@@ -459,14 +459,13 @@ VALUES
 
 INSERT IGNORE INTO Cart (id_product_variant, id_user, quantity)
 VALUES
-('V001', 'U001', 2),
-('V004', 'U001', 2),
-('V006', 'U001', 2);
+('V001', 'U001', 3),
+('V004', 'U001', 4),
+('V006', 'U001', 5);
 
 INSERT IGNORE INTO `Order` (id, id_user, total, shipping_fee, payment_method)
 VALUES
 ('O001', 'U001', 249000.00, 10000.00, 'TIEN_MAT');
 
-INSERT IGNORE INTO Order_items (id_order, id_product_variant, quantity)
-VALUES
-('O001', 'V001', 1);
+
+

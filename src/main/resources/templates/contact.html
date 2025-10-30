@@ -8,6 +8,9 @@
     <!-- CSS  -->
     <link rel="stylesheet" th:href="@{/css/base.css}" />
     <link rel="stylesheet" th:href="@{/css/contact.css}" />
+    <link rel="stylesheet" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart.css}" />
+
     <!-- ICON FONTAWESOME -->
     <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}" />
     <!-- ICON IONICS -->
@@ -22,28 +25,34 @@
   </head>
 
   <body>
+    <div th:replace="layout ::header"></div>
+
     <div class="container">
-        <div class="contact">
-            <h2>Thông tin liên hệ</h2>
-            <div class="contact_list">
-                <div class="contact_item">
-                    <div class="contact_content">
-                        <span>Hotline</span>
-                        <span>1900 633028</span>
-                    </div>
-                    <a href="tel:1900633028" class="btn contact-btn">Gọi Ngay</a>
-
-                </div>
-                <div class="contact_item">
-                    <div class="contact_content">
-                        <span>Email for customer</span>
-                        <span>customer@outerity.asia</span>
-                    </div>
-                    <a href="mailto:customer@outerity.asia" class="btn contact-btn">Gửi Email</a>
-
-                </div>
+      <div class="contact">
+        <h2>Thông tin liên hệ</h2>
+        <div class="contact_list">
+          <div class="contact_item">
+            <div class="contact_content">
+              <span>Hotline</span>
+              <span>1900 633028</span>
             </div>
+            <a href="tel:1900633028" class="btn contact-btn">Gọi Ngay</a>
+          </div>
+          <div class="contact_item">
+            <div class="contact_content">
+              <span>Email for customer</span>
+              <span>customer@outerity.asia</span>
+            </div>
+            <a href="mailto:customer@outerity.asia" class="btn contact-btn"
+              >Gửi Email</a
+            >
+          </div>
         </div>
+      </div>
     </div>
+    <div th:replace="layout ::footer"></div>
+
+
+    <script th:src="@{/js/openCart.js}"></script>
   </body>
-  </html>
+</html>

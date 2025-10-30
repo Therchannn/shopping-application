@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="vn" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <!-- layout css -->
-    <link rel="stylesheet" th:href="@{/css/base.css}">
-    <link rel="stylesheet" th:href="@{/css/layout.css}">
-    <link rel="stylesheet" th:href="@{/css/home.css}">
-    <link rel="stylesheet" th:href="@{/js/home.js}">
-    <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}">
-    <link rel="stylesheet" th:href="@{/fontawesome-free-7.1.0-web/css/all.min.css}">
-    <link rel="icon" th:href="@{/images/favicon.png}">
+    <link rel="stylesheet" th:href="@{/css/base.css}" />
+    <link rel="stylesheet" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart.css}" />
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}" />
+    <link
+      rel="stylesheet"
+      th:href="@{/fontawesome-free-7.1.0-web/css/all.min.css}"
+    />
+    <link rel="icon" th:href="@{/images/favicon.png}" />
 
     <title>Outerity</title>
-</head>
-<body>
-
+  </head>
+  <body>
     <!-- header -->
     <div th:replace="layout ::header"></div>
 
@@ -34,30 +36,37 @@
 
     <!-- main -->
     <main class="main-wrap">
-        
-        <div class="main__slide">
-            <img th:src="@{/images/banner_1.jpg}" alt="banner_1"  class="slide__img">
-            <img th:src="@{/images/banner_2.jpg}" alt="banner_2"  class="slide__img">
-            <img th:src="@{/images/banner_3.jpg}" alt="banner_3"  class="slide__img">
-            <img th:src="@{/images/banner_4.jpg}" alt="banner_4"  class="slide__img">
-        </div>
+      <div class="main__slide">
+        <img
+          th:src="@{/images/banner_1.jpg}"
+          alt="banner_1"
+          class="slide__img"
+        />
+        <img
+          th:src="@{/images/banner_2.jpg}"
+          alt="banner_2"
+          class="slide__img"
+        />
+        <img
+          th:src="@{/images/banner_3.jpg}"
+          alt="banner_3"
+          class="slide__img"
+        />
+        <img
+          th:src="@{/images/banner_4.jpg}"
+          alt="banner_4"
+          class="slide__img"
+        />
+      </div>
 
-        <h2 class="main__title-product">DOUBLE TEE COLLECTION</h2>
+      <h2 class="main__title-product">DOUBLE TEE COLLECTION</h2>
 
-        <div class="main__product">
+      <div class="main__product"></div>
 
-            
+      <button class="main__product-btn btn"></button>
 
-        </div>
-
-        <button class="main__product-btn btn"></button>
-
-        <div class="main__banner">
-
-        </div>
-
+      <div class="main__banner"></div>
     </main>
-
 
     <!-- footer -->
     <div th:replace="layout ::footer"></div>
@@ -65,5 +74,6 @@
     <span class="footer">Copyright © 2025 Outerity. Powered by Haravan</span>
 
     <script th:src="@{/js/script.js}"></script>
-</body>
+    <script th:src="@{/js/openCart.js}"></script>
+  </body>
 </html>

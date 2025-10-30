@@ -7,6 +7,7 @@
     <title>Contact</title>
     <!-- CSS  -->
     <link rel="stylesheet" th:href="@{/css/base.css}" />
+    <link rel="stylesheet" th:href="@{/css/layout.css}" />
     <link rel="stylesheet" th:href="@{/css/checkout.css}" />
     <!-- ICON FONTAWESOME -->
     <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}" />
@@ -22,11 +23,17 @@
   </head>
 
   <body>
+    <div th:replace="layout ::header"></div>
+
     <div class="container">
       <div class="checkout">
-        <h3>Tổng quan đơn hàng</h3>
-        
+        <div class="checkout__product">
+          <h3 class="checkout_title">Tổng quan đơn hàng</h3>
+          
+        </div>
       </div>
     </div>
+    <div th:replace="layout ::footer"></div>
   </body>
 </html>
+x

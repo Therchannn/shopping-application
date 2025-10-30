@@ -5,58 +5,64 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sign Up</title>
-    <!-- CSS  -->
+    <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/base.css}" />
     <link rel="stylesheet" th:href="@{/css/signUp.css}" />
+    <link rel="stylesheet" th:href="@{/css/layout.css}" />
     <!-- ICON -->
     <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}" />
   </head>
   <body>
+    <div th:replace="layout ::header"></div>
+
     <div class="container">
       <div class="auth register">
         <div class="auth_title register_title">
           <h1>Tạo tài khoản</h1>
         </div>
+
         <div class="auth_content register_content">
-          <p id="message"></p>
+          <p
+            id="message"
+            th:text="${message}"
+            th:if="${message != null}"
+            th:classappend="${message.contains('thành công')} ? 'success' : 'error'"
+          ></p>
+
           <form
             id="signUpForm"
             th:object="${user}"
+            th:action="@{/signUp}"
+            method="post"
             class="auth_form register_form"
           >
             <input
-              id="username"
               type="text"
+              name="username"
               class="auth_input register_input"
               placeholder="Tên đăng nhập"
-              th:field="*{username}"
               required
             />
             <input
-              id="name"
               type="text"
+              name="name"
               class="auth_input register_input"
               placeholder="Họ và tên"
-              th:field="*{name}"
+              required
+            />
+            <input
+              type="text"
+              name="phone"
+              class="auth_input register_input"
+              placeholder="Số điện thoại"
               required
             />
             <div class="input_wrapper">
               <input
-                id="phone"
-                type="text"
-                class="auth_input login_input"
-                placeholder="Số điện thoại"
-                th:field="*{phone}"
-                required
-              />
-            </div>
-            <div class="input_wrapper">
-              <input
-                id="password"
                 type="password"
-                class="auth_input login_input"
+                name="password"
+                class="auth_input register_input"
                 placeholder="Nhập mật khẩu"
-                th:field="*{password}"
                 required
               />
               <ion-icon name="eye-off-outline" class="icon-password"></ion-icon>
@@ -65,17 +71,18 @@
             <button type="submit" class="register_btn btn">Đăng ký</button>
 
             <p class="auth_guest register_guest">
-              Bạn đã có tài khoản
-              <a href="/signIn">Đăng nhập ngay</a>
+              Bạn đã có tài khoản?
+              <a th:href="@{/signIn}">Đăng nhập ngay</a>
             </p>
 
-            <a href="" class="register_btn-back btn_back"
-              ><i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ</a
-            >
+            <a th:href="@{/home}" class="register_btn-back btn_back">
+              <i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ
+            </a>
           </form>
         </div>
       </div>
     </div>
+    <div th:replace="layout ::footer"></div>
 
     <!-- ICON IONICS -->
     <script
@@ -86,7 +93,5 @@
       nomodule
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
-    <!-- SCRIPT JS -->
-    <script src="/js/signUp.js"></script>
   </body>
 </html>
