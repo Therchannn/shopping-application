@@ -31,20 +31,65 @@
                 <p class="pd__price">177,000đ</p>
                 <div class="pd__line"></div>
 
-                <div class="pd__color"></div>
+                <div class="pd__color">
+                    <div for="pd__color-item" class="pd__color-label">Đen</div>
+                    <div class="pd__color-selected">
+                        <input type="radio" name="pd__color-item" class="pd__color-item"></input>
+                        <input type="radio" name="pd__color-item" class="pd__color-item"></input>
+                        <input type="radio" name="pd__color-item" class="pd__color-item"></input>
+                    </div>
+                </div>
                 <div class="pd__line"></div>
 
                 <div class="pd__size">
                     <button class="btn pd__size-btn">S</button>
+                    <button class="btn pd__size-btn">M</button>
+                    <button class="btn pd__size-btn">L</button>
                 </div>
                 <div class="pd__line"></div>
 
                 <div class="pd__quantity">
-                    <button class="quantity__decrease">-</button>
+                    <button class="quantity-common quantity__decrease">-</button>
                     <p class="quantity">1</p>
-                    <button class="quantity__increase">+</button>
+                    <button class="quantity-common quantity__increase">+</button>
                 </div>
+
+                <button class="btn btn__add-cart">Thêm vào giỏ hàng</button>
             </div>
+        </div>
+
+        <h3 class="describe__heading">Mô Tả Sản Phẩm</h3>
+        <div class="pd__wrap">
+
+            <div class="pd__img">
+                <img th:src="@{images/image 5.png}" alt="mô tả sản phẩm" class="db__img-item">
+            </div>
+
+            <div class="pd__describe">
+
+                <div class="db__wrap">
+                    <div class="db__size db__common">
+                        <h4 class="size__heading">KÍCH CỠ</h4>
+                        <h4 class="size__heading-2">(SIZE)</h4>
+                        <p class="size__item item__common">S / M / L</p>
+                    </div>
+
+                    <div class="db__color db__common">
+                        <h4 class="color__heading">MÀU SẮC</h4>
+                        <h4 class="color__heading-2">(COLOR)</h4>
+                        <p class="color__item item__common">Trắng / Đen / Xám</p>
+                    </div>
+                </div>
+
+
+                <div class="product__db db__common">
+                    <h4 class="product__heading">MÔ TẢ SẢN PHẨM</h4>
+                    <h4 class="product__heading-2">(PRODUCT DESCRIPTION)</h4>
+                    <p class="product__item item__common">Form boxy với độ dài chấm thắt lưng và chiều rộng vừa phải cùng với chất liệu nỉ hai da, giúp dáng người trông thon gọn, cao ráo hơn. Phần tay áo dài, phù hợp để sử dụng hàng ngày, đặc biệt là khi thời tiết se lạnh. Dễ dàng kết hợp với mọi trang phục</p>
+                </div>
+
+            </div>
+
         </div>
     </div>
 
