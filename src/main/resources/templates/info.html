@@ -21,26 +21,25 @@
     <div class="main__wrap">
         <div th:replace="layoutInfo ::sidebar"></div>
         
-        <form action="#" method="post">
-
-            <div class="grid__column-10 info">
-                <p class="info__heading">Thông tin tài khoản</p>
-                <input type="text" class="info__input" placeholder="Lãm Thúy">
-                <input type="text" class="info__input" placeholder="0377219288">
-                <input type="text" class="info__input" placeholder="Địa chỉ">
-                
-                <button class="btn info__btn" type="submit">Cập nhật</button>
-            </div>
-
-        </form>
+        <div class="grid__column-10 info">
+            <p class="info__heading">Thông tin tài khoản</p>
+            <input type="text" class="info__input" placeholder="Lãm Thúy">
+            <input type="text" class="info__input" placeholder="0377219288">
+            <input type="text" class="info__input" placeholder="Địa chỉ">
+            
+            <button class="btn info__btn" type="submit">Cập nhật</button>
+        </div>
 
     </div>
 
     
 
     <div th:replace="layout ::footer"></div>
-
+    
     <span class="footer">Copyright © 2025 Outerity. Powered by Haravan</span>
+    
+
+    <script th:src=@{/js/logoutHandle.js}></script>
 
 </body>
 </html>

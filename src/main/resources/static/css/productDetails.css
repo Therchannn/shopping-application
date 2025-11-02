@@ -172,3 +172,12 @@ body {
 .describe__heading{
     margin-left: 344px;
 }
+
+/* PC responsive */
+@media(min-width: 1024px) and (max-width: 1439px){
+
+  .describe__heading {
+        margin-left: 98px;
+    }
+
+}

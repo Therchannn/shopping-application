@@ -161,3 +161,51 @@
     line-height: 60px;
 }
 
+/* PC responsive */
+@media(min-width: 1024px) and (max-width: 1439px){
+
+    .header-wrap{
+        padding: 15px 30px;
+    }
+    
+    .footer-wrap{
+        width: 103%;
+    }
+    
+    .footer{
+        padding-left: 100px;
+    }
+}
+
+
+/* Tablet responsive */
+@media(min-width: 740px) and (max-width: 1023px){
+
+    .header-wrap{
+        padding: 15px;
+    }
+    
+    .another{
+        width: 40%;
+    }
+    
+    .another__info{
+        padding-right: 23px;
+    }
+    
+    .another__search{
+        width: 100%;
+    }
+
+
+    .footer__list:last-child{
+        padding-right: 0;
+        padding-left: 76px;
+    }
+    
+}
+
+/* Mobile responsive */
+@media(max-width: 740px){
+
+}

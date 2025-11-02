@@ -81,3 +81,29 @@ body {
     justify-content: center;
     padding: 15px;
 }
+
+/* PC resopnsive */
+@media(min-width: 1024px) and (max-width: 1439px){
+    
+    .main-wrap{
+        padding-top: 120px;
+    }
+
+    .slide__img{
+        width: 103%;
+    }
+
+    .main__title-product{
+        padding-left: 68px;
+    }
+
+    .main__product-btn{
+        margin-left: 84px;
+    }
+}
+
+
+@media(min-width: 740px) and (max-width: 1023px){
+
+   
+}

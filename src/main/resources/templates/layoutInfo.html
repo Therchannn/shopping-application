@@ -35,14 +35,34 @@
                     </a>
                 </li>
                 <li class="nav__item">
-                    <a href="">
+                    <button class="btn logout__btn">
                         <i class="nav__item-icon fa-solid fa-arrow-right-from-bracket"></i>
                         Đăng xuất
-                    </a>
+                    </button>
                 </li>
             </ul>
         </div>
+
+        <div class="logout">
+            <div class="logout__overlay"></div>
+    
+            <div class="logout__body">
+    
+                <div class="logout_form">
+                    <div class="logout__container">
+                        <i class="btn logout__icon fa-solid fa-square-xmark"></i>
+                        <h2 class="logout__heading">Bạn muốn đăng xuất khỏi Outerity</h2>
+                        <button class="btn btn__confirm">Xác nhận</button>
+                        <button class="btn btn__back">Quay lại</button>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+        
     </div>
 
+
+    <script th:src=@{/js/logoutHandle.js} th:fragment="logoutHandle"></script>
 </body>
 </html>

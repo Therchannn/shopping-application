@@ -97,6 +97,11 @@ public class PageController {
         return "info";
     }
 
+    @GetMapping("/logout")
+    public String logoutPage(){
+        return "logout";
+    }
+
     @GetMapping("/product")
     public String productPage(Model model){
         List<ProductDTO> products = productService.get();
