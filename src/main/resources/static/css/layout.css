@@ -190,22 +190,20 @@
     }
     
     .another__info{
-        padding-right: 23px;
+        padding-right: 43px;
     }
     
     .another__search{
         width: 100%;
     }
 
+    .footer-wrap{
+        width: 108%;
+    }
 
     .footer__list:last-child{
         padding-right: 0;
         padding-left: 76px;
     }
     
-}
-
-/* Mobile responsive */
-@media(max-width: 740px){
-
 }
