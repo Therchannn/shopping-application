@@ -59,7 +59,6 @@ import java.util.Optional;
             try{
                 User user = userRepository.findUserById(data.getId());
 
-                user.setUsername(data.getUsername());
                 user.setName(data.getName());
                 user.setPhone(data.getPhone());
                 user.setAddress(data.getAddress());
