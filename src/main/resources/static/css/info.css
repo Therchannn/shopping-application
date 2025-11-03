@@ -48,3 +48,30 @@
     font-weight: 600;
     margin: 50px -12px 50px 0;
 }
+
+/* PC responsive */
+@media(min-width: 1024px) and (max-width: 1439px){
+    
+    .main__wrap {
+        margin-left: 38px;
+    }
+
+    .info {
+        width: 770px;
+        margin-left: 245px;
+        margin-top: -290px;
+    }
+}
+
+/* Tablet */
+@media(min-width: 740px) and (max-width: 1023px){
+
+    .info {
+        width: 596px;
+        margin-left: 6px;
+        margin-top: -294px;
+    }
+}
+
+
+

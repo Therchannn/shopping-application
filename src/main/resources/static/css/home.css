@@ -81,3 +81,56 @@ body {
     justify-content: center;
     padding: 15px;
 }
+
+/* PC resopnsive */
+@media(min-width: 1024px) and (max-width: 1439px){
+    
+    .main-wrap{
+        padding-top: 120px;
+    }
+
+    .slide__img{
+        width: 103%;
+    }
+
+    .main__title-product{
+        padding-left: 68px;
+    }
+
+    .main__product-btn{
+        margin-left: 84px;
+    }
+}
+
+/* Tablet  */
+@media(min-width: 740px) and (max-width: 1023px){
+
+    .main-wrap{
+        padding-top: 125px;
+    }
+
+   .slide__img{
+    width: 108%;
+   }
+
+   .main__title-product{
+        margin-left: 80px;
+    }
+
+    .main__product-btn{
+        margin-left: 80px;
+    }
+
+    .main__banner{
+        margin-left: 135px;
+    }
+
+    .banner__img{
+        width: 90%;
+    }
+
+    .footer{
+        margin-left: 60px;
+    }
+
+}

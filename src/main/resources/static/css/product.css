@@ -40,3 +40,19 @@ body {
     font-size: 24px;
     padding: 15px 15px 30px 15px;
 }
+
+/* PC */
+@media(min-width: 1024px) and (max-width: 1439px){
+    .product{
+        margin: 11px;
+    }   
+}
+
+/* Tablet */
+@media(min-width: 740px) and (max-width: 1023px){
+    
+    .product{
+        margin: 13px;
+    }   
+}
+
