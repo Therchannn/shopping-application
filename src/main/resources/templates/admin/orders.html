@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/adminLayout :: layout('Quản lý đơn hàng', ~{::content}, ~{::scripts})}">
+<head>
+  <meta charset="UTF-8" />
+    <title>Đơn hàng</title>
+</head>
+<body>
+
+<!-- CONTENT -->
+<div th:fragment="content">
+  <h2>Quản lý đơn hàng</h2>
+
+  <div class="content-header">
+    <div class="filter-group">
+      <button class="btn btn-primary">
+        <i class="bi bi-funnel"></i> Lọc
+      </button>
+    </div>
+    <div class="search-box">
+      <i class="bi bi-search"></i>
+      <input type="text" placeholder="Tìm kiếm đơn hàng...">
+    </div>
+  </div>
+
+  <section class="table-section">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Mã đơn</th>
+          <th>Khách hàng</th>
+          <th>Ngày đặt</th>
+          <th>Tổng tiền</th>
+          <th>Trạng thái</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="order : ${orders}">
+          <td th:text="${order.id}">#001</td>
+          <td th:text="${order.customerName}">Nguyễn Văn A</td>
+          <td th:text="${#temporals.format(order.createdDate, 'dd/MM/yyyy')}">01/01/2024</td>
+          <td th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'POINT')} + ' đ'">299,000 đ</td>
+          <td>
+            <span class="badge"
+                  th:classappend="${order.status == 'COMPLETED'} ? 'badge-success' :
+                                  (${order.status == 'PENDING'} ? 'badge-warning' : 'badge-danger')"
+                  th:text="${order.statusText}">Đang xử lý</span>
+          </td>
+          <td>
+            <button class="btn-icon btn-edit" title="Chi tiết">
+              <i class="bi bi-eye"></i>
+            </button>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(orders)}">
+          <td colspan="6" style="text-align: center; padding: 40px;">
+            <i class="bi bi-inbox" style="font-size: 48px; color: #9ca3af;"></i>
+            <p style="color: #6b7280; margin-top: 16px;">Chưa có đơn hàng nào</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
+
+
+
+<th:block th:fragment="scripts">
+  <script th:src="@{/js/orders.js}"></script>
+</th:block>
+
+
+</body>
+</html>
+

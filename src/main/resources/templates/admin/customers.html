@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/adminLayout :: layout('Quản lý khách hàng', ~{::content}, ~{::scripts})}">
+<head>
+  <meta charset="UTF-8" />
+  <title>Khách hàng</title>
+</head>
+<body>
+
+<!-- CONTENT -->
+<div th:fragment="content">
+  <h2>Quản lý khách hàng</h2>
+
+  <div class="content-header">
+    <form class="search-box" method="get" th:action="@{/admin/customers}">
+      <i class="bi bi-search"></i>
+      <input type="text" name="q" th:value="${q}" placeholder="Tìm kiếm khách hàng...">
+    </form>
+    <button class="btn btn-primary" id="btnAddCustomer">
+      <i class="bi bi-plus-circle"></i> Thêm khách hàng
+    </button>
+  </div>
+
+  <section class="table-section">
+    <table class="data-table">
+      <thead>
+          <th>Tên tài khoản</th>
+          <th>Tên khách hàng</th>
+          <th>Vai trò</th>
+          <th>Số điện thoại</th>
+          <th>Địa chỉ</th>
+          <th>Ngày đăng ký</th>
+          <th>Ngày cập nhật</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="customer : ${customers}">
+          <td th:text="${customer.username}">nguyenvana</td>
+          <td th:text="${customer.name}">Nguyễn Văn A</td>
+          <td>
+            <span th:if="${customer.role}" class="role-badge role-admin">
+              <i class="bi bi-shield-fill-check"></i> Quản trị viên
+            </span>
+                      <span th:if="${!customer.role}" class="role-badge role-user">
+              <i class="bi bi-person-fill"></i> Người dùng
+            </span>
+          </td>
+          <td th:text="${customer.phone}">0123456789</td>
+          <td th:text="${customer.address}">TP.HCM</td>
+          <td th:text="${#temporals.format(customer.createdAt, 'dd/MM/yyyy')}">01/01/2024</td>
+          <td th:text="${#temporals.format(customer.updatedAt, 'dd/MM/yyyy')}">01/01/2024</td>
+          <td>
+            <button class="btn-icon btn-edit" title="Chỉnh sửa"
+                    th:data-id="${customer.id}"
+                    th:data-username="${customer.username}"
+                    th:data-name="${customer.name}"
+                    th:data-phone="${customer.phone}"
+                    th:data-address="${customer.address}"
+                    th:data-role="${customer.role}">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn-icon btn-delete" title="Xóa"
+                    th:data-id="${customer.id}"
+                    th:data-name="${customer.name}">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(customers)}">
+          <td colspan="8" style="text-align: center; padding: 40px;">
+            <i class="bi bi-people" style="font-size: 48px; color: #9ca3af;"></i>
+            <p style="color: #6b7280; margin-top: 16px;">Chưa có khách hàng nào</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Trang thêm/sửa sản phẩm -->
+  <div id="customerModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Thêm khách hàng</h3>
+        <span class="close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <form id="customerForm">
+          <input type="hidden" id="customerId">
+
+          <div class="form-group">
+            <label for="username">Tên tài khoản <span style="color: red;">*</span></label>
+            <input type="text" id="username" name="username" required>
+          </div>
+
+          <div class="form-group" id="passwordGroup">
+            <label for="password">Mật khẩu <span style="color: red;">*</span></label>
+            <input type="password" id="password" name="password" required>
+            <small style="color: #6b7280;">Mật khẩu phải có ít nhất 6 ký tự</small>
+          </div>
+
+          <div class="form-group">
+            <label for="name">Tên khách hàng <span style="color: red;">*</span></label>
+            <input type="text" id="name" name="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Số điện thoại</label>
+            <input type="tel" id="phone" name="phone">
+          </div>
+
+          <div class="form-group">
+            <label for="address">Địa chỉ</label>
+            <textarea id="address" name="address" rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="checkbox" id="role" name="role" style="display: none;">
+              <span class="role-toggle">
+                <i class="bi bi-person-fill" id="roleIcon"></i>
+              </span>
+              <span id="roleText">Người dùng</span>
+            </label>
+            <small style="color: #6b7280;">Click để chuyển đổi vai trò</small>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="btnCancel">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trang xác nhận xóa -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content" style="max-width: 400px;">
+      <div class="modal-header">
+        <h3>Xác nhận xóa</h3>
+        <span class="close-delete">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p>Bạn có chắc chắn muốn xóa khách hàng <strong id="deleteCustomerName"></strong>?</p>
+        <input type="hidden" id="deleteCustomerId">
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="btnCancelDelete">Hủy</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmDelete">Xóa</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<th:block th:fragment="scripts">
+  <script th:src="@{/js/customers.js}"></script>
+</th:block>
+
+</body>
+</html>
+

@@ -17,7 +17,7 @@ public class OrderController {
 
     @GetMapping("get")
     public List<OrderDTO> getOrder(@Param("id") String id){
-        return orderService.get(id);
+        return orderService.getById(id);
     }
 
     @PatchMapping("/change")

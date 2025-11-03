@@ -10,9 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-    @Service
+@Service
     @RequiredArgsConstructor
     public class UserService {
         private final UserRepository userRepository;
@@ -75,5 +77,100 @@ import java.util.Optional;
 
     public long count() {
         return userRepository.count();
+    }
+
+    public List<UserDTO> get(){
+        return userRepository.findAll().stream()
+                .map(UserMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<UserDTO> search(String keyword){
+        return userRepository.searchUsers(keyword).stream()
+                .map(UserMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public String create(UserDTO data){
+        try{
+            Optional<User> result = userRepository.findUserByUsername(data.getUsername());
+
+            if (result.isPresent()) {
+                return "Username đã tồn tại";
+            }
+
+            // Validate password
+            if (data.getPassword() == null || data.getPassword().trim().isEmpty()) {
+                return "Mật khẩu không được để trống";
+            }
+
+            if (data.getPassword().length() < 6) {
+                return "Mật khẩu phải có ít nhất 6 ký tự";
+            }
+
+            User user = User.builder()
+                    .username(data.getUsername())
+                    .name(data.getName())
+                    .password(data.getPassword())
+                    .phone(data.getPhone())
+                    .address(data.getAddress())
+                    .role(data.isRole())
+                    .build();
+
+            userRepository.save(user);
+            return "Thêm khách hàng thành công";
+        } catch (Exception e) {
+            return "Lỗi: " + e.getMessage();
+        }
+    }
+
+    public String updateCustomer(UserDTO data) {
+        try {
+            User user = userRepository.findUserById(data.getId());
+
+            if (user == null) {
+                return "Không tìm thấy khách hàng";
+            }
+
+            if (!user.getUsername().equals(data.getUsername())) {
+                Optional<User> existingUser = userRepository.findUserByUsername(data.getUsername());
+                if (existingUser.isPresent()) {
+                    return "Username đã tồn tại";
+                }
+            }
+
+            user.setUsername(data.getUsername());
+            user.setName(data.getName());
+            user.setPhone(data.getPhone());
+            user.setAddress(data.getAddress());
+            user.setRole(data.isRole());
+            user.setUpdatedAt(LocalDateTime.now());
+
+            userRepository.save(user);
+
+            return "Cập nhật thông tin thành công";
+        } catch (Exception e) {
+            return "Lỗi: " + e.getMessage();
+        }
+    }
+
+    public String delete(String id) {
+        try {
+            User user = userRepository.findUserById(id);
+
+            if (user == null) {
+                return "Không tìm thấy khách hàng";
+            }
+
+            userRepository.delete(user);
+            return "Xóa khách hàng thành công";
+        } catch (Exception e) {
+            return "Lỗi: " + e.getMessage();
+        }
+    }
+
+    public UserDTO getById(String id) {
+        User user = userRepository.findUserById(id);
+        return user != null ? UserMapper.toDTO(user) : null;
     }
 }

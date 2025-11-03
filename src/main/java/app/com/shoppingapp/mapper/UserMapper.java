@@ -13,9 +13,13 @@ public class UserMapper {
         return UserDTO.builder()
                 .id(user.getId())
                 .username(user.getUsername())
+                .password(user.getPassword())
                 .name(user.getName())
                 .phone(user.getPhone())
                 .address(user.getAddress())
+                .role(user.isRole())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 

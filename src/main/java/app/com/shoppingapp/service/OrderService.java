@@ -21,7 +21,14 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductVariantsRepository productVariantsRepository;
 
-    public List<OrderDTO> get(String id){
+    public List<OrderDTO> get(){
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream()
+                .map(OrderMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<OrderDTO> getById(String id){
         List<Order> orders = orderRepository.findOrdersByUser_Id(id);
         return orders.stream()
                 .map(OrderMapper::toDTO)

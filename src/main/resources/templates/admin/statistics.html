@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/adminLayout :: layout('Thống kê', ~{::content}, ~{::scripts})}">
+<head>
+  <title>Thống kê</title>
+</head>
+<body>
+
+<!-- CONTENT -->
+<div th:fragment="content">
+  <h2>Thống kê</h2>
+
+  <div class="content-header">
+    <div>
+      <p style="color: #6b7280;">Xem báo cáo và phân tích dữ liệu kinh doanh</p>
+    </div>
+  </div>
+
+  <!-- Statistics Cards -->
+  <section class="kpi-grid">
+    <div class="kpi-card yellow">
+      <div class="kpi-header">
+        <i class="bi bi-graph-up"></i>
+        <span>Tăng trưởng doanh thu</span>
+      </div>
+      <div class="kpi-value">+15.3%</div>
+      <small style="color: #6b7280;">So với tháng trước</small>
+    </div>
+
+    <div class="kpi-card green">
+      <div class="kpi-header">
+        <i class="bi bi-people"></i>
+        <span>Khách hàng mới</span>
+      </div>
+      <div class="kpi-value">+234</div>
+      <small style="color: #6b7280;">Tháng này</small>
+    </div>
+
+    <div class="kpi-card blue">
+      <div class="kpi-header">
+        <i class="bi bi-cart-check"></i>
+        <span>Tỷ lệ chuyển đổi</span>
+      </div>
+      <div class="kpi-value">3.8%</div>
+      <small style="color: #6b7280;">Trung bình</small>
+    </div>
+
+    <div class="kpi-card purple">
+      <div class="kpi-header">
+        <i class="bi bi-star"></i>
+        <span>Đánh giá trung bình</span>
+      </div>
+      <div class="kpi-value">4.6/5</div>
+      <small style="color: #6b7280;">Từ 892 đánh giá</small>
+    </div>
+  </section>
+
+  <!-- Charts Section -->
+  <section class="charts">
+    <div class="chart-card">
+      <h3>Doanh thu theo tháng</h3>
+      <canvas id="revenueMonthlyChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Sản phẩm bán chạy nhất</h3>
+      <div class="table-section">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Tên sản phẩm</th>
+              <th>Số lượng bán</th>
+              <th>Doanh thu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Áo thun nam</td>
+              <td>156</td>
+              <td>31,200,000 đ</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Quần jean nữ</td>
+              <td>142</td>
+              <td>28,400,000 đ</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Áo khoác</td>
+              <td>98</td>
+              <td>24,500,000 đ</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Additional Stats -->
+  <section style="margin-top: 30px;">
+    <div class="table-section">
+      <h3 style="margin-bottom: 20px;">Thống kê theo danh mục</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Danh mục</th>
+            <th>Số sản phẩm</th>
+            <th>Đã bán</th>
+            <th>Doanh thu</th>
+            <th>Tỷ lệ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Áo</td>
+            <td>45</td>
+            <td>523</td>
+            <td>104,600,000 đ</td>
+            <td><span class="badge badge-success">42%</span></td>
+          </tr>
+          <tr>
+            <td>Quần</td>
+            <td>38</td>
+            <td>412</td>
+            <td>82,400,000 đ</td>
+            <td><span class="badge badge-success">33%</span></td>
+          </tr>
+          <tr>
+            <td>Phụ kiện</td>
+            <td>52</td>
+            <td>289</td>
+            <td>62,000,000 đ</td>
+            <td><span class="badge badge-warning">25%</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+
+
+<th:block th:fragment="scripts">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Revenue Monthly Chart
+    const ctx = document.getElementById('revenueMonthlyChart');
+    if (ctx) {
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+          datasets: [{
+            label: 'Doanh thu (triệu đồng)',
+            data: [50, 65, 80, 75, 90, 105, 120, 110, 130, 145, 160, 175],
+            borderColor: 'rgb(59, 130, 246)',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: true
+            }
+          }
+        }
+      });
+    }
+  </script>
+</th:block>
+
+
+</body>
+</html>
+
