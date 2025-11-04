@@ -1,6 +1,9 @@
 # Shopping Application
 
 ## Frontend
+Trước tiên nhớ build project qua cmd ( đã có jdk và nhớ check lại đã có maven: mvnw --version )
+mvnw package ( hoặc: mvn package ): build dự án
+mvnw spring-boot:run: chạy dự án
 Đã có hỗ trọ thymeleaf để render dữ liệu thông qua các service, đã có phần mẫu ở trên
 /resource/static: bao gồm các ảnh, style css và js.
 /resource/templates: bao gồm các file HTML.
