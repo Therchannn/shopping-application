@@ -21,10 +21,10 @@
     
             <!-- navbar -->
             <ul class="navbar">
-                <a href= "#" class="navbar__item">HOME</a>
-                <a href= "" class="navbar__item">ALL PRODUCT</a>
-                <a href= "" class="navbar__item">ABOUT</a>
-                <a href= "" class="navbar__item">CONTACT</a>
+                <a th:href="@{/home}" class="navbar__item">TRANG CHỦ</a>
+                <a th:href="@{/product}" class="navbar__item">SẢN PHẨM</a>
+                <a th:href="@{/about}" class="navbar__item">VỀ CHÚNG TÔI</a>
+                <a href= "" class="navbar__item">LIÊN HỆ</a>
             </ul>
         </div>
     
@@ -44,7 +44,7 @@
                             <a href="" class="info__login">Đăng ký</a>
                         </div>
 
-                        <a href="" class="info__title">Tài khoản của tôi</a>
+                        <a th:href="@{/info}" class="info__title">Tài khoản của tôi</a>
 
                     </div>
 

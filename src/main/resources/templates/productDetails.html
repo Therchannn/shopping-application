@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/productDetails.css}">
+    <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/fontawesome-free-7.1.0-web/css/all.min.css}">
+    <link rel="icon" th:href="@{/images/favicon.png}">
+    
+    <title>Outerity</title>
+</head>
+<body>
+
+    <div th:replace="layout ::header"></div>
+
+    <div class="main__productDetails-wrap"
+         th:data-variants="${product.variants}"
+    >
+        <div class="pd__wrap">
+            <div class="pd__img">
+            <img th:src="@{${product.variants[0].imageUrl}}" alt="image" class="pd__img-item">
+            </div>
+
+            <div class="pd__info">
+
+                <h3 class="pd__title" th:text="${product.name}"></h3>
+                <p class="pd__code" th:text="'Mã biên thể: ' + ${product.variants[0].code_product_variant}"></p>
+
+                <div class="pd__line"></div>
+
+                <p class="pd__price" th:text="${product.variants[0].price} + '&#8363'"></p>
+
+                <div class="pd__line"></div>
+
+                <div class="pd__color">
+                    <label class="pd__color-label"></label>
+                    <div class="pd__color-selected">
+                        <div th:each="entry, stat : ${product.groupedVariants}">
+                            <input type="radio"
+                                   name="color"
+                                   class="pd__color-item"
+                                   th:value="${entry.key}"
+                                   th:data-image="${entry.value[0].imageUrl}"
+                                   th:id="'color_' + ${entry.key}"
+                                   th:checked="${stat.index == 0}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pd__line"></div>
+
+                <div class="pd__size">
+                    <button class="btn pd__size-btn active" data-size="S">S</button>
+                    <button class="btn pd__size-btn" data-size="M">M</button>
+                    <button class="btn pd__size-btn" data-size="L">L</button>
+                </div>
+
+                <div class="pd__line"></div>
+
+                <div class="pd__quantity">
+                    <button class="quantity-common quantity__decrease">-</button>
+                    <input type="number"
+                           id="quantity"
+                           name="quantity"
+                           class="quantity"
+                           disabled
+                           min="1"
+                           value="1"
+                           th:value="${quantity != null ? quantity : 1}"
+                    />
+                    <button class="quantity-common quantity__increase">+</button>
+                </div>
+
+                <button class="btn btn__add-cart">Thêm vào giỏ hàng</button>
+            </div>
+        </div>
+
+        <h3 class="describe__heading">Mô Tả Sản Phẩm</h3>
+        <div class="pd__wrap">
+
+            <div class="pd__img">
+                <img th:src="@{${product.variants[1].imageUrl}}" alt="mô tả sản phẩm" class="db__img-item">
+            </div>
+
+            <div class="pd__describe">
+
+                <div class="db__wrap">
+                    <div class="db__size db__common">
+                        <h4 class="size__heading">KÍCH CỠ</h4>
+                        <h4 class="size__heading-2">(SIZE)</h4>
+                        <p class="size__item item__common">S / M / L</p>
+                    </div>
+
+                    <div class="db__color db__common">
+                        <h4 class="color__heading">MÀU SẮC</h4>
+                        <h4 class="color__heading-2">(COLOR)</h4>
+                        <p class="color__item item__common" th:each="v, iterStat : ${product.groupedVariants}"
+                           th:text="${v.key} + ${!iterStat.last ? ' / ' : ''}">/p>
+                    </div>
+                </div>
+
+
+                <div class="product__db db__common">
+                    <h4 class="product__heading">MÔ TẢ SẢN PHẨM</h4>
+                    <h4 class="product__heading-2">(PRODUCT DESCRIPTION)</h4>
+                    <p class="product__item item__common" th:text="${product.description}"></p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div th:replace="layout ::footer"></div>
+
+    <span class="footer">Copyright © 2025 Outerity. Powered by Haravan</span>
+
+    <script th:inline="javascript">
+        const colorRadios = document.querySelectorAll('.pd__color-item');
+        const sizeButtons = document.querySelectorAll('.pd__size-btn');
+        const image = document.querySelector('.pd__img-item');
+        const labelText = document.querySelector('.pd__color-label')
+        const codeText = document.querySelector('.pd__code');
+        const priceText = document.querySelector('.pd__price');
+
+        const variants = [[${product.variants}]];
+
+        let selectedColor = colorRadios[0]?.value;
+        let selectedSize = "S";
+        labelText.textContent = selectedColor
+
+        colorRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                selectedColor = radio.value;
+                image.src = radio.dataset.image;
+                labelText.textContent = selectedColor
+                updateVariantInfo();
+            });
+        });
+
+        sizeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                selectedSize = btn.dataset.size;
+                sizeButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                updateVariantInfo();
+            });
+        });
+
+        function updateVariantInfo() {
+            const variant = variants.find(v => v.color === selectedColor && v.size === selectedSize);
+            if (variant) {
+                codeText.textContent = "Mã biến thể: " + variant.code_product_variant;
+                priceText.textContent = variant.price.toLocaleString() + "₫";
+                image.src = variant.imageUrl;
+            }
+        }
+
+        updateVariantInfo();
+
+        const quantity = document.querySelector(".quantity")
+        const decrease = document.querySelector(".quantity__decrease")
+        const increase = document.querySelector(".quantity__increase")
+
+        decrease.addEventListener('click', () => updateQuantity(-1))
+        increase.addEventListener('click', () => updateQuantity(1))
+
+        function updateQuantity(value){
+            let number = parseInt(quantity.value) || 0;
+            number += value;
+            if (number < 1) number = 1;
+            quantity.value = number;
+        }
+    </script>
+
+</body>
+
+</html>

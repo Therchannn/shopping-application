@@ -1,4 +1,12 @@
-CREATE DATABASE IF NOT EXISTS test;
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+SET collation_connection = 'utf8mb4_general_ci';
+
+CREATE DATABASE IF NOT EXISTS shopping_app
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_general_ci;
+
+USE shopping_app;
 
 CREATE TABLE IF NOT EXISTS `User` (
   `id` varchar(50) PRIMARY KEY,
@@ -47,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `Order` (
   `id` varchar(50) PRIMARY KEY,
   `id_user` varchar(50) NOT NULL,
   `total` DECIMAL(10,2) NOT NULL,
-  `status` varchar(10) DEFAULT 'Pending',
+  `status` varchar(10) DEFAULT 'Enrolled',
   `shipping_fee` DECIMAL(10,2),
   `payment_method` ENUM('TIEN_MAT', 'CHUYEN_KHOAN'),
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP
@@ -69,8 +77,178 @@ ALTER TABLE `Order_items` ADD FOREIGN KEY (`id_product_variant`) REFERENCES `Pro
 
 INSERT IGNORE INTO User (id, username, password, name, phone, address, role)
 VALUES
-('U001', 'admin', 'admin', 'admin', '1213133', 'Ho Chi Minh', 0),
-('U002', 'user', 'user', 'user', '1212133', 'Ho Chi Minh', 0);
+('U000', 'admin', 'admin', 'admin', '1213133', 'Ho Chi Minh', 1),
+('U001', 'user1', 'user', 'user1', '1212133', 'Ho Chi Minh', 0),
+('U002', 'user2', 'user', 'user2', '1212133', 'Ho Chi Minh', 0),
+('U003', 'user3', 'user', 'user3', '1212133', 'Ho Chi Minh', 0),
+('U004', 'user4', 'user', 'user4', '1212133', 'Ho Chi Minh', 0),
+('U005', 'user5', 'user', 'user5', '1212133', 'Ho Chi Minh', 0);
+
+INSERT IGNORE INTO Cart (id_product_variant, id_user, quantity)
+VALUES
+    ('V001', 'U001', 2),
+    ('V004', 'U001', 1),
+    ('V010', 'U001', 3),
+    ('V015', 'U001', 1),
+    ('V021', 'U001', 2),
+    ('V026', 'U001', 1),
+    ('V002', 'U002', 1),
+    ('V005', 'U002', 2),
+    ('V011', 'U002', 1),
+    ('V017', 'U002', 3),
+    ('V023', 'U002', 1),
+    ('V029', 'U002', 2),
+    ('V003', 'U003', 1),
+    ('V006', 'U003', 2),
+    ('V012', 'U003', 1),
+    ('V018', 'U003', 2),
+    ('V024', 'U003', 1),
+    ('V031', 'U003', 1),
+    ('V002', 'U004', 1),
+    ('V005', 'U004', 3),
+    ('V009', 'U004', 2),
+    ('V014', 'U004', 1),
+    ('V020', 'U004', 2),
+    ('V025', 'U004', 1),
+    ('V001', 'U005', 2),
+    ('V007', 'U005', 1),
+    ('V013', 'U005', 2),
+    ('V019', 'U005', 1),
+    ('V022', 'U005', 3),
+    ('V028', 'U005', 1);
+
+
+INSERT IGNORE INTO `Order` (id, id_user, total, shipping_fee, payment_method, status)
+VALUES
+    ('O001', 'U001', 259000.00, 10000.00, 'TIEN_MAT', 'Enrolled'),
+    ('O002', 'U001', 842000.00, 15000.00, 'CHUYEN_KHOAN', 'Enrolled'),
+    ('O003', 'U001', 640000.00, 12000.00, 'TIEN_MAT', 'Pending'),
+    ('O004', 'U001', 915000.00, 15000.00, 'CHUYEN_KHOAN', 'Pending'),
+    ('O005', 'U001', 1278000.00, 20000.00, 'CHUYEN_KHOAN', 'Pending'),
+    ('O006', 'U001', 1117000.00, 0.00, 'TIEN_MAT', 'Confirmed'),
+    ('O007', 'U001', 708000.00, 10000.00, 'CHUYEN_KHOAN', 'Confirmed'),
+    ('O008', 'U001', 459000.00, 10000.00, 'TIEN_MAT', 'Confirmed'),
+    ('O009', 'U001', 988000.00, 0.00, 'CHUYEN_KHOAN', 'Cancelled'),
+    ('O010', 'U001', 1256000.00, 15000.00, 'CHUYEN_KHOAN', 'Cancelled'),
+    ('O011', 'U002', 498000.00, 10000.00, 'TIEN_MAT', 'Enrolled'),
+    ('O012', 'U002', 779000.00, 15000.00, 'CHUYEN_KHOAN', 'Enrolled'),
+    ('O013', 'U002', 1256000.00, 20000.00, 'CHUYEN_KHOAN', 'Pending'),
+    ('O014', 'U002', 1348000.00, 15000.00, 'CHUYEN_KHOAN', 'Pending'),
+    ('O015', 'U002', 745000.00, 10000.00, 'TIEN_MAT', 'Pending'),
+    ('O016', 'U002', 948000.00, 12000.00, 'TIEN_MAT', 'Confirmed'),
+    ('O017', 'U002', 1339000.00, 15000.00, 'CHUYEN_KHOAN', 'Confirmed'),
+    ('O018', 'U002', 459000.00, 10000.00, 'TIEN_MAT', 'Confirmed'),
+    ('O019', 'U002', 1117000.00, 0.00, 'CHUYEN_KHOAN', 'Cancelled'),
+    ('O020', 'U002', 1289000.00, 15000.00, 'CHUYEN_KHOAN', 'Cancelled'),
+    ('O021', 'U003', 259000.00, 10000.00, 'TIEN_MAT', 'Enrolled'),
+    ('O022', 'U003', 915000.00, 15000.00, 'CHUYEN_KHOAN', 'Enrolled'),
+    ('O023', 'U003', 1278000.00, 20000.00, 'CHUYEN_KHOAN', 'Pending'),
+    ('O024', 'U003', 658000.00, 10000.00, 'TIEN_MAT', 'Pending'),
+    ('O025', 'U003', 1456000.00, 20000.00, 'CHUYEN_KHOAN', 'Pending'),
+    ('O026', 'U003', 1117000.00, 0.00, 'TIEN_MAT', 'Confirmed'),
+    ('O027', 'U003', 879000.00, 12000.00, 'CHUYEN_KHOAN', 'Confirmed'),
+    ('O028', 'U003', 589000.00, 10000.00, 'TIEN_MAT', 'Confirmed'),
+    ('O029', 'U003', 1089000.00, 0.00, 'CHUYEN_KHOAN', 'Cancelled'),
+    ('O030', 'U003', 1298000.00, 15000.00, 'CHUYEN_KHOAN', 'Cancelled'),
+    ('O031', 'U004', 385000.00, 10000.00, 'TIEN_MAT', 'Enrolled'),
+    ('O032', 'U004', 724000.00, 12000.00, 'CHUYEN_KHOAN', 'Enrolled'),
+    ('O033', 'U004', 1589000.00, 15000.00, 'CHUYEN_KHOAN', 'Pending'),
+    ('O034', 'U004', 967000.00, 10000.00, 'TIEN_MAT', 'Pending'),
+    ('O035', 'U004', 1435000.00, 20000.00, 'CHUYEN_KHOAN', 'Confirmed'),
+    ('O036', 'U004', 1112000.00, 15000.00, 'CHUYEN_KHOAN', 'Confirmed'),
+    ('O037', 'U004', 880000.00, 0.00, 'TIEN_MAT', 'Cancelled'),
+    ('O038', 'U004', 1223000.00, 10000.00, 'CHUYEN_KHOAN', 'Cancelled'),
+    ('O039', 'U005', 498000.00, 10000.00, 'TIEN_MAT', 'Enrolled'),
+    ('O040', 'U005', 865000.00, 12000.00, 'CHUYEN_KHOAN', 'Enrolled'),
+    ('O041', 'U005', 1247000.00, 15000.00, 'CHUYEN_KHOAN', 'Pending'),
+    ('O042', 'U005', 983000.00, 10000.00, 'TIEN_MAT', 'Pending'),
+    ('O043', 'U005', 1558000.00, 20000.00, 'CHUYEN_KHOAN', 'Confirmed'),
+    ('O044', 'U005', 1134000.00, 15000.00, 'CHUYEN_KHOAN', 'Confirmed'),
+    ('O045', 'U005', 679000.00, 0.00, 'TIEN_MAT', 'Cancelled'),
+    ('O046', 'U005', 1026000.00, 10000.00, 'CHUYEN_KHOAN', 'Cancelled');
+
+INSERT IGNORE INTO Order_items (id_order, id_product_variant, quantity)
+VALUES
+    ('O001', 'V001', 1),
+    ('O002', 'V004', 2),
+    ('O002', 'V010', 1),
+    ('O003', 'V020', 1),
+    ('O003', 'V002', 1),
+    ('O004', 'V011', 2),
+    ('O004', 'V027', 1),
+    ('O005', 'V033', 2),
+    ('O005', 'V005', 1),
+    ('O005', 'V021', 1),
+    ('O006', 'V027', 1),
+    ('O006', 'V011', 2),
+    ('O007', 'V015', 1),
+    ('O007', 'V010', 1),
+    ('O007', 'V009', 1),
+    ('O008', 'V026', 1),
+    ('O009', 'V030', 1),
+    ('O009', 'V019', 2),
+    ('O010', 'V022', 2),
+    ('O010', 'V036', 1),
+    ('O011', 'V002', 2),
+    ('O012', 'V005', 3),
+    ('O013', 'V017', 2),
+    ('O013', 'V023', 1),
+    ('O014', 'V029', 2),
+    ('O014', 'V015', 1),
+    ('O015', 'V010', 1),
+    ('O015', 'V004', 2),
+    ('O016', 'V021', 2),
+    ('O016', 'V011', 1),
+    ('O017', 'V033', 2),
+    ('O017', 'V022', 1),
+    ('O018', 'V026', 1),
+    ('O019', 'V030', 1),
+    ('O019', 'V019', 2),
+    ('O020', 'V036', 1),
+    ('O020', 'V027', 2),
+    ('O021', 'V003', 1),
+    ('O022', 'V006', 2),
+    ('O022', 'V012', 1),
+    ('O023', 'V018', 2),
+    ('O023', 'V024', 1),
+    ('O024', 'V010', 2),
+    ('O025', 'V015', 1),
+    ('O025', 'V021', 2),
+    ('O026', 'V027', 1),
+    ('O026', 'V011', 2),
+    ('O027', 'V033', 1),
+    ('O027', 'V020', 1),
+    ('O028', 'V026', 1),
+    ('O029', 'V030', 1),
+    ('O029', 'V019', 2),
+    ('O030', 'V036', 1),
+    ('O030', 'V027', 2),
+    ('O031', 'V002', 1),
+    ('O032', 'V005', 2),
+    ('O033', 'V009', 2),
+    ('O033', 'V014', 1),
+    ('O034', 'V020', 1),
+    ('O035', 'V025', 2),
+    ('O035', 'V010', 1),
+    ('O036', 'V018', 2),
+    ('O036', 'V026', 1),
+    ('O037', 'V031', 2),
+    ('O037', 'V033', 1),
+    ('O038', 'V027', 1),
+    ('O038', 'V035', 2),
+    ('O039', 'V001', 2),
+    ('O040', 'V007', 1),
+    ('O041', 'V013', 2),
+    ('O041', 'V019', 1),
+    ('O042', 'V022', 3),
+    ('O043', 'V028', 1),
+    ('O043', 'V010', 2),
+    ('O044', 'V015', 1),
+    ('O044', 'V021', 2),
+    ('O045', 'V027', 1),
+    ('O045', 'V034', 1),
+    ('O046', 'V030', 1),
+    ('O046', 'V033', 2);
 
 INSERT IGNORE INTO Product (id, name, description, category, status)
 VALUES
@@ -126,10 +304,12 @@ VALUES
 ('V013', 'P002', 'P002-BLK-S', 'Đen', 'S', 40, '/images/ao_den.jpg', 329000),
 ('V014', 'P002', 'P002-BLK-M', 'Đen', 'M', 50, '/images/ao_den.jpg', 329000),
 ('V015', 'P002', 'P002-BLK-L', 'Đen', 'L', 40, '/images/ao_den.jpg', 329000),
-('V016', 'P002', 'P002-WHT-M', 'Trắng', 'M', 50, '/images/ao_trang.jpg', 329000),
-('V017', 'P002', 'P002-WHT-L', 'Trắng', 'L', 40, '/images/ao_trang.jpg', 329000),
-('V018', 'P002', 'P002-BEI-M', 'Be', 'M', 50, '/images/ao_be.jpg', 329000),
-('V019', 'P002', 'P002-BEI-L', 'Be', 'L', 40, '/images/ao_be.jpg', 329000),
+('V016', 'P002', 'P002-WHT-S', 'Trắng', 'S', 20, '/images/ao_trang.jpg', 329000),
+('V017', 'P002', 'P002-WHT-M', 'Trắng', 'M', 50, '/images/ao_trang.jpg', 329000),
+('V018', 'P002', 'P002-WHT-L', 'Trắng', 'L', 40, '/images/ao_trang.jpg', 329000),
+('V019', 'P002', 'P002-BEI-S', 'Be', 'S', 50, '/images/ao_be.jpg', 329000),
+('V100', 'P002', 'P002-BEI-M', 'Be', 'M', 50, '/images/ao_be.jpg', 329000),
+('V099', 'P002', 'P002-BEI-L', 'Be', 'L', 40, '/images/ao_be.jpg', 329000),
 
 -- P003: 2 màu (Trắng, Xanh Navy)
 ('V020', 'P003', 'P003-WHT-S', 'Trắng', 'S', 40, '/images/ao_trang.jpg', 379000),
@@ -179,9 +359,12 @@ VALUES
 ('V057', 'P007', 'P007-WHT-S', 'Trắng', 'S', 40, '/images/ao_trang.jpg', 269000),
 ('V058', 'P007', 'P007-WHT-M', 'Trắng', 'M', 50, '/images/ao_trang.jpg', 269000),
 ('V059', 'P007', 'P007-WHT-L', 'Trắng', 'L', 40, '/images/ao_trang.jpg', 269000),
-('V060', 'P007', 'P007-GRY-M', 'Xám', 'M', 40, '/images/ao_xam.jpg', 269000),
-('V061', 'P007', 'P007-RED-M', 'Đỏ', 'M', 50, '/images/ao_do.jpg', 269000),
-('V062', 'P007', 'P007-RED-L', 'Đỏ', 'L', 40, '/images/ao_do.jpg', 269000),
+('V060', 'P007', 'P007-GRY-S', 'Xám', 'S', 40, '/images/ao_xam.jpg', 269000),
+('V061', 'P007', 'P007-GRY-M', 'Xám', 'M', 20, '/images/ao_xam.jpg', 269000),
+('V062', 'P007', 'P007-GRY-L', 'Xám', 'L', 10, '/images/ao_xam.jpg', 269000),
+('V098', 'P007', 'P007-RED-S', 'Đỏ', 'S', 50, '/images/ao_do.jpg', 269000),
+('V097', 'P007', 'P007-RED-M', 'Đỏ', 'M', 60, '/images/ao_do.jpg', 269000),
+('V096', 'P007', 'P007-RED-L', 'Đỏ', 'L', 30, '/images/ao_do.jpg', 269000),
 
 -- P008: 3 màu (Xanh Navy, Trắng, Đen)
 ('V063', 'P008', 'P008-NAV-S', 'Xanh Navy', 'S', 50, '/images/ao_xanhnavy.jpg', 359000),
@@ -212,8 +395,12 @@ VALUES
 ('V084', 'P010', 'P010-PNK-S', 'Hồng', 'S', 40, '/images/ao_hong.jpg', 299000),
 ('V085', 'P010', 'P010-PNK-M', 'Hồng', 'M', 50, '/images/ao_hong.jpg', 299000),
 ('V086', 'P010', 'P010-PNK-L', 'Hồng', 'L', 40, '/images/ao_hong.jpg', 299000),
-('V087', 'P010', 'P010-BEI-M', 'Be', 'M', 50, '/images/ao_be.jpg', 299000),
-('V088', 'P010', 'P010-NAV-M', 'Xanh Navy', 'M', 50, '/images/ao_xanhnavy.jpg', 299000),
+('V087', 'P010', 'P010-BEI-S', 'Be', 'S', 50, '/images/ao_be.jpg', 299000),
+('V088', 'P010', 'P010-BEI-M', 'Be', 'M', 10, '/images/ao_be.jpg', 299000),
+('V089', 'P010', 'P010-BEI-L', 'Be', 'L', 30, '/images/ao_be.jpg', 299000),
+('V090', 'P010', 'P010-NAV-S', 'Xanh Navy', 'S', 50, '/images/ao_xanhnavy.jpg', 299000),
+('V091', 'P010', 'P010-NAV-M', 'Xanh Navy', 'M', 10, '/images/ao_xanhnavy.jpg', 299000),
+('V092', 'P010', 'P010-NAV-L', 'Xanh Navy', 'L', 40, '/images/ao_xanhnavy.jpg', 299000),
 
 -- P011: 3 màu (Đen, Trắng, Be)
 ('V101', 'P011', 'P011-BLK-S', 'Đen', 'S', 50, '/images/ao_den.jpg', 329000),
@@ -259,16 +446,16 @@ VALUES
 ('V135', 'P014', 'P014-GRY-M', 'Xám', 'M', 50, '/images/ao_xam.jpg', 379000),
 ('V136', 'P014', 'P014-GRY-L', 'Xám', 'L', 40, '/images/ao_xam.jpg', 379000),
 
--- P015: 5 màu (Đen, Be, Trắng, Đỏ, Xám)
+-- P015: 5 màu (Đen, Be, Trắng)
 ('V137', 'P015', 'P015-BLK-S', 'Đen', 'S', 50, '/images/ao_den.jpg', 459000),
 ('V138', 'P015', 'P015-BLK-M', 'Đen', 'M', 50, '/images/ao_den.jpg', 459000),
 ('V139', 'P015', 'P015-BLK-L', 'Đen', 'L', 40, '/images/ao_den.jpg', 459000),
 ('V140', 'P015', 'P015-BEI-S', 'Be', 'S', 40, '/images/ao_be.jpg', 459000),
 ('V141', 'P015', 'P015-BEI-M', 'Be', 'M', 50, '/images/ao_be.jpg', 459000),
 ('V142', 'P015', 'P015-BEI-L', 'Be', 'L', 40, '/images/ao_be.jpg', 459000),
-('V143', 'P015', 'P015-WHT-M', 'Trắng', 'M', 50, '/images/ao_trang.jpg', 459000),
-('V144', 'P015', 'P015-RED-M', 'Đỏ', 'M', 50, '/images/ao_do.jpg', 459000),
-('V145', 'P015', 'P015-GRY-M', 'Xám', 'M', 50, '/images/ao_xam.jpg', 459000),
+('V143', 'P015', 'P015-WHT-S', 'Trắng', 'S', 20, '/images/ao_trang.jpg', 459000),
+('V144', 'P015', 'P015-WHT-M', 'Trắng', 'M', 50, '/images/ao_trang.jpg', 459000),
+('V145', 'P015', 'P015-WHT-L', 'Trắng', 'L', 40, '/images/ao_trang.jpg', 459000),
 
 -- P016: 3 màu (Xanh Navy, Trắng, Nâu)
 ('V146', 'P016', 'P016-NAV-S', 'Xanh Navy', 'S', 50, '/images/ao_xanhnavy.jpg', 399000),
@@ -303,7 +490,7 @@ VALUES
 ('V171', 'P018', 'P018-BEI-M', 'Be', 'M', 50, '/images/ao_be.jpg', 419000),
 ('V172', 'P018', 'P018-BEI-L', 'Be', 'L', 40, '/images/ao_be.jpg', 419000),
 
--- P019: 5 màu (Đen, Hồng, Trắng, Xanh Cỏ, Đỏ)
+-- P019: 3 màu (Đen, Hồng, Trắng)
 ('V173', 'P019', 'P019-BLK-S', 'Đen', 'S', 40, '/images/ao_den.jpg', 379000),
 ('V174', 'P019', 'P019-BLK-M', 'Đen', 'M', 50, '/images/ao_den.jpg', 379000),
 ('V175', 'P019', 'P019-BLK-L', 'Đen', 'L', 40, '/images/ao_den.jpg', 379000),
@@ -313,8 +500,6 @@ VALUES
 ('V179', 'P019', 'P019-WHT-S', 'Trắng', 'S', 40, '/images/ao_trang.jpg', 379000),
 ('V180', 'P019', 'P019-WHT-M', 'Trắng', 'M', 50, '/images/ao_trang.jpg', 379000),
 ('V181', 'P019', 'P019-WHT-L', 'Trắng', 'L', 40, '/images/ao_trang.jpg', 379000),
-('V182', 'P019', 'P019-GRN-S', 'Xanh Cỏ', 'S', 40, '/images/ao_xanhco.jpg', 379000),
-('V183', 'P019', 'P019-RED-M', 'Đỏ', 'M', 50, '/images/ao_do.jpg', 379000),
 
 -- P020: 3 màu (Đen, Trắng, Xám)
 ('V184', 'P020', 'P020-BLK-S', 'Đen', 'S', 50, '/images/ao_den.jpg', 289000),
@@ -342,9 +527,9 @@ VALUES
 ('V212', 'P021', 'P021-BRN-L', 'Nâu', 'L', 40, '/images/quan_nau.jpg', 529000),
 
 -- P022: 3 màu (Xanh Lá, Đen, Xám)
-('V213', 'P022', 'P022-GRN-S', 'Xanh Lá', 'S', 40, '/images/quan_xanhla.jpg', 489000),
-('V214', 'P022', 'P022-GRN-M', 'Xanh Lá', 'M', 50, '/images/quan_xanhla.jpg', 489000),
-('V215', 'P022', 'P022-GRN-L', 'Xanh Lá', 'L', 40, '/images/quan_xanhla.jpg', 489000),
+('V213', 'P022', 'P022-GRN-S', 'Xanh Lá', 'S', 40, '/images/quan_xanhco.jpg', 489000),
+('V214', 'P022', 'P022-GRN-M', 'Xanh Lá', 'M', 50, '/images/quan_xanhco.jpg', 489000),
+('V215', 'P022', 'P022-GRN-L', 'Xanh Lá', 'L', 40, '/images/quan_xanhco.jpg', 489000),
 ('V216', 'P022', 'P022-BLK-S', 'Đen', 'S', 40, '/images/quan_den.jpg', 489000),
 ('V217', 'P022', 'P022-BLK-M', 'Đen', 'M', 50, '/images/quan_den.jpg', 489000),
 ('V218', 'P022', 'P022-BLK-L', 'Đen', 'L', 40, '/images/quan_den.jpg', 489000),
@@ -365,17 +550,17 @@ VALUES
 ('V231', 'P023', 'P023-BRN-S', 'Nâu', 'S', 40, '/images/quan_nau.jpg', 459000),
 ('V232', 'P023', 'P023-BRN-M', 'Nâu', 'M', 50, '/images/quan_nau.jpg', 459000),
 ('V233', 'P023', 'P023-BRN-L', 'Nâu', 'L', 40, '/images/quan_nau.jpg', 459000),
-('V234', 'P023', 'P023-GRN-S', 'Xanh Lá', 'S', 40, '/images/quan_xanhla.jpg', 459000),
-('V235', 'P023', 'P023-GRN-M', 'Xanh Lá', 'M', 50, '/images/quan_xanhla.jpg', 459000),
-('V236', 'P023', 'P023-GRN-L', 'Xanh Lá', 'L', 40, '/images/quan_xanhla.jpg', 459000),
+('V234', 'P023', 'P023-GRN-S', 'Xanh Lá', 'S', 40, '/images/quan_xanhco.jpg', 459000),
+('V235', 'P023', 'P023-GRN-M', 'Xanh Lá', 'M', 50, '/images/quan_xanhco.jpg', 459000),
+('V236', 'P023', 'P023-GRN-L', 'Xanh Lá', 'L', 40, '/images/quan_xanhco.jpg', 459000),
 
 -- P024: 2 màu (Nâu, Xanh Lá)
 ('V237', 'P024', 'P024-BRN-S', 'Nâu', 'S', 40, '/images/quan_nau.jpg', 379000),
 ('V238', 'P024', 'P024-BRN-M', 'Nâu', 'M', 50, '/images/quan_nau.jpg', 379000),
 ('V239', 'P024', 'P024-BRN-L', 'Nâu', 'L', 40, '/images/quan_nau.jpg', 379000),
-('V240', 'P024', 'P024-GRN-S', 'Xanh Lá', 'S', 40, '/images/quan_xanhla.jpg', 379000),
-('V241', 'P024', 'P024-GRN-M', 'Xanh Lá', 'M', 50, '/images/quan_xanhla.jpg', 379000),
-('V242', 'P024', 'P024-GRN-L', 'Xanh Lá', 'L', 40, '/images/quan_xanhla.jpg', 379000),
+('V240', 'P024', 'P024-GRN-S', 'Xanh Lá', 'S', 40, '/images/quan_xanhco.jpg', 379000),
+('V241', 'P024', 'P024-GRN-M', 'Xanh Lá', 'M', 50, '/images/quan_xanhco.jpg', 379000),
+('V242', 'P024', 'P024-GRN-L', 'Xanh Lá', 'L', 40, '/images/quan_xanhco.jpg', 379000),
 
 -- P025: 3 màu (Trắng, Xám, Đen)
 ('V243', 'P025', 'P025-WHT-S', 'Trắng', 'S', 40, '/images/quan_trang.jpg', 359000),
@@ -409,9 +594,9 @@ VALUES
 ('V267', 'P027', 'P027-BRN-S', 'Nâu', 'S', 40, '/images/quan_nau.jpg', 499000),
 ('V268', 'P027', 'P027-BRN-M', 'Nâu', 'M', 50, '/images/quan_nau.jpg', 499000),
 ('V269', 'P027', 'P027-BRN-L', 'Nâu', 'L', 40, '/images/quan_nau.jpg', 499000),
-('V270', 'P027', 'P027-NAV-S', 'Xanh Navy', 'S', 40, '/images/quan_xanhduong.jpg', 499000),
-('V271', 'P027', 'P027-NAV-M', 'Xanh Navy', 'M', 50, '/images/quan_xanhduong.jpg', 499000),
-('V272', 'P027', 'P027-NAV-L', 'Xanh Navy', 'L', 40, '/images/quan_xanhduong.jpg', 499000),
+('V270', 'P027', 'P027-NAV-S', 'Xanh Navy', 'S', 40, '/images/quan_xanhnavy.jpg', 499000),
+('V271', 'P027', 'P027-NAV-M', 'Xanh Navy', 'M', 50, '/images/quan_xanhnavy.jpg', 499000),
+('V272', 'P027', 'P027-NAV-L', 'Xanh Navy', 'L', 40, '/images/quan_xanhnavy.jpg', 499000),
 ('V273', 'P027', 'P027-BLK-S', 'Đen', 'S', 40, '/images/quan_den.jpg', 499000),
 ('V274', 'P027', 'P027-BLK-M', 'Đen', 'M', 50, '/images/quan_den.jpg', 499000),
 ('V275', 'P027', 'P027-BLK-L', 'Đen', 'L', 40, '/images/quan_den.jpg', 499000),
@@ -420,9 +605,9 @@ VALUES
 ('V276', 'P028', 'P028-GRY-S', 'Xám', 'S', 40, '/images/quan_xam.jpg', 459000),
 ('V277', 'P028', 'P028-GRY-M', 'Xám', 'M', 50, '/images/quan_xam.jpg', 459000),
 ('V278', 'P028', 'P028-GRY-L', 'Xám', 'L', 40, '/images/quan_xam.jpg', 459000),
-('V279', 'P028', 'P028-GRN-S', 'Xanh Lá', 'S', 40, '/images/quan_xanhla.jpg', 459000),
-('V280', 'P028', 'P028-GRN-M', 'Xanh Lá', 'M', 50, '/images/quan_xanhla.jpg', 459000),
-('V281', 'P028', 'P028-GRN-L', 'Xanh Lá', 'L', 40, '/images/quan_xanhla.jpg', 459000),
+('V279', 'P028', 'P028-GRN-S', 'Xanh Lá', 'S', 40, '/images/quan_xanhco.jpg', 459000),
+('V280', 'P028', 'P028-GRN-M', 'Xanh Lá', 'M', 50, '/images/quan_xanhco.jpg', 459000),
+('V281', 'P028', 'P028-GRN-L', 'Xanh Lá', 'L', 40, '/images/quan_xanhco.jpg', 459000),
 ('V282', 'P028', 'P028-BRN-S', 'Nâu', 'S', 40, '/images/quan_nau.jpg', 459000),
 ('V283', 'P028', 'P028-BRN-M', 'Nâu', 'M', 50, '/images/quan_nau.jpg', 459000),
 ('V284', 'P028', 'P028-BRN-L', 'Nâu', 'L', 40, '/images/quan_nau.jpg', 459000),
@@ -434,9 +619,9 @@ VALUES
 ('V288', 'P029', 'P029-BEI-S', 'Be', 'S', 40, '/images/quan_be.jpg', 379000),
 ('V289', 'P029', 'P029-BEI-M', 'Be', 'M', 50, '/images/quan_be.jpg', 379000),
 ('V290', 'P029', 'P029-BEI-L', 'Be', 'L', 40, '/images/quan_be.jpg', 379000),
-('V291', 'P029', 'P029-GRN-S', 'Xanh Lá', 'S', 40, '/images/quan_xanhla.jpg', 379000),
-('V292', 'P029', 'P029-GRN-M', 'Xanh Lá', 'M', 50, '/images/quan_xanhla.jpg', 379000),
-('V293', 'P029', 'P029-GRN-L', 'Xanh Lá', 'L', 40, '/images/quan_xanhla.jpg', 379000),
+('V291', 'P029', 'P029-GRN-S', 'Xanh Lá', 'S', 40, '/images/quan_xanhco.jpg', 379000),
+('V292', 'P029', 'P029-GRN-M', 'Xanh Lá', 'M', 50, '/images/quan_xanhco.jpg', 379000),
+('V293', 'P029', 'P029-GRN-L', 'Xanh Lá', 'L', 40, '/images/quan_xanhco.jpg', 379000),
 
 -- P030: 3 màu (Đen, Be, Xám)
 ('V294', 'P030', 'P030-BLK-S', 'Đen', 'S', 40, '/images/quan_den.jpg', 469000),
@@ -448,17 +633,3 @@ VALUES
 ('V300', 'P030', 'P030-GRY-S', 'Xám', 'S', 40, '/images/quan_xam.jpg', 469000),
 ('V301', 'P030', 'P030-GRY-M', 'Xám', 'M', 50, '/images/quan_xam.jpg', 469000),
 ('V302', 'P030', 'P030-GRY-L', 'Xám', 'L', 40, '/images/quan_xam.jpg', 469000);
-
-INSERT IGNORE INTO Cart (id_product_variant, id_user, quantity)
-VALUES
-('V001', 'U001', 2),
-('V004', 'U001', 2),
-('V006', 'U001', 2);
-
-INSERT IGNORE INTO `Order` (id, id_user, total, shipping_fee, payment_method)
-VALUES
-('O001', 'U001', 249000.00, 10000.00, 'TIEN_MAT');
-
-INSERT IGNORE INTO Order_items (id_order, id_product_variant, quantity)
-VALUES
-('O001', 'V001', 1);
