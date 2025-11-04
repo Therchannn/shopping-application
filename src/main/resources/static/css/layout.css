@@ -38,6 +38,7 @@
     padding-left: 0;
 }
 
+.nav__item:hover,
 .navbar__item:hover{
     transform: translateY(-6px);
     transition: all 0.3s ease-in;

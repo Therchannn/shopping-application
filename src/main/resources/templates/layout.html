@@ -17,30 +17,28 @@
   <body>
     <!-- header -->
     <header class="header-wrap" th:fragment="header">
-      <div class="header__logo-wrap">
-        <!-- name -->
-        <img
-          th:src="@{/images/logo.svg}"
-          alt="Outerity"
-          class="header__title-img"
-        />
 
-        <!-- navbar -->
-        <ul class="navbar">
-          <a href="#" class="navbar__item">HOME</a>
-          <a href="" class="navbar__item">ALL PRODUCT</a>
-          <a href="" class="navbar__item">ABOUT</a>
-          <a th:href="@{/contact}" class="navbar__item">CONTACT</a>
-        </ul>
-      </div>
+        <div class="header__logo-wrap">
+            <!-- name -->
+            <img th:src="@{/images/logo.svg}" alt="Outerity" class="header__title-img">
+    
+            <!-- navbar -->
+            <ul class="navbar">
+                <a href= "#" class="navbar__item">HOME</a>
+                <a href= "" class="navbar__item">ALL PRODUCT</a>
+                <a href= "" class="navbar__item">ABOUT</a>
+                <a href= "" class="navbar__item">CONTACT</a>
+            </ul>
+        </div>
+    
+        <!-- another -->
+        <div class="another">
 
-      <!-- another -->
-      <div class="another">
-        <div class="another__wrap">
-          <div class="another__info">
-            <i
-              class="info__logo-user info__logo-user fa-solid fa-circle-user"
-            ></i>
+            <div class="another__wrap">
+
+                <div class="another__info">
+
+                    <i class="info__logo-user info__logo-user fa-solid fa-circle-user"></i>
 
             <div class="info__content">
               <div class="info__content-wrap">
@@ -48,17 +46,19 @@
                 <a th:href="@{/signUp}" class="info__login">Đăng ký</a>
               </div>
 
-              <a href="" class="info__title">Tài khoản của tôi</a>
-            </div>
-          </div>
+                        <a href="" class="info__title">Tài khoản của tôi</a>
 
-          <div class="another__cart">
-            <i class="cart__icon fa-solid fa-cart-plus"></i>
-            <p class="cart__title" id="openCart">Giỏ hàng</p>
-          </div>
-        </div>
-        <!-- Fragment giỏ hàng -->
-        <div th:replace="~{cart :: cartPanel}"></div>
+                    </div>
+
+                </div>
+    
+                <div class="another__cart">
+
+                    <i class="cart__icon fa-solid fa-cart-plus"></i>
+                    <p class="cart__title">Giỏ hàng</p>
+                </div>
+
+            </div>
 
         <div class="another__search">
           <input

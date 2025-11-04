@@ -1,0 +1,150 @@
+.order__heading {
+  display: block;
+  text-align: center;
+  padding: 200px 0 50px 0;
+  font-size: 40px;
+}
+
+.order__wrap {
+  display: flex;
+  margin-left: 200px;
+}
+
+.order__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.order__list {
+  display: flex;
+  text-align: center;
+  align-items: flex-start;
+  max-width: 700px;
+  flex-direction: column;
+  margin: 0 60px;
+  /* margin: 0 auto; */
+  gap: 30px 0;
+}
+
+.order__items {
+  display: flex;
+  /* width: 100%; */
+  gap: 60px;
+}
+.order__status {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--black-color);
+  padding: 10px 4px;
+  border: 1px solid var(--border-color);
+  background-color: #fff;
+  text-transform: unset;
+  cursor: pointer;
+  transition: all linear 0.4s;
+}
+.order__status.active {
+  background-color: #000;
+  color: #fff;
+  cursor: default;
+}
+.order__status:hover {
+  background-color: var(--black-color);
+  color: var(--white-color);
+}
+.order__content {
+  opacity: 0;
+  animation: fadeIn 0.4s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* CSS CÁC TRANG CON */
+.order__new {
+  margin-bottom: 50px;
+}
+.order__category {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+.order__product {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+.order__hero {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.order__title {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+.order__img {
+  display: block;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 1rem;
+  border: 1px solid var(--border-color);
+}
+.order__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1rem;
+}
+
+.order__total {
+  text-align: end;
+  font-weight: bold;
+  margin-bottom: 50px;
+}
+.order__control {
+  display: flex;
+  gap: 20px;
+}
+
+.order__repurchase{
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Modal Layout */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  width: 500px;
+}
+.modal-content h2{
+  margin-bottom: 20px;
+}
+.modal-content p{
+  margin-bottom: 80px;
+}
+.modal-buttons{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+

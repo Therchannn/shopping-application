@@ -1,0 +1,23 @@
+.main__sidebar{
+    border-right: 1px solid var(--border-color);
+    padding-left: 50px;
+    padding-bottom: 50px;
+}
+
+.main__heading{
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.heading__name{
+    font-weight: 600;
+}
+
+.main__nav{
+    width: 234px;
+}
+
+.nav__item{
+    padding: 15px;
+}
+

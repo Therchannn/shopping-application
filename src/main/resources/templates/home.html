@@ -20,52 +20,172 @@
     <!-- header -->
     <div th:replace="layout ::header"></div>
 
-    <!-- <h1>List of product</h1>
-    <div class="container">
-        <div th:each="product : ${products}">
-            <h3>Product name: </h3>
-            <p th:text="${product.name}"></p>
-            <h4>Description: </h4>
-            <p th:text="${product.description}"></p>
-            <div th:each="variant : ${product.variants}" class="variants">
-                <h5 th:text="${variant.code_product_variant}"></h5>
-                <img th:src="@{${variant.imageUrl}}" alt="image">
-            </div>
-        </div>
-    </div> -->
-
-    <!-- main -->
     <main class="main-wrap">
-      <div class="main__slide">
-        <img
-          th:src="@{/images/banner_1.jpg}"
-          alt="banner_1"
-          class="slide__img"
-        />
-        <img
-          th:src="@{/images/banner_2.jpg}"
-          alt="banner_2"
-          class="slide__img"
-        />
-        <img
-          th:src="@{/images/banner_3.jpg}"
-          alt="banner_3"
-          class="slide__img"
-        />
-        <img
-          th:src="@{/images/banner_4.jpg}"
-          alt="banner_4"
-          class="slide__img"
-        />
-      </div>
+        
+        <div class="main__slide">
+            <img th:src="@{/images/banner_1.jpg}" alt="banner_1"  class="slide__img">
+            <img th:src="@{/images/banner_2.jpg}" alt="banner_2"  class="slide__img">
+            <img th:src="@{/images/banner_3.jpg}" alt="banner_3"  class="slide__img">
+            <img th:src="@{/images/banner_4.jpg}" alt="banner_4"  class="slide__img">
+        </div>
 
       <h2 class="main__title-product">DOUBLE TEE COLLECTION</h2>
 
-      <div class="main__product"></div>
+        <!-- product -->
+        <div class="home__product">
 
-      <button class="main__product-btn btn"></button>
+            <!-- product item -->
+            <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
 
-      <div class="main__banner"></div>
+            <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
+
+            <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
+
+            <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
+
+            <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
+
+            <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
+
+            <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
+
+            <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="product__btn-wrap">
+            <button class="main__product-btn btn">Xem thêm</button>
+        </div>
+
+        <div class="main__banner">
+            <img th:src="@{/images/banner_preview 1.png}" alt="banner" class="banner__img">
+        </div>
+
+        <h2 class="main__title-product">NEW COLLECTION</h2>
+
+        <!-- product -->
+        <div class="home__product">
+
+            <!-- product item -->
+            <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
+
+            <div class="grid__column-2-4 -anhome__productimation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
+
+            <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
+
+            <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
+
+            <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
+
+            <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
+
+            <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
+
+            <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                    <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
+                    <p class="home__product-name">Outerity Self Love Tea/ Black</p>
+                    <span class="home__product-price">193.000đ</span>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="product__btn-wrap">
+            <button class="main__product-btn btn">Xem thêm</button>
+        </div>
+
+
     </main>
 
     <!-- footer -->

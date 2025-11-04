@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/productDetails.css}">
+    <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/fontawesome-free-7.1.0-web/css/all.min.css}">
+    <link rel="icon" th:href="@{/images/favicon.png}">
+    
+    <title>Outerity</title>
+</head>
+<body>
+
+    <div th:replace="layout ::header"></div>
+
+    <div class="main__productDetails-wrap">
+        <div class="pd__wrap">
+            <div class="pd__img">
+                <img th:src="@{images/productDetails.png}" alt="áo be" class="pd__img-item">
+            </div>
+
+            <div class="pd__info">
+
+                <h3 class="pd__title">Áo Thun Form Boxy Outerity Dream Nỉ Hai Da</h3>
+                <p class="pd__code">SKU: ATO</p>
+                <div class="pd__line"></div>
+
+                <p class="pd__price">177,000đ</p>
+                <div class="pd__line"></div>
+
+                <div class="pd__color"></div>
+                <div class="pd__line"></div>
+
+                <div class="pd__size">
+                    <button class="btn pd__size-btn">S</button>
+                </div>
+                <div class="pd__line"></div>
+
+                <div class="pd__quantity">
+                    <button class="quantity__decrease">-</button>
+                    <p class="quantity">1</p>
+                    <button class="quantity__increase">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="layout ::footer"></div>
+
+    <span class="footer">Copyright © 2025 Outerity. Powered by Haravan</span>
+    
+    
+</body>
+
+    
+</body>
+</html>

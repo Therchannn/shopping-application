@@ -1,6 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
 
 body {
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1;
   font-family: "Quicksand", sans-serif;
 }
 
@@ -39,12 +42,6 @@ button {
 }
 a {
   text-decoration: none;
-}
-body {
-  /* min-height: 100vh; */
-  font-weight: 400;
-  font-size: 1.6rem;
-  line-height: 1;
 }
 
 h1,
