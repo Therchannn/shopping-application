@@ -59,7 +59,7 @@
     <div class="user-section">
       <div class="user">
         <i class="bi bi-person-circle"></i>
-        <span th:text="${#authentication != null ? #authentication.name : 'Zair0u'}">Zair0u</span>
+        <span th:text="${loggedInUsername != null ? loggedInUsername : 'Zair0u'}">Zair0u</span>
       </div>
       <a th:href="@{/admin/logout}" class="logout">
         <i class="bi bi-box-arrow-right"></i> Đăng xuất

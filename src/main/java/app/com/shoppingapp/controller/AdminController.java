@@ -1,5 +1,6 @@
 package app.com.shoppingapp.controller;
 
+import app.com.shoppingapp.dto.OrderDTO;
 import app.com.shoppingapp.dto.UserDTO;
 import app.com.shoppingapp.service.ProductService;
 import app.com.shoppingapp.service.OrderService;
@@ -32,11 +33,20 @@ public class AdminController {
         return session.getAttribute(AUTH_SESSION_KEY) != null;
     }
 
+
+    private void addUsernameToModel(Model model, HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        if (username != null) {
+            model.addAttribute("loggedInUsername", username);
+        }
+    }
+
     @GetMapping("/dashboard")
     public String dashboard(Model model, HttpSession session) {
         if (!isAuthenticated(session)) {
             return ADMIN_LOGIN_URL;
         }
+        addUsernameToModel(model, session);
 
         model.addAttribute("productCount", productService.count());
         model.addAttribute("orderCount", orderService.count());
@@ -70,8 +80,10 @@ public class AdminController {
         if (!isAuthenticated(session)) {
             return ADMIN_LOGIN_URL;
         }
+        addUsernameToModel(model, session);
 
-        model.addAttribute("orders", List.of());
+        List<OrderDTO> orders = orderService.get();
+        model.addAttribute("orders", orders);
         model.addAttribute("currentPage", "orders");
 
         return "admin/orders";
@@ -83,6 +95,7 @@ public class AdminController {
         if (!isAuthenticated(session)) {
             return ADMIN_LOGIN_URL;
         }
+        addUsernameToModel(model, session);
 
         List<UserDTO> customers = (q != null && !q.isBlank())
                 ? userService.search(q)
@@ -100,6 +113,7 @@ public class AdminController {
         if (!isAuthenticated(session)) {
             return ADMIN_LOGIN_URL;
         }
+        addUsernameToModel(model, session);
 
         model.addAttribute("currentPage", "statistics");
         return "admin/statistics";
@@ -110,6 +124,7 @@ public class AdminController {
         if (!isAuthenticated(session)) {
             return ADMIN_LOGIN_URL;
         }
+        addUsernameToModel(model, session);
 
         model.addAttribute("currentPage", "settings");
         return "admin/settings";

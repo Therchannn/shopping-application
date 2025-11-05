@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const roleText = document.getElementById('roleText');
     const passwordGroup = document.getElementById('passwordGroup');
     const passwordInput = document.getElementById('password');
+    const usernameInput = document.getElementById('username');
+
 
     let isEditMode = false;
     let currentCustomerId = null;
@@ -50,10 +52,15 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('modalTitle').textContent = 'Thêm khách hàng';
         customerForm.reset();
         document.getElementById('customerId').value = '';
-
+        document.getElementById('btnTitle').textContent = 'Thêm';
         // Hiện trường mật khẩu cho chế độ tạo
         passwordGroup.style.display = 'block';
         passwordInput.required = true;
+
+        // Cho phép nhập username khi thêm mới
+        usernameInput.removeAttribute('readonly');
+        usernameInput.style.backgroundColor = '';
+        usernameInput.style.cursor = '';
 
         updateRoleDisplay(false);
         customerModal.classList.add('show');
@@ -67,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
             currentCustomerId = this.dataset.id;
 
             document.getElementById('modalTitle').textContent = 'Chỉnh sửa khách hàng';
+            document.getElementById('btnTitle').textContent = 'Lưu';
             document.getElementById('customerId').value = currentCustomerId;
             document.getElementById('username').value = this.dataset.username || '';
             document.getElementById('name').value = this.dataset.name || '';
@@ -81,6 +89,10 @@ document.addEventListener('DOMContentLoaded', function() {
             passwordGroup.style.display = 'none';
             passwordInput.required = false;
 
+            // Không cho phép sửa username khi chỉnh sửa
+            usernameInput.setAttribute('readonly', 'readonly');
+            usernameInput.style.backgroundColor = '#f3f4f6';
+            usernameInput.style.cursor = 'not-allowed';
             customerModal.classList.add('show');
         });
     });
@@ -90,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
     deleteButtons.forEach(btn => {
         btn.addEventListener('click', function() {
             currentCustomerId = this.dataset.id; // This is UUID
-            document.getElementById('deleteCustomerName').textContent = this.dataset.name;
+            document.getElementById('deleteCustomerName').textContent = this.dataset.username;
             document.getElementById('deleteCustomerId').value = currentCustomerId;
             deleteModal.classList.add('show');
         });
@@ -132,10 +144,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Validate
-        if (!formData.username || !formData.name) {
-            alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
-            return;
-        }
+//        if (!formData.username || !formData.name) {
+//            alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
+//            return;
+//        }
 
         try {
             const pathParts = window.location.pathname.split('/').filter(p => p);

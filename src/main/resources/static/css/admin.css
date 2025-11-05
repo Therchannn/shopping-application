@@ -280,6 +280,17 @@
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+.form-group input[readonly] {
+  background-color: #f3f4f6 !important;
+  cursor: not-allowed !important;
+  color: #6b7280;
+}
+
+.form-group input[readonly]:focus {
+  border-color: #d1d5db;
+  box-shadow: none;
+}
+
 .form-group textarea {
   resize: vertical;
   font-family: inherit;

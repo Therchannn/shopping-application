@@ -29,32 +29,46 @@
         <tr>
           <th>Mã đơn</th>
           <th>Khách hàng</th>
+          <th>SĐT</th>
           <th>Ngày đặt</th>
           <th>Tổng tiền</th>
+          <th>Phí ship</th>
+          <th>Thanh toán</th>
           <th>Trạng thái</th>
           <th>Thao tác</th>
         </tr>
       </thead>
       <tbody>
         <tr th:each="order : ${orders}">
-          <td th:text="${order.id}">#001</td>
-          <td th:text="${order.customerName}">Nguyễn Văn A</td>
-          <td th:text="${#temporals.format(order.createdDate, 'dd/MM/yyyy')}">01/01/2024</td>
-          <td th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'POINT')} + ' đ'">299,000 đ</td>
+          <td th:text="${order.id}">001</td>
+          <td th:text="${order.userName}">Nguyễn Văn A</td>
+          <td th:text="${order.userPhone}">0123456789</td>
+          <td th:text="${order.createdAt != null ? #temporals.format(order.createdAt, 'dd/MM/yyyy HH:mm') : 'N/A'}">01/01/2024 10:30</td>
+          <td th:text="${order.total != null ? #numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'POINT') + ' đ' : '0 đ'}">299,000 đ</td>
+          <td th:text="${order.shipping_fee != null ? #numbers.formatDecimal(order.shipping_fee, 0, 'COMMA', 0, 'POINT') + ' đ' : '0 đ'}">30,000 đ</td>
           <td>
-            <span class="badge"
-                  th:classappend="${order.status == 'COMPLETED'} ? 'badge-success' :
-                                  (${order.status == 'PENDING'} ? 'badge-warning' : 'badge-danger')"
-                  th:text="${order.statusText}">Đang xử lý</span>
+            <span th:if="${order.paymentMethod != null}" th:switch="${order.paymentMethod}">
+              <span th:case="'TIEN_MAT'">Tiền mặt</span>
+              <span th:case="'CHUYEN_KHOAN'">Chuyển khoản</span>
+            </span>
+            <span th:if="${order.paymentMethod == null}">N/A</span>
           </td>
           <td>
-            <button class="btn-icon btn-edit" title="Chi tiết">
+            <span class="badge"
+                  th:classappend="${order.status == 'Completed'} ? 'badge-success' :
+                                  (${order.status == 'Pending'} ? 'badge-warning' :
+                                  (${order.status == 'Processing'} ? 'badge-info' : 'badge-danger'))"
+                  th:text="${order.status != null ? order.status : 'N/A'}">Đang xử lý</span>
+          </td>
+          <td>
+            <button class="btn-icon btn-edit" title="Chi tiết"
+                    th:onclick="'viewOrderDetail(\'' + ${order.id} + '\')'">
               <i class="bi bi-eye"></i>
             </button>
           </td>
         </tr>
         <tr th:if="${#lists.isEmpty(orders)}">
-          <td colspan="6" style="text-align: center; padding: 40px;">
+          <td colspan="9" style="text-align: center; padding: 40px;">
             <i class="bi bi-inbox" style="font-size: 48px; color: #9ca3af;"></i>
             <p style="color: #6b7280; margin-top: 16px;">Chưa có đơn hàng nào</p>
           </td>

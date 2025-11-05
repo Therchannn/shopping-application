@@ -132,14 +132,6 @@ import java.util.stream.Collectors;
                 return "Không tìm thấy khách hàng";
             }
 
-            if (!user.getUsername().equals(data.getUsername())) {
-                Optional<User> existingUser = userRepository.findUserByUsername(data.getUsername());
-                if (existingUser.isPresent()) {
-                    return "Username đã tồn tại";
-                }
-            }
-
-            user.setUsername(data.getUsername());
             user.setName(data.getName());
             user.setPhone(data.getPhone());
             user.setAddress(data.getAddress());

@@ -70,6 +70,7 @@ public class PageController {
 
         if (authService.authenticateAdmin(req)) {
             session.setAttribute(AUTH_SESSION_KEY, true);
+            session.setAttribute("username", username); // Lưu username vào session
             return ADMIN_DASHBOARD_URL;
         } else {
             session.removeAttribute(AUTH_SESSION_KEY);
