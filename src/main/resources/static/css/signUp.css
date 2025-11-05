@@ -6,7 +6,7 @@
   margin-top: 4rem;
   align-self: flex-start;
 }
-
+/* Tablet */
 @media screen and (max-width: 812px) {
   .auth {
     display: flex;

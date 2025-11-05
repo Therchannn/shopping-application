@@ -82,10 +82,10 @@ html {
   padding: 1.2rem;
   text-transform: uppercase;
   font-weight: 600;
-  transition: all linear .25s
+  transition: all linear 0.25s;
 }
 
-.btn:hover{
+.btn:hover {
   opacity: 0.8;
 }
 
@@ -134,11 +134,11 @@ html {
   justify-content: center;
   align-items: center;
 }
-.input_wrapper{
+.input_wrapper {
   width: 100%;
   position: relative;
 }
-.icon-password{
+.icon-password {
   position: absolute;
   top: 50%;
   right: 1rem;
@@ -153,10 +153,10 @@ html {
   margin-top: 2rem;
   font-weight: 600;
   font-size: 1.4rem;
-  transition: all linear .3s;
+  transition: all linear 0.3s;
   text-align: left;
 }
-.auth_input:focus{
+.auth_input:focus {
   background-color: var(--white-color);
   border-color: var(--medium-grey77);
 }
@@ -177,10 +177,124 @@ html {
   margin-top: 4rem;
 }
 #message {
-  height: 2rem;           
-  color: red;             
-  font-size: 1.4rem;        
-  text-align: center;     
-  margin-top: 8px;  
-  font-weight: bold;      
+  height: 2rem;
+  color: red;
+  font-size: 1.4rem;
+  text-align: center;
+  margin-top: 8px;
+  font-weight: bold;
 }
+
+/*  */
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Quicksand", sans-serif;
+}
+
+@font-face {
+  font-family: Quicksand;
+  src: url(../font/Quicksand-VariableFont_wght.ttf);
+}
+
+/* animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes growth {
+  from {
+    transform: scale(
+      var(--growth-form)
+    ); /*scale là độ lớn lên, phóng to hoặc thu nhỏ*/
+  }
+
+  to {
+    transform: scale(var(--growth-to));
+  }
+}
+
+:root {
+  --white-color: #fff;
+  --black-color: #000;
+  --gray-light-color: #f3f4f6;
+  --gray-color: #d3d3d3;
+  --border-color: #d1d1d1;
+}
+
+.grid {
+  width: 1520px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.grid__full-width {
+  width: 100%; /* khi khong muon dung grid */
+}
+
+.grid__row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid__column-2 {
+  width: 16.6667%;
+  padding-left: 5px; /*khoảng cách theo 12 column grid giữa mỗi cột là 24px (PC)*/
+  padding-right: 5px;
+}
+
+.grid__column-10 {
+  width: 83.3334%;
+  padding-left: 5px; /*khoảng cách theo 12 column grid giữa mỗi cột là 24px (PC)*/
+  padding-right: 5px;
+}
+
+.grid__column-2-4 {
+  width: 25%;
+  padding-left: 5px; /*khoảng cách theo 12 column grid giữa mỗi cột là 24px (PC)*/
+  padding-right: 5px;
+  padding-bottom: 25px;
+}
+
+a {
+  text-decoration: none;
+  color: var(--black-color);
+  cursor: pointer;
+}
+
+input,
+.btn {
+  outline: none;
+  border: none;
+}
+
+.btn:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+ul,
+li {
+  list-style: none;
+  padding: 0;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* check */

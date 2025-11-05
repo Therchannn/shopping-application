@@ -1,118 +1,159 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/base.css}">
-    <link rel="stylesheet" th:href="@{/css/layout.css}">
-    <link rel="stylesheet" th:href="@{/css/product.css}">
-    <link rel="stylesheet" th:href="@{/css/home.css}">
-    <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}">
-    <link rel="stylesheet" th:href="@{/fontawesome-free-7.1.0-web/css/all.min.css}">
-    <link rel="icon" th:href="@{/images/favicon.png}">
-    
-    <title>Outerity</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart.css}" />
+    <link rel="stylesheet" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" th:href="@{/css/product.css}" />
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}" />
+    <link
+      rel="stylesheet"
+      th:href="@{/fontawesome-free-7.1.0-web/css/all.min.css}"
+    />
+    <link rel="icon" th:href="@{/images/favicon.png}" />
 
+    <title>Outerity</title>
+  </head>
+  <body>
     <div th:replace="layout ::header"></div>
 
     <main class="main__product-wrap">
+      <div class="grid product">
+        <div class="grid__row">
+          <!-- side bar -->
+          <div class="grid__column-2 side__bar">
+            <a href="" class="side__bar-item">TEE -</a>
+            <a href="" class="side__bar-item">SHORT -</a>
+          </div>
 
-        <div class="grid product">
-
+          <div class="grid__column-10">
+            <h3 class="product__heading">Tất cả sản phẩm</h3>
             <div class="grid__row">
+              <!-- product item -->
+              <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                  <img
+                    th:src="@{images/ao_den.jpg}"
+                    alt="áo đen"
+                    class="home__product-img"
+                  />
+                  <p class="home__product-name">
+                    Outerity Self Love Tea/ Black
+                  </p>
+                  <span class="home__product-price">193.000đ</span>
+                </a>
+              </div>
 
-                <!-- side bar -->
-                <div class="grid__column-2 side__bar">
-                    <a href="" class="side__bar-item">TEE -</a>
-                    <a href="" class="side__bar-item">SHORT -</a>
-                </div>
+              <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                  <img
+                    th:src="@{images/ao_den.jpg}"
+                    alt="áo đen"
+                    class="home__product-img"
+                  />
+                  <p class="home__product-name">
+                    Outerity Self Love Tea/ Black
+                  </p>
+                  <span class="home__product-price">193.000đ</span>
+                </a>
+              </div>
 
-                <div class="grid__column-10">
+              <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                  <img
+                    th:src="@{images/ao_den.jpg}"
+                    alt="áo đen"
+                    class="home__product-img"
+                  />
+                  <p class="home__product-name">
+                    Outerity Self Love Tea/ Black
+                  </p>
+                  <span class="home__product-price">193.000đ</span>
+                </a>
+              </div>
 
-                    <h3 class="product__heading">Tất cả sản phẩm</h3>
-                    <div class="grid__row">
+              <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                  <img
+                    th:src="@{images/ao_den.jpg}"
+                    alt="áo đen"
+                    class="home__product-img"
+                  />
+                  <p class="home__product-name">
+                    Outerity Self Love Tea/ Black
+                  </p>
+                  <span class="home__product-price">193.000đ</span>
+                </a>
+              </div>
 
-                        <!-- product item -->
-                        <div class="grid__column-2-4 home__product-animation">
-                            <a href="" class="">
-                                <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
-                                <p class="home__product-name">Outerity Self Love Tea/ Black</p>
-                                <span class="home__product-price">193.000đ</span>
-                            </a>
-                        </div>
+              <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                  <img
+                    th:src="@{images/ao_den.jpg}"
+                    alt="áo đen"
+                    class="home__product-img"
+                  />
+                  <p class="home__product-name">
+                    Outerity Self Love Tea/ Black
+                  </p>
+                  <span class="home__product-price">193.000đ</span>
+                </a>
+              </div>
 
-                        <div class="grid__column-2-4 home__product-animation">
-                            <a href="" class="">
-                                <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
-                                <p class="home__product-name">Outerity Self Love Tea/ Black</p>
-                                <span class="home__product-price">193.000đ</span>
-                            </a>
-                        </div>
+              <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                  <img
+                    th:src="@{images/ao_den.jpg}"
+                    alt="áo đen"
+                    class="home__product-img"
+                  />
+                  <p class="home__product-name">
+                    Outerity Self Love Tea/ Black
+                  </p>
+                  <span class="home__product-price">193.000đ</span>
+                </a>
+              </div>
 
-                        <div class="grid__column-2-4 home__product-animation">
-                            <a href="" class="">
-                                <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
-                                <p class="home__product-name">Outerity Self Love Tea/ Black</p>
-                                <span class="home__product-price">193.000đ</span>
-                            </a>
-                        </div>
+              <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                  <img
+                    th:src="@{images/ao_den.jpg}"
+                    alt="áo đen"
+                    class="home__product-img"
+                  />
+                  <p class="home__product-name">
+                    Outerity Self Love Tea/ Black
+                  </p>
+                  <span class="home__product-price">193.000đ</span>
+                </a>
+              </div>
 
-                        <div class="grid__column-2-4 home__product-animation">
-                            <a href="" class="">
-                                <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
-                                <p class="home__product-name">Outerity Self Love Tea/ Black</p>
-                                <span class="home__product-price">193.000đ</span>
-                            </a>
-                        </div>
-
-                        <div class="grid__column-2-4 home__product-animation">
-                            <a href="" class="">
-                                <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
-                                <p class="home__product-name">Outerity Self Love Tea/ Black</p>
-                                <span class="home__product-price">193.000đ</span>
-                            </a>
-                        </div>
-
-                        <div class="grid__column-2-4 home__product-animation">
-                            <a href="" class="">
-                                <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
-                                <p class="home__product-name">Outerity Self Love Tea/ Black</p>
-                                <span class="home__product-price">193.000đ</span>
-                            </a>
-                        </div>
-
-                        <div class="grid__column-2-4 home__product-animation">
-                            <a href="" class="">
-                                <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
-                                <p class="home__product-name">Outerity Self Love Tea/ Black</p>
-                                <span class="home__product-price">193.000đ</span>
-                            </a>
-                        </div>
-
-                        <div class="grid__column-2-4 home__product-animation">
-                            <a href="" class="">
-                                <img th:src="@{images/ao_den.jpg}" alt="áo đen" class="home__product-img">
-                                <p class="home__product-name">Outerity Self Love Tea/ Black</p>
-                                <span class="home__product-price">193.000đ</span>
-                            </a>
-                        </div>
-
-                    </div>
-
-                </div>
-
+              <div class="grid__column-2-4 home__product-animation">
+                <a href="" class="">
+                  <img
+                    th:src="@{images/ao_den.jpg}"
+                    alt="áo đen"
+                    class="home__product-img"
+                  />
+                  <p class="home__product-name">
+                    Outerity Self Love Tea/ Black
+                  </p>
+                  <span class="home__product-price">193.000đ</span>
+                </a>
+              </div>
             </div>
-
+          </div>
         </div>
-
+      </div>
     </main>
 
     <div th:replace="layout ::footer"></div>
 
     <span class="footer">Copyright © 2025 Outerity. Powered by Haravan</span>
-    
-    
-</body>
+
+    <script th:src="@{/js/openCart.js}"></script>
+  </body>
 </html>

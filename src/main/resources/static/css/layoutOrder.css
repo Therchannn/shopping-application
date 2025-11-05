@@ -4,7 +4,9 @@
   padding: 200px 0 50px 0;
   font-size: 40px;
 }
-
+.order__content{
+  width: 100%;
+}
 .order__wrap {
   display: flex;
   margin-left: 200px;
@@ -66,9 +68,11 @@
 
 /* CSS CÁC TRANG CON */
 .order__new {
+  width: 100%;
   margin-bottom: 50px;
 }
 .order__category {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -148,3 +152,14 @@
 }
 
 
+/* Tablet */
+@media(min-width: 740px){
+    
+    .main__sidebar{
+        width: 31%;
+        padding-left: 0;
+        margin-left: -165px;
+    }
+
+    
+}

@@ -7,10 +7,13 @@
     <title>Sign Up</title>
     <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/base.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart.css}" />
     <link rel="stylesheet" th:href="@{/css/signUp.css}" />
     <link rel="stylesheet" th:href="@{/css/layout.css}" />
     <!-- ICON -->
     <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}" />
+        <link rel="icon" th:href="@{/images/favicon.png}" />
+
   </head>
   <body>
     <div th:replace="layout ::header"></div>
@@ -93,5 +96,8 @@
       nomodule
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
+
+        <script th:src="@{/js/openCart.js}"></script>
+
   </body>
 </html>

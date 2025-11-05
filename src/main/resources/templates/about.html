@@ -1,44 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/base.css}">
-    <link rel="stylesheet" th:href="@{/css/layout.css}">
-    <link rel="stylesheet" th:href="@{/css/about.css}">
-    <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}">
-    <link rel="stylesheet" th:href="@{/fontawesome-free-7.1.0-web/css/all.min.css}">
-    <link rel="icon" th:href="@{/images/favicon.png}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart.css}" />
+    <link rel="stylesheet" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" th:href="@{/css/about.css}" />
+    <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}" />
+    <link
+      rel="stylesheet"
+      th:href="@{/fontawesome-free-7.1.0-web/css/all.min.css}"
+    />
+    <link rel="icon" th:href="@{/images/favicon.png}" />
     <title>Outerity</title>
-</head>
-<body>
+  </head>
+  <body>
     <div th:replace="layout ::header"></div>
 
     <main class="main-wrap">
-        <div class="main">
-            <h2 class="main__title">OUR  STORY</h2>
-            <p class="main__content">A Vietnamese fashion brand, established in 2020, Outerity is a high-quality streetwear brand that inspires style, builds confidence, and connects dreamers, transforming everyday moments into unforgettable memories</p>
-        </div>
+      <div class="main">
+        <h2 class="main__title">OUR STORY</h2>
+        <p class="main__content">
+          A Vietnamese fashion brand, established in 2020, Outerity is a
+          high-quality streetwear brand that inspires style, builds confidence,
+          and connects dreamers, transforming everyday moments into
+          unforgettable memories
+        </p>
+      </div>
 
-        <div class="main">
-            <h2 class="main__title">OUR  VISION</h2>
-            <p class="main__content">Empower Dreams, Shine Worldwide</p>
-        </div>
+      <div class="main">
+        <h2 class="main__title">OUR VISION</h2>
+        <p class="main__content">Empower Dreams, Shine Worldwide</p>
+      </div>
 
-        <div class="main">
-            <h2 class="main__title">OUR  MISSION</h2>
-            <ul class="main__content">
-                <li class="content__item">Inspire Style</li>
-                <li class="content__item">Build Confidence</li>
-                <li class="content__item">Connect Dreamers</li>
-            </ul>
-        </div>
+      <div class="main">
+        <h2 class="main__title">OUR MISSION</h2>
+        <ul class="main__content">
+          <li class="content__item">Inspire Style</li>
+          <li class="content__item">Build Confidence</li>
+          <li class="content__item">Connect Dreamers</li>
+        </ul>
+      </div>
     </main>
 
     <div th:replace="layout ::footer"></div>
 
     <span class="footer">Copyright © 2025 Outerity. Powered by Haravan</span>
 
-    
-</body>
+    <script th:src="@{/js/openCart.js}"></script>
+  </body>
 </html>

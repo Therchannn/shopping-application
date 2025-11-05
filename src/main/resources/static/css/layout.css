@@ -1,5 +1,4 @@
 
-
 /* header */
 .header-wrap{
     width: 100%;
@@ -163,3 +162,49 @@
     line-height: 60px;
 }
 
+/* PC responsive */
+@media(min-width: 1024px) and (max-width: 1439px){
+
+    .header-wrap{
+        padding: 15px 30px;
+    }
+    
+    .footer-wrap{
+        width: 103%;
+    }
+    
+    .footer{
+        padding-left: 100px;
+    }
+}
+
+
+/* Tablet responsive */
+@media(min-width: 740px) and (max-width: 1023px){
+
+    .header-wrap{
+        padding: 15px;
+    }
+    
+    .another{
+        width: 40%;
+    }
+    
+    .another__info{
+        padding-right: 43px;
+    }
+    
+    .another__search{
+        width: 100%;
+    }
+
+    .footer-wrap{
+        width: 108%;
+    }
+
+    .footer__list:last-child{
+        padding-right: 0;
+        padding-left: 76px;
+    }
+    
+}

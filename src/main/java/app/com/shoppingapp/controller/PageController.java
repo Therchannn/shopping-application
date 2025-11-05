@@ -1,28 +1,30 @@
 package app.com.shoppingapp.controller;
 
-import app.com.shoppingapp.dto.CartDTO;
-import app.com.shoppingapp.dto.CartToGet;
-import app.com.shoppingapp.dto.ProductDTO;
-import app.com.shoppingapp.dto.UserToSignIn;
-import app.com.shoppingapp.dto.UserToSignUp;
-import app.com.shoppingapp.repository.UserRepository;
-import app.com.shoppingapp.service.AuthService;
-import app.com.shoppingapp.service.CartService;
-import app.com.shoppingapp.service.ProductService;
+import java.util.Arrays;
+import java.util.List;
+
+import app.com.shoppingapp.dto.ProductVariantDTO;
+import app.com.shoppingapp.dto.UserDTO;
 import app.com.shoppingapp.service.UserService;
-import lombok.RequiredArgsConstructor;
+import app.com.shoppingapp.service.OrderService;
+import app.com.shoppingapp.service.CartService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import jakarta.servlet.http.HttpSession;
 
 import java.math.BigDecimal;
-import java.util.List;
 import app.com.shoppingapp.dto.ProductDTO;
 import app.com.shoppingapp.dto.UserToSignIn;
+import app.com.shoppingapp.dto.UserToSignUp;
+import app.com.shoppingapp.dto.CartToGet;
+import app.com.shoppingapp.dto.CartDTO;
+import app.com.shoppingapp.dto.OrderDTO;
 import app.com.shoppingapp.service.AuthService;
 import app.com.shoppingapp.service.ProductService;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;    
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -33,10 +35,17 @@ public class PageController {
     private final UserService userService;
     private final CartService cartService;
     private final AuthService authService;
-    private final UserRepository userRepository;
+    private final OrderService orderService;
 
     @GetMapping("/home")
-    public String homePage(Model model) {
+    public String homePage(Model model){
+        List<ProductDTO> allProducts = productService.get();
+        List<ProductDTO> products = allProducts.subList(0, Math.min(8, allProducts.size()));
+        List<ProductDTO> newProducts = allProducts.subList(Math.min(allProducts.size(), allProducts.size() - 8),  allProducts.size());
+
+        model.addAttribute("products", products);
+        model.addAttribute("newProducts", newProducts);
+
         return "home";
     }
 
@@ -131,7 +140,22 @@ public class PageController {
     }
 
     @GetMapping("/checkout")
-    public String checkoutPage() {
+public String checkoutPage(Model model) {
+    String userId = "U001";  
+
+    // Lấy danh sách đơn hàng của user
+    List<OrderDTO> orders = orderService.get(userId);
+    model.addAttribute("orders", orders);
+
+    // Lấy thông tin user
+    UserDTO user = userService.getInfo(userId);
+    model.addAttribute("user", user);
+
+    // Lấy phương thức thanh toán (ví dụ từ đơn hàng đầu tiên)
+    if (!orders.isEmpty()) {
+        model.addAttribute("paymentMethod", orders.get(0).getPaymentMethod());
+    }
+
         return "checkout";
     }
     
@@ -140,11 +164,7 @@ public class PageController {
             return "redirect:/admin/login";
         }
     
-        @GetMapping("/admin/login")
-        public String adminLoginPage() {
-            return "admin/login";
-        }
-    
+
         @PostMapping("/admin/login")
         public String adminLoginForm(@RequestParam String username,
                                      @RequestParam String password,
@@ -174,6 +194,7 @@ public class PageController {
             model.addAttribute("products", products);
             return "admin/home";
         }
+        
     
         @GetMapping("/admin/logout")
         public String adminLogout(HttpSession session) {
@@ -181,53 +202,29 @@ public class PageController {
             return "redirect:/admin/login";
         }
 
-    @GetMapping("/admin")
-    public String adminRoot() {
-        return "redirect:/admin/login";
-    }
-
-    @GetMapping("/admin/login")
-    public String adminLoginPage() {
-        return "admin/login";
-    }
-
-    @PostMapping("/admin/login")
-    public String adminLoginForm(@RequestParam String username,
-                                 @RequestParam String password,
-                                 HttpSession session,
-                                 Model model) {
-        UserToSignIn req = new UserToSignIn();
-        req.setUsername(username);
-        req.setPassword(password);
-
-        if (authService.authenticateAdmin(req)) {
-            session.setAttribute("isAdmin", true);
-            return "redirect:/admin/home";
-        } else {
-            session.removeAttribute("isAdmin");
-            model.addAttribute("loginError", "Wrong username or password");
-            return "admin/login";
-        }
-    }
-
-    @GetMapping("/admin/home")
-    public String adminHome(Model model, HttpSession session) {
-        Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
-        if (isAdmin == null || !isAdmin) {
-            return "redirect:/admin/login";
-        }
+    @GetMapping("/admin/product")
+    public String adminProduct(Model model){
         List<ProductDTO> products = productService.get();
         model.addAttribute("products", products);
-        return "admin/home";
+
+        return "admin/product";
     }
 
-    @GetMapping("/admin/logout")
-    public String adminLogout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/admin/login";
+    @PostMapping("/admin/variant/add")
+    public String addVariant(@RequestParam("variantsJson") String variantsJson) {
+        ObjectMapper mapper = new ObjectMapper();
+        List<ProductVariantDTO> variants;
+        try {
+            variants = mapper.readValue(variantsJson, new TypeReference<>() {});
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        productService.addVariant(variants);
+        return "redirect:/admin/product";
     }
 
-        @GetMapping("/about")
+
+    @GetMapping("/about")
     public String aboutPage(){
         return "about";
     }
@@ -236,11 +233,31 @@ public class PageController {
     public String layoutInfoPage(){
         return "layoutInfo";
     }
+    @GetMapping("/layoutOrder")
+    public String layoutOrderPage(){
+        return "layoutOrder";
+    }
 
     @GetMapping("/info")
-    public String infoPage(){
+    public String infoPage(Model model){
+        UserDTO info = userService.getInfo("U002");
+        model.addAttribute("info", info);
         return "info";
     }
+
+    @GetMapping("/logout")
+    public String logoutPage(){
+        return "logout";
+    }
+
+    @PostMapping("/update")
+    public String infoPage(@ModelAttribute("user") UserDTO updateInfo){
+        updateInfo.setId("U002");
+        userService.update(updateInfo);
+
+        return "redirect:/info";
+    }
+
 
     @GetMapping("/product")
     public String productPage(Model model){
@@ -251,13 +268,14 @@ public class PageController {
         return "product";
     }
 
-    @GetMapping("/productDetails")
-    public String productDetailsPage(Model model){
-        List<ProductDTO> products = productService.get();
+    @GetMapping("/product/{id}")
+    public String productDetailsPage(Model model, @PathVariable("id") String id){
+        ProductDTO product = productService.getById(id);
 
-        model.addAttribute("products", products);
+        model.addAttribute("product", product);
 
         return "productDetails";
     }
+
 
 }

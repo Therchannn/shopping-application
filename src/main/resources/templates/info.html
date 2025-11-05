@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/base.css}">
     <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/cart.css}">
     <link rel="stylesheet" th:href="@{/css/layoutInfo.css}">
     <link rel="stylesheet" th:href="@{/css/info.css}">
     <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}">
@@ -21,14 +22,27 @@
     <div class="main__wrap">
         <div th:replace="layoutInfo ::sidebar"></div>
         
-        <form action="#" method="post">
-
+        <form th:action="@{/update}" method="post" th:object="${info}">
             <div class="grid__column-10 info">
                 <p class="info__heading">Thông tin tài khoản</p>
-                <input type="text" class="info__input" placeholder="Lãm Thúy">
-                <input type="text" class="info__input" placeholder="0377219288">
-                <input type="text" class="info__input" placeholder="Địa chỉ">
-                
+                <input
+                        type="text"
+                        class="info__input"
+                        th:field="*{name}"
+                        placeholder="Lãm Thúy"
+                >
+                <input
+                        type="text"
+                        class="info__input"
+                        th:field="*{phone}"
+                        placeholder="0377219288"
+                >
+                <input
+                        type="text"
+                        class="info__input"
+                        th:field="*{address}"
+                        placeholder="Địa chỉ"
+                >
                 <button class="btn info__btn" type="submit">Cập nhật</button>
             </div>
 
@@ -41,6 +55,9 @@
     <div th:replace="layout ::footer"></div>
 
     <span class="footer">Copyright © 2025 Outerity. Powered by Haravan</span>
+
+    <script th:src="@{/js/logoutHandle.js}"></script>
+    <script th:src="@{/js/openCart.js}"></script>
 
 </body>
 </html>

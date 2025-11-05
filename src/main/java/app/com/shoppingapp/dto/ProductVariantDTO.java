@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class ProductVariantDTO {
+    private String id_product;
     private String id_product_variant;
     private String code_product_variant;
     private String color;

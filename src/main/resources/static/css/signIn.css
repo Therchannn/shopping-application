@@ -9,17 +9,17 @@
 .form_btn-back {
   margin-top: 4rem;
 }
-
+/* Tablet */
 @media screen and (max-width: 812px) {
   .auth {
     display: flex;
     flex-direction: column;
   }
-  .auth-title {
+  .auth_title {
     font-size: 1.8rem;
     margin-bottom: 2rem;
   }
-  .auth-title::after {
+  .auth_title::after {
     display: none;
   }
 }

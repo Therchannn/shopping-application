@@ -62,7 +62,6 @@
           </div>
 
           <!-- Vùng nội dung động -->
-
           <div
             th:if="${param.type == null or param.type[0] == 'all'}"
             th:include="fragments/order-all :: content"
@@ -90,5 +89,6 @@
       <span class="footer">Copyright © 2025 Outerity. Powered by Haravan</span>
 
       <script th:src="@{/js/layoutOrder.js}"></script>
+      <script th:src="@{/js/openCart.js}"></script>
     </body>
   </html>
