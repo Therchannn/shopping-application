@@ -16,6 +16,7 @@ public class UserDTO {
     private String phone;
     private String address;
     private boolean role;
+    private boolean status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

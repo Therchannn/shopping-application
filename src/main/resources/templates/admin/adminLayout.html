@@ -6,6 +6,7 @@
   <link rel="stylesheet" th:href="@{/css/base.css}" />
   <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
   <link rel="stylesheet" th:href="@{/css/admin.css}" />
+  <link rel="stylesheet" th:href="@{/css/notification.css}" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body>
@@ -79,7 +80,8 @@
 </div>
 
 <!-- Scripts được inject vào đây -->
-<script th:src="@{/js/admin-common.js}"></script>
+<script th:src="@{/js/notification.js}"></script>
+<script th:src="@{/js/layout.js}"></script>
 <th:block th:replace="${scripts}"></th:block>
 </body>
 </html>

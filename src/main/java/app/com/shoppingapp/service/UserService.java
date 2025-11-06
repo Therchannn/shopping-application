@@ -43,6 +43,8 @@ import java.util.stream.Collectors;
                     .password(data.getPassword())
                     .phone(data.getPhone())
                     .address(data.getAddress())
+                    .role(false) // Mặc định là user thường
+                    .status(true) // Mặc định là active
                     .build();
 
             userRepository.save(user);
@@ -115,6 +117,7 @@ import java.util.stream.Collectors;
                     .phone(data.getPhone())
                     .address(data.getAddress())
                     .role(data.isRole())
+                    .status(true)
                     .build();
 
             userRepository.save(user);
@@ -146,7 +149,7 @@ import java.util.stream.Collectors;
         }
     }
 
-    public String delete(String id) {
+    public String ban(String id) {
         try {
             User user = userRepository.findUserById(id);
 
@@ -154,11 +157,23 @@ import java.util.stream.Collectors;
                 return "Không tìm thấy khách hàng";
             }
 
-            userRepository.delete(user);
-            return "Xóa khách hàng thành công";
+            user.setStatus(!user.isStatus());
+            user.setUpdatedAt(LocalDateTime.now());
+            userRepository.save(user);
+
+            String statusText = user.isStatus() ? "mở khóa" : "khóa";
+            return "Đã " + statusText + " tài khoản thành công";
         } catch (Exception e) {
             return "Lỗi: " + e.getMessage();
         }
+    }
+
+    public long countByStatus(boolean status) {
+        return userRepository.countByStatus(status);
+    }
+
+    public long countByRole(boolean role) {
+        return userRepository.countByRole(role);
     }
 
     public UserDTO getById(String id) {

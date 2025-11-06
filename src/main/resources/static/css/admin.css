@@ -38,12 +38,120 @@
   font-size: 16px;
 }
 
+button.btn-view {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+button.btn-view:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+button.btn-view i {
+  font-size: 18px;
+}
+
+button.btn-progress {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+button.btn-progress:hover {
+  background-color: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+button.btn-progress i {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+button.btn-cancel {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+button.btn-cancel:hover {
+  background-color: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+button.btn-cancel i {
+  font-size: 18px;
+  font-weight: bold;
+}
+
 .btn-edit {
   color: #3b82f6;
 }
 
 .btn-edit:hover {
   background: #dbeafe;
+}
+
+.btn-toggle-status {
+  color: #6b7280;
+  background: transparent;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-toggle-status:hover {
+  background: #f3f4f6;
+}
+
+.btn-toggle-status i {
+  font-size: 16px;
+}
+
+/* Màu icon theo status */
+.btn-toggle-status[data-status="true"] {
+  color: #ef4444; /* Màu đỏ cho khóa */
+}
+
+.btn-toggle-status[data-status="false"] {
+  color: #10b981; /* Màu xanh cho mở khóa */
+}
+
+.btn-toggle-status[data-status="true"]:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.btn-toggle-status[data-status="false"]:hover {
+  background: #d1fae5;
+  color: #059669;
 }
 
 .btn-delete {
@@ -250,6 +358,54 @@
   font-size: 14px;
 }
 
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.checkbox-group label:hover {
+  background: #f9fafb;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: #6b7280;
+  color: white;
+}
+
 .form-group small {
   display: block;
   margin-top: 4px;
@@ -281,8 +437,8 @@
 }
 
 .form-group input[readonly] {
-  background-color: #f3f4f6 !important;
-  cursor: not-allowed !important;
+  background-color: #f3f4f6;
+  cursor: not-allowed;
   color: #6b7280;
 }
 

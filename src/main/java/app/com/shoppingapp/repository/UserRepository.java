@@ -14,11 +14,11 @@ public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findUserByUsernameAndPassword(String username, String password);
     Optional<User> findUserByUsername(String username);
     User findUserById(String id);
-
     @Query("SELECT u FROM User u WHERE " +
            "LOWER(u.username) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
            "LOWER(u.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(u.phone) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(u.address) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+           "LOWER(u.phone) LIKE LOWER(CONCAT('%', :keyword, '%')) ")
     List<User> searchUsers(@Param("keyword") String keyword);
+    long countByStatus(boolean status);
+    long countByRole(boolean role);
 }

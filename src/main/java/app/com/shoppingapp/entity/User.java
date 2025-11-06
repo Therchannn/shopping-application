@@ -30,6 +30,9 @@ public class User {
     @Column(name="role", columnDefinition ="boolean default 0")
     private boolean role;
 
+    @Column(name="status", columnDefinition ="boolean default 1")
+    private boolean status; // 0 = banned, 1 = active
+
     @Column(columnDefinition = "TEXT")
     private String address;
 

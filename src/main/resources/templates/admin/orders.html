@@ -12,14 +12,63 @@
   <h2>Quản lý đơn hàng</h2>
 
   <div class="content-header">
+    <div>
+      <p style="color: #6b7280;">Theo dõi và xử lý các đơn hàng</p>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <section class="kpi-grid">
+    <div class="kpi-card yellow">
+      <div class="kpi-header">
+        <i class="bi bi-hourglass-split"></i>
+        <span>Chờ xác nhận</span>
+      </div>
+      <div class="kpi-value" th:text="${pendingCount}">0</div>
+      <small style="color: #6b7280;">Đơn đang chờ xác nhận</small>
+      <i class="bi bi-clock growth-icon"></i>
+    </div>
+
+    <div class="kpi-card blue">
+      <div class="kpi-header">
+        <i class="bi bi-clipboard-check"></i>
+        <span>Đã xác nhận</span>
+      </div>
+      <div class="kpi-value" th:text="${confirmedCount}">0</div>
+      <small style="color: #6b7280;">Đơn đã được xác nhận</small>
+      <i class="bi bi-check-circle growth-icon"></i>
+    </div>
+
+    <div class="kpi-card green">
+      <div class="kpi-header">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>Hoàn thành</span>
+      </div>
+      <div class="kpi-value" th:text="${completedCount}">0</div>
+      <small style="color: #6b7280;">Đơn đã hoàn thành</small>
+      <i class="bi bi-graph-up-arrow growth-icon"></i>
+    </div>
+
+    <div class="kpi-card red">
+      <div class="kpi-header">
+        <i class="bi bi-x-circle-fill"></i>
+        <span>Đã hủy</span>
+      </div>
+      <div class="kpi-value" th:text="${cancelledCount}">0</div>
+      <small style="color: #6b7280;">Đơn đã bị hủy</small>
+      <i class="bi bi-graph-down-arrow growth-icon"></i>
+    </div>
+  </section>
+
+  <div class="content-header">
+    <form class="search-box" method="get" th:action="@{/admin/orders}">
+      <i class="bi bi-search"></i>
+      <input type="text" name="q" th:value="${q}" placeholder="Tìm kiếm đơn hàng của...">
+    </form>
     <div class="filter-group">
-      <button class="btn btn-primary">
+      <button type="button" class="btn btn-primary" id="btnFilter">
         <i class="bi bi-funnel"></i> Lọc
       </button>
-    </div>
-    <div class="search-box">
-      <i class="bi bi-search"></i>
-      <input type="text" placeholder="Tìm kiếm đơn hàng...">
     </div>
   </div>
 
@@ -27,48 +76,80 @@
     <table class="data-table">
       <thead>
         <tr>
-          <th>Mã đơn</th>
           <th>Khách hàng</th>
-          <th>SĐT</th>
           <th>Ngày đặt</th>
+          <th>Phương thức thanh toán</th>
           <th>Tổng tiền</th>
-          <th>Phí ship</th>
-          <th>Thanh toán</th>
           <th>Trạng thái</th>
-          <th>Thao tác</th>
+          <th style="width: 140px; text-align: center;">Thao tác</th>
         </tr>
       </thead>
       <tbody>
-        <tr th:each="order : ${orders}">
-          <td th:text="${order.id}">001</td>
-          <td th:text="${order.userName}">Nguyễn Văn A</td>
-          <td th:text="${order.userPhone}">0123456789</td>
-          <td th:text="${order.createdAt != null ? #temporals.format(order.createdAt, 'dd/MM/yyyy HH:mm') : 'N/A'}">01/01/2024 10:30</td>
-          <td th:text="${order.total != null ? #numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'POINT') + ' đ' : '0 đ'}">299,000 đ</td>
-          <td th:text="${order.shipping_fee != null ? #numbers.formatDecimal(order.shipping_fee, 0, 'COMMA', 0, 'POINT') + ' đ' : '0 đ'}">30,000 đ</td>
+        <tr th:each="order : ${orders}"
+            th:data-status="${order.status}"
+            th:data-payment="${order.paymentMethod}"
+            th:data-total="${order.total}"
+            th:data-date="${order.createdAt}">
           <td>
-            <span th:if="${order.paymentMethod != null}" th:switch="${order.paymentMethod}">
-              <span th:case="'TIEN_MAT'">Tiền mặt</span>
-              <span th:case="'CHUYEN_KHOAN'">Chuyển khoản</span>
+            <div style="line-height: 1.4;">
+              <div style="font-weight: 500;" th:text="${order.userName}">Nguyễn Văn A</div>
+              <div style="font-size: 0.85em; color: #6b7280;" th:text="'@' + ${order.userUsername}">@user1</div>
+            </div>
+          </td>
+          <td th:text="${order.createdAt != null ? #temporals.format(order.createdAt, 'dd/MM/yyyy HH:mm') : 'N/A'}">01/01/2024 10:30</td>
+          <td>
+            <span th:if="${order.paymentMethod == 'TIEN_MAT'}" style="display: flex; align-items: center; gap: 6px;">
+              <i class="bi bi-cash" style="color: #10b981; font-size: 18px;"></i>
+              <span>Tiền mặt</span>
+            </span>
+            <span th:if="${order.paymentMethod == 'CHUYEN_KHOAN'}" style="display: flex; align-items: center; gap: 6px;">
+              <i class="bi bi-bank" style="color: #3b82f6; font-size: 18px;"></i>
+              <span>Chuyển khoản</span>
             </span>
             <span th:if="${order.paymentMethod == null}">N/A</span>
           </td>
           <td>
-            <span class="badge"
-                  th:classappend="${order.status == 'Completed'} ? 'badge-success' :
-                                  (${order.status == 'Pending'} ? 'badge-warning' :
-                                  (${order.status == 'Processing'} ? 'badge-info' : 'badge-danger'))"
-                  th:text="${order.status != null ? order.status : 'N/A'}">Đang xử lý</span>
+            <div style="line-height: 1.4;">
+              <div style="font-weight: 600; color: #1f2937;" th:text="${order.total != null ? #numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'POINT') + ' đ' : '0 đ'}">299,000 đ</div>
+            </div>
           </td>
           <td>
-            <button class="btn-icon btn-edit" title="Chi tiết"
-                    th:onclick="'viewOrderDetail(\'' + ${order.id} + '\')'">
-              <i class="bi bi-eye"></i>
-            </button>
+            <span th:if="${order.status == 'Cancelled'}" style="background-color: #ef4444; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.875rem;">Đã hủy</span>
+            <span th:if="${order.status == 'Pending'}" style="background-color: #f59e0b; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.875rem;">Chờ xác nhận</span>
+            <span th:if="${order.status == 'Confirmed'}" style="background-color: #3b82f6; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.875rem;">Đã xác nhận</span>
+            <span th:if="${order.status == 'Completed'}" style="background-color: #10b981; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.875rem;">Hoàn thành</span>
+            <span th:if="${order.status != 'Cancelled' && order.status != 'Completed' && order.status != 'Pending' && order.status != 'Confirmed'}" style="background-color: #6b7280; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.875rem;">N/A</span>
+          </td>
+          <td>
+            <div style="display: flex; gap: 4px; align-items: center; justify-content: center;">
+              <!-- Nút xem chi tiết -->
+              <button class="btn-icon btn-view" title="Xem chi tiết"
+                      th:data-order-id="${order.id}"
+                      onclick="viewOrderDetail(this.getAttribute('data-order-id'))">
+                <i class="bi bi-eye-fill" style="font-size: 16px;"></i>
+              </button>
+
+              <!-- Nút đẩy tiến độ - Chỉ hiện khi chưa Completed và chưa Cancelled -->
+              <button th:if="${order.status != 'Completed' && order.status != 'Cancelled'}"
+                      class="btn-icon btn-progress" title="Đẩy tiến độ"
+                      th:data-order-id="${order.id}"
+                      th:data-current-status="${order.status}"
+                      onclick="progressOrder(this.getAttribute('data-order-id'), this.getAttribute('data-current-status'))">
+                <i class="bi bi-check-lg" style="font-size: 16px; font-weight: bold;"></i>
+              </button>
+
+              <!-- Nút hủy đơn - Chỉ hiện khi chưa Cancelled -->
+              <button th:if="${order.status != 'Cancelled'}"
+                      class="btn-icon btn-cancel" title="Hủy đơn hàng"
+                      th:data-order-id="${order.id}"
+                      onclick="cancelOrder(this.getAttribute('data-order-id'))">
+                <i class="bi bi-x-lg" style="font-size: 16px; font-weight: bold;"></i>
+              </button>
+            </div>
           </td>
         </tr>
         <tr th:if="${#lists.isEmpty(orders)}">
-          <td colspan="9" style="text-align: center; padding: 40px;">
+          <td colspan="6" style="text-align: center; padding: 40px;">
             <i class="bi bi-inbox" style="font-size: 48px; color: #9ca3af;"></i>
             <p style="color: #6b7280; margin-top: 16px;">Chưa có đơn hàng nào</p>
           </td>
@@ -76,9 +157,92 @@
       </tbody>
     </table>
   </section>
+
+  <!-- MODAL LỌC NÂNG CAO -->
+  <div id="filterModal" class="modal">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3>Lọc đơn hàng nâng cao</h3>
+        <span class="close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <form id="filterForm">
+          <!-- ...existing code... -->
+          <div class="form-group">
+            <label>Trạng thái đơn hàng</label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="status" value="Pending" checked> Chờ xác nhận</label>
+              <label><input type="checkbox" name="status" value="Confirmed" checked> Đã xác nhận</label>
+              <label><input type="checkbox" name="status" value="Completed" checked> Hoàn thành</label>
+              <label><input type="checkbox" name="status" value="Cancelled" checked> Đã hủy</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Phương thức thanh toán</label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="payment" value="TIEN_MAT" checked> Tiền mặt</label>
+              <label><input type="checkbox" name="payment" value="CHUYEN_KHOAN" checked> Chuyển khoản</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Thời gian đặt hàng</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div>
+                <label style="font-size: 0.85em; color: #6b7280;">Từ ngày</label>
+                <input type="date" id="dateFrom" name="dateFrom" class="form-control">
+              </div>
+              <div>
+                <label style="font-size: 0.85em; color: #6b7280;">Đến ngày</label>
+                <input type="date" id="dateTo" name="dateTo" class="form-control">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Tổng tiền (VNĐ)</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div>
+                <label style="font-size: 0.85em; color: #6b7280;">Từ</label>
+                <input type="number" id="priceFrom" name="priceFrom" placeholder="0" class="form-control">
+              </div>
+              <div>
+                <label style="font-size: 0.85em; color: #6b7280;">Đến</label>
+                <input type="number" id="priceTo" name="priceTo" placeholder="10000000" class="form-control">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="resetFilter()">Đặt lại</button>
+            <button type="button" class="btn btn-primary" onclick="applyFilter()">Áp dụng</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL XÁC NHẬN THAY ĐỔI TRẠNG THÁI -->
+  <div id="statusModal" class="modal">
+    <div class="modal-content" style="max-width: 450px;">
+      <div class="modal-header">
+        <h3 id="statusModalTitle">Xác nhận</h3>
+        <span class="close-delete">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p id="statusModalMessage">Bạn có chắc chắn?</p>
+        <input type="hidden" id="statusOrderId">
+        <input type="hidden" id="statusAction">
+        <input type="hidden" id="statusCurrentStatus">
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="btnCancelStatus">Hủy</button>
+          <button type="button" class="btn btn-primary" id="btnConfirmStatus">Xác nhận</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-
 
 <th:block th:fragment="scripts">
   <script th:src="@{/js/orders.js}"></script>

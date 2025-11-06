@@ -22,10 +22,8 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
-public class PageController {
+public class PageController extends BaseAdminController{
 
-    private static final String AUTH_SESSION_KEY = "isAdmin";
-    private static final String ADMIN_LOGIN_URL = "redirect:/admin/login";
     private static final String ADMIN_DASHBOARD_URL = "redirect:/admin/dashboard";
 
     private final ProductService productService;

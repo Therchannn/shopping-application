@@ -97,12 +97,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Xử lý xóa khách hàng
-    const deleteButtons = document.querySelectorAll('.btn-delete');
-    deleteButtons.forEach(btn => {
+    // Xử lý toggle status (khóa/mở khóa) khách hàng
+    const toggleStatusButtons = document.querySelectorAll('.btn-toggle-status');
+    toggleStatusButtons.forEach(btn => {
         btn.addEventListener('click', function() {
-            currentCustomerId = this.dataset.id; // This is UUID
-            document.getElementById('deleteCustomerName').textContent = this.dataset.username;
+            currentCustomerId = this.dataset.id;
+            const username = this.dataset.username;
+            const isActive = this.dataset.status === 'true';
+
+            document.getElementById('toggleStatusAction').value = isActive ? 'lock' : 'unlock';
+
+            if (isActive) {
+                document.getElementById('toggleStatusTitle').textContent = 'Xác nhận khóa tài khoản';
+                document.getElementById('toggleStatusMessage').innerHTML =
+                    `Bạn có chắc chắn muốn <strong style="color: #ef4444;">KHÓA</strong> tài khoản <strong>${username}</strong>?<br><span style="font-size: 0.875em; color: #6b7280;">Người dùng sẽ không thể đăng nhập sau khi bị khóa.</span>`;
+                document.getElementById('btnConfirmDelete').textContent = 'Khóa';
+                document.getElementById('btnConfirmDelete').style.backgroundColor = '#ef4444';
+            } else {
+                document.getElementById('toggleStatusTitle').textContent = 'Xác nhận mở khóa tài khoản';
+                document.getElementById('toggleStatusMessage').innerHTML =
+                    `Bạn có chắc chắn muốn <strong style="color: #10b981;">MỞ KHÓA</strong> tài khoản <strong>${username}</strong>?<br><span style="font-size: 0.875em; color: #6b7280;">Người dùng sẽ có thể đăng nhập trở lại.</span>`;
+                document.getElementById('btnConfirmDelete').textContent = 'Mở khóa';
+                document.getElementById('btnConfirmDelete').style.backgroundColor = '#10b981';
+            }
+
             document.getElementById('deleteCustomerId').value = currentCustomerId;
             deleteModal.classList.add('show');
         });
@@ -137,17 +155,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!isEditMode) {
             const password = document.getElementById('password').value.trim();
             if (!password || password.length < 6) {
-                alert('Mật khẩu phải có ít nhất 6 ký tự!');
+                showError('Mật khẩu phải có ít nhất 6 ký tự!');
                 return;
             }
             formData.password = password;
         }
 
-        // Validate
-//        if (!formData.username || !formData.name) {
-//            alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
-//            return;
-//        }
+        //Validate
+        if (!formData.username || !formData.name) {
+            alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
+            return;
+        }
 
         try {
             const pathParts = window.location.pathname.split('/').filter(p => p);
@@ -175,21 +193,25 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await response.json();
 
             if (result.success) {
-                alert(result.message);
+                showSuccess(result.message);
                 customerModal.classList.remove('show');
-                location.reload(); // Reload để cập nhật danh sách khách hàng
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
             } else {
-                alert(result.message || 'Có lỗi xảy ra!');
+                showError(result.message || 'Có lỗi xảy ra!');
             }
         } catch (error) {
-            alert('Có lỗi xảy ra khi xử lý yêu cầu!');
+            showError('Có lỗi xảy ra khi xử lý yêu cầu!');
         }
     });
 
-    // Xử lý xác nhận xóa khách hàng
+    // Xử lý xác nhận toggle status (khóa/mở khóa)
     if (btnConfirmDelete) {
         btnConfirmDelete.addEventListener('click', async function() {
             const customerId = document.getElementById('deleteCustomerId').value;
+            const action = document.getElementById('toggleStatusAction').value;
+
             try {
                 const pathParts = window.location.pathname.split('/').filter(p => p);
                 let baseUrl = '';
@@ -206,14 +228,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 const result = await response.json();
 
                 if (result.success) {
-                    alert(result.message);
+                    showSuccess(result.message);
                     deleteModal.classList.remove('show');
-                    location.reload();
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
                 } else {
-                    alert(result.message || 'Có lỗi xảy ra khi xóa!');
+                    showError(result.message || 'Có lỗi xảy ra!');
                 }
             } catch (error) {
-                alert('Có lỗi xảy ra khi xử lý yêu cầu!');
+                showError('Có lỗi xảy ra khi xử lý yêu cầu!');
             }
         });
     }

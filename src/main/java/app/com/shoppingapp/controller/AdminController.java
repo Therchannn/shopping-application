@@ -20,26 +20,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
-
-    private static final String AUTH_SESSION_KEY = "isAdmin";
-    private static final String ADMIN_LOGIN_URL = "redirect:/admin/login";
+public class AdminController extends BaseAdminController {
 
     private final ProductService productService;
     private final OrderService orderService;
     private final UserService userService;
 
-    private boolean isAuthenticated(HttpSession session) {
-        return session.getAttribute(AUTH_SESSION_KEY) != null;
-    }
-
-
-    private void addUsernameToModel(Model model, HttpSession session) {
-        String username = (String) session.getAttribute("username");
-        if (username != null) {
-            model.addAttribute("loggedInUsername", username);
-        }
-    }
 
     @GetMapping("/dashboard")
     public String dashboard(Model model, HttpSession session) {
@@ -76,18 +62,34 @@ public class AdminController {
     }
 
     @GetMapping("/orders")
-    public String orders(Model model, HttpSession session) {
+    public String orders(Model model, HttpSession session,
+                        @RequestParam(name = "q", required = false) String q) {
         if (!isAuthenticated(session)) {
             return ADMIN_LOGIN_URL;
         }
         addUsernameToModel(model, session);
 
-        List<OrderDTO> orders = orderService.get();
+        List<OrderDTO> orders = (q != null && !q.isBlank())
+                ? orderService.search(q)
+                : orderService.get();
+
+        // Count orders by status
+        long pendingCount = orderService.countByStatus("Pending");
+        long confirmedCount = orderService.countByStatus("Confirmed");
+        long completedCount = orderService.countByStatus("Completed");
+        long cancelledCount = orderService.countByStatus("Cancelled");
+
         model.addAttribute("orders", orders);
+        model.addAttribute("q", q);
+        model.addAttribute("pendingCount", pendingCount);
+        model.addAttribute("confirmedCount", confirmedCount);
+        model.addAttribute("completedCount", completedCount);
+        model.addAttribute("cancelledCount", cancelledCount);
         model.addAttribute("currentPage", "orders");
 
         return "admin/orders";
     }
+
 
     @GetMapping("/customers")
     public String customers(Model model, HttpSession session,
@@ -101,8 +103,17 @@ public class AdminController {
                 ? userService.search(q)
                 : userService.get();
 
+        long activeCount = userService.countByStatus(true);
+        long bannedCount = userService.countByStatus(false);
+        long userCount = userService.countByRole(false);
+        long adminCount = userService.countByRole(true);
+
         model.addAttribute("customers", customers);
         model.addAttribute("q", q);
+        model.addAttribute("activeCount", activeCount);
+        model.addAttribute("bannedCount", bannedCount);
+        model.addAttribute("userCount", userCount);
+        model.addAttribute("adminCount", adminCount);
         model.addAttribute("currentPage", "customers");
 
         return "admin/customers";

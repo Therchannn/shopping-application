@@ -12,6 +12,55 @@
   <h2>Quản lý khách hàng</h2>
 
   <div class="content-header">
+    <div>
+      <p style="color: #6b7280;">Quản lý tài khoản khách hàng và phân quyền</p>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <section class="kpi-grid">
+    <div class="kpi-card green">
+      <div class="kpi-header">
+        <i class="bi bi-person-check-fill"></i>
+        <span>Đang hoạt động</span>
+      </div>
+      <div class="kpi-value" th:text="${activeCount}">0</div>
+      <small style="color: #6b7280;">Tài khoản hiện hành</small>
+      <i class="bi bi-check-circle growth-icon"></i>
+    </div>
+
+    <div class="kpi-card red">
+      <div class="kpi-header">
+        <i class="bi bi-person-x-fill"></i>
+        <span>Đã khóa</span>
+      </div>
+      <div class="kpi-value" th:text="${bannedCount}">0</div>
+      <small style="color: #6b7280;">Tài khoản đã khóa</small>
+      <i class="bi bi-ban growth-icon"></i>
+    </div>
+
+    <div class="kpi-card blue">
+      <div class="kpi-header">
+        <i class="bi bi-person-fill"></i>
+        <span>Người dùng</span>
+      </div>
+      <div class="kpi-value" th:text="${userCount}">0</div>
+      <small style="color: #6b7280;">Người dùng web</small>
+      <i class="bi bi-people-fill growth-icon"></i>
+    </div>
+
+    <div class="kpi-card yellow">
+      <div class="kpi-header">
+        <i class="bi bi-shield-fill-check"></i>
+        <span>Quản trị viên</span>
+      </div>
+      <div class="kpi-value" th:text="${adminCount}">0</div>
+      <small style="color: #6b7280;">Người dùng hệ thống</small>
+      <i class="bi bi-award growth-icon"></i>
+    </div>
+  </section>
+
+  <div class="content-header">
     <form class="search-box" method="get" th:action="@{/admin/customers}">
       <i class="bi bi-search"></i>
       <input type="text" name="q" th:value="${q}" placeholder="Tìm kiếm khách hàng...">
@@ -24,13 +73,14 @@
   <section class="table-section">
     <table class="data-table">
       <thead>
+        <tr>
           <th>Tên tài khoản</th>
           <th>Tên khách hàng</th>
           <th>Vai trò</th>
+          <th>Trạng thái</th>
           <th>Số điện thoại</th>
           <th>Địa chỉ</th>
           <th>Ngày đăng ký</th>
-          <th>Ngày cập nhật</th>
           <th>Thao tác</th>
         </tr>
       </thead>
@@ -42,14 +92,21 @@
             <span th:if="${customer.role}" class="role-badge role-admin">
               <i class="bi bi-shield-fill-check"></i> Quản trị viên
             </span>
-                      <span th:if="${!customer.role}" class="role-badge role-user">
+            <span th:if="${!customer.role}" class="role-badge role-user">
               <i class="bi bi-person-fill"></i> Người dùng
+            </span>
+          </td>
+          <td>
+            <span th:if="${customer.status}" style="background-color: #10b981; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.875rem; display: inline-flex; align-items: center; gap: 4px;">
+              <i class="bi bi-check-circle-fill"></i> Hoạt động
+            </span>
+            <span th:if="${!customer.status}" style="background-color: #ef4444; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.875rem; display: inline-flex; align-items: center; gap: 4px;">
+              <i class="bi bi-lock-fill"></i> Đã khóa
             </span>
           </td>
           <td th:text="${customer.phone}">0123456789</td>
           <td th:text="${customer.address}">TP.HCM</td>
-          <td th:text="${#temporals.format(customer.createdAt, 'dd/MM/yyyy')}">01/01/2024</td>
-          <td th:text="${#temporals.format(customer.updatedAt, 'dd/MM/yyyy')}">01/01/2024</td>
+          <td th:text="${#temporals.format(customer.createdAt, 'dd/MM/yyyy HH:mm')}">01/01/2024</td>
           <td>
             <button class="btn-icon btn-edit" title="Chỉnh sửa"
                     th:data-id="${customer.id}"
@@ -60,10 +117,12 @@
                     th:data-role="${customer.role}">
               <i class="bi bi-pencil"></i>
             </button>
-            <button class="btn-icon btn-delete" title="Xóa"
+            <button class="btn-icon btn-toggle-status"
+                    th:title="${customer.status ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}"
                     th:data-id="${customer.id}"
-                    th:data-username="${customer.username}">
-              <i class="bi bi-trash"></i>
+                    th:data-username="${customer.username}"
+                    th:data-status="${customer.status}">
+              <i th:class="${customer.status ? 'bi bi-ban' : 'bi bi-check-circle'}"></i>
             </button>
           </td>
         </tr>
@@ -100,8 +159,8 @@
           </div>
 
           <div class="form-group">
-            <label for="name">Tên khách hàng</label>
-            <input type="text" id="name" name="name">
+            <label for="name">Tên khách hàng <span style="color: red;">*</span></label>
+            <input type="text" id="name" name="name" required>
           </div>
 
           <div class="form-group">
@@ -134,19 +193,20 @@
     </div>
   </div>
 
-  <!-- Trang xác nhận xóa -->
+  <!-- Modal xác nhận khóa/mở khóa -->
   <div id="deleteModal" class="modal">
     <div class="modal-content" style="max-width: 400px;">
       <div class="modal-header">
-        <h3>Xác nhận xóa</h3>
+        <h3 id="toggleStatusTitle">Xác nhận</h3>
         <span class="close-delete">&times;</span>
       </div>
       <div class="modal-body">
-        <p>Bạn có chắc chắn muốn xóa khách hàng <strong id="deleteCustomerName"></strong>?</p>
+        <p id="toggleStatusMessage">Bạn có chắc chắn?</p>
         <input type="hidden" id="deleteCustomerId">
+        <input type="hidden" id="toggleStatusAction">
         <div class="form-actions">
           <button type="button" class="btn btn-secondary" id="btnCancelDelete">Hủy</button>
-          <button type="button" class="btn btn-danger" id="btnConfirmDelete">Xóa</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmDelete">Xác nhận</button>
         </div>
       </div>
     </div>
