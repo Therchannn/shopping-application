@@ -38,25 +38,22 @@ public class AdminController extends Admin {
         model.addAttribute("orderCount", orderService.count());
         model.addAttribute("userCount", userService.count());
 
-
         model.addAttribute("currentPage", "dashboard");
 
-        Map<String, Long> categoryCounts = new HashMap<>();
-        List<Object[]> counts = productService.countByCategory();
-        for (Object[] count : counts) {
-            String category = (String) count[0];
-            Long cnt = (Long) count[1];
-            categoryCounts.put(category, cnt);
-        }
+        Map<String, Long> categoryCounts = productService.getCategoryCounts();
 
-        List<Integer> monthlyRevenue = List.of(500, 700, 800, 650, 900, 1200, 1500);
+        int currentYear = java.time.Year.now().getValue();
+        int currentMonth = java.time.LocalDate.now().getMonthValue();
+
+        List<Double> monthlyRevenue = orderService.getMonthlyRevenue(currentYear);
+        Double currentMonthRevenue = orderService.getCurrentMonthRevenue(currentMonth, currentYear);
+
         model.addAttribute("monthlyRevenue", monthlyRevenue);
         model.addAttribute("categoryLabels", categoryCounts.keySet());
         model.addAttribute("categoryData", categoryCounts.values());
 
-
-        Integer revenue = monthlyRevenue.isEmpty() ? 0 : monthlyRevenue.get(monthlyRevenue.size() - 1);
-        model.addAttribute("revenue", revenue);
+        // Doanh thu tháng hiện tại
+        model.addAttribute("revenue", currentMonthRevenue != null ? currentMonthRevenue.intValue() : 0);
 
         return "admin/dashboard";
     }

@@ -89,4 +89,13 @@ public class ProductService {
     public List<Object[]> countByCategory(){
         return productRepository.countByCategory();
     }
+
+    public Map<String, Long> getCategoryCounts() {
+        List<Object[]> counts = productRepository.countByCategory();
+        return counts.stream()
+                .collect(Collectors.toMap(
+                        arr -> (String) arr[0],  // category name
+                        arr -> (Long) arr[1]     // count
+                ));
+    }
 }

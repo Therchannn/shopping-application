@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -31,21 +30,13 @@ public class OrderAdminController extends Admin {
             OrderDTO order = orderService.getOrderDetailById(orderId);
 
             if (order == null) {
-                Map<String, Object> response = new HashMap<>();
-                response.put("success", false);
-                response.put("message", "Không tìm thấy đơn hàng");
-                return response;
+                return createResponse(false, "Không tìm thấy đơn hàng");
             }
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", true);
-            response.put("data", order);
-            return response;
+            return createResponse(true, "Lấy thông tin đơn hàng thành công", order);
+
         } catch (Exception e) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", false);
-            response.put("message", "Lỗi: " + e.getMessage());
-            return response;
+            return createResponse(false, "Lỗi: " + e.getMessage());
         }
     }
 
@@ -62,7 +53,7 @@ public class OrderAdminController extends Admin {
 
         String newStatus = request.get("status");
         String result = orderService.updateStatus(orderId, newStatus);
+
         return createResponse(result);
     }
 }
-

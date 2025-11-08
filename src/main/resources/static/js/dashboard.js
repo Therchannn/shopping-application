@@ -11,9 +11,7 @@ document.addEventListener("DOMContentLoaded", () =>{
     return;
   }
 
-  const monthLabels = revenueData.length > 0
-    ? revenueData.map((_, i) => `M${i+1}`)
-    : ['Jan','Feb','Mar','Apr','May','Jun','Jul'];
+  const monthLabels = revenueData.map((_, i) => `Tháng ${i+1}`);
 
   new Chart(revCanvas, {
     type: 'line',
