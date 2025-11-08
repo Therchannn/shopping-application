@@ -53,6 +53,44 @@ function renderOrderDetail(order) {
         return `${day}/${month}/${year} ${hours}:${minutes}`;
     };
 
+    // Color mapping - Chuyển tên màu thành mã hex
+    const getColorDisplay = (colorName, showText = true) => {
+        const colorMap = {
+            'Đen': '#000000',
+            'Trắng': '#FFFFFF',
+            'Xanh Navy': '#001f3f',
+            'Xanh Dương': '#0074D9',
+            'Xanh Lá': '#2ECC40',
+            'Xanh Cổ Vịt': '#39CCCC',
+            'Đỏ': '#FF4136',
+            'Hồng': '#F012BE',
+            'Nâu': '#8B4513',
+            'Be': '#F5DEB3',
+            'Xám': '#AAAAAA',
+            'Xám Đậm': '#808080',
+            'Cam': '#FF851B',
+            'Vàng': '#FFDC00',
+            'Tím': '#B10DC9'
+        };
+
+        const hexColor = colorMap[colorName] || '#CCCCCC';
+        const borderColor = colorName === 'Trắng' ? '#d1d5db' : 'transparent';
+
+        return `
+            <div style="display: inline-flex; align-items: center; gap: 8px; justify-content: center;">
+                <div style="
+                    width: 28px;
+                    height: 28px;
+                    background-color: ${hexColor};
+                    border: 2px solid ${borderColor};
+                    border-radius: 6px;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+                " title="${colorName}"></div>
+                ${showText ? `<span style="font-size: 13px; color: #6b7280;">${colorName}</span>` : ''}
+            </div>
+        `;
+    };
+
     // Status badge
     const getStatusBadge = (status) => {
         const badges = {
@@ -106,7 +144,7 @@ function renderOrderDetail(order) {
             // Fill dữ liệu
             row.querySelector('.item-index').textContent = index + 1;
             row.querySelector('.item-name').textContent = item.productName || 'N/A';
-            row.querySelector('.item-color').textContent = item.color || 'N/A';
+            row.querySelector('.item-color').innerHTML = getColorDisplay(item.color || 'N/A', false); // Chỉ hiện ô màu
             row.querySelector('.item-size').textContent = item.size || 'N/A';
             row.querySelector('.item-price').textContent = formatMoney(item.price);
             row.querySelector('.item-quantity').textContent = item.quantity;
