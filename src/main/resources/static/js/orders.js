@@ -1,5 +1,178 @@
 function viewOrderDetail(orderId) {
-    showInfo('Chức năng xem chi tiết đơn hàng đang được phát triển...');
+    const modal = document.getElementById('orderDetailModal');
+
+    // Hiển thị modal
+    modal.classList.add('show');
+
+    const pathParts = window.location.pathname.split('/').filter(p => p);
+    let baseUrl = '';
+
+    if (pathParts.length > 0 && pathParts[0] !== 'admin') {
+        baseUrl = `/${pathParts[0]}`;
+    }
+
+    // Gọi API để lấy chi tiết đơn hàng
+    fetch(`${baseUrl}/admin/orders/detail/${orderId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                renderOrderDetail(data.data);
+            } else {
+                showError(data.message || 'Không thể tải thông tin đơn hàng');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showError('Có lỗi xảy ra khi tải thông tin đơn hàng');
+        });
+}
+
+function renderOrderDetail(order) {
+    // Get base URL
+    const pathParts = window.location.pathname.split('/').filter(p => p);
+    let baseUrl = '';
+    if (pathParts.length > 0 && pathParts[0] !== 'admin') {
+        baseUrl = `/${pathParts[0]}`;
+    }
+
+    // Format số tiền
+    const formatMoney = (value) => {
+        if (!value) return '0 đ';
+        return new Intl.NumberFormat('vi-VN').format(value) + ' đ';
+    };
+
+    // Format ngày
+    const formatDate = (dateStr) => {
+        if (!dateStr) return 'N/A';
+        const date = new Date(dateStr);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${day}/${month}/${year} ${hours}:${minutes}`;
+    };
+
+    // Status badge
+    const getStatusBadge = (status) => {
+        const badges = {
+            'Cancelled': { text: 'Đã hủy', bg: '#ef4444' },
+            'Pending': { text: 'Chờ xác nhận', bg: '#f59e0b' },
+            'Confirmed': { text: 'Đã xác nhận', bg: '#3b82f6' },
+            'Completed': { text: 'Hoàn thành', bg: '#10b981' }
+        };
+        const badge = badges[status] || { text: 'N/A', bg: '#6b7280' };
+        return `<span style="background-color: ${badge.bg}; color: white; padding: 6px 16px; border-radius: 20px; font-size: 14px; font-weight: 600;">${badge.text}</span>`;
+    };
+
+    // Payment method
+    const getPaymentMethod = (method) => {
+        if (method === 'TIEN_MAT') {
+            return '<i class="bi bi-cash" style="color: #5eead4; font-size: 20px; margin-right: 8px;"></i>Tiền mặt';
+        } else if (method === 'CHUYEN_KHOAN') {
+            return '<i class="bi bi-bank" style="color: #22d3ee; font-size: 20px; margin-right: 8px;"></i>Chuyển khoản';
+        }
+        return 'N/A';
+    };
+
+    // Fill thông tin đơn hàng
+    document.getElementById('detail-order-id').textContent = order.id || 'N/A';
+    document.getElementById('detail-created-at').textContent = formatDate(order.createdAt);
+    document.getElementById('detail-payment-method').innerHTML = getPaymentMethod(order.paymentMethod);
+    document.getElementById('detail-shipping-fee').textContent = formatMoney(order.shippingFee);
+    document.getElementById('detail-status').innerHTML = getStatusBadge(order.status);
+
+    // Fill thông tin khách hàng
+    document.getElementById('detail-user-name').textContent = order.userName || 'N/A';
+    document.getElementById('detail-user-username').textContent = order.userUsername || 'N/A';
+    document.getElementById('detail-user-phone').textContent = order.userPhone || 'Chưa cập nhật';
+    document.getElementById('detail-user-address').textContent = order.userAddress || 'Chưa cập nhật';
+
+    // Render danh sách sản phẩm bằng cách clone template
+    const itemsTbody = document.getElementById('detail-items-tbody');
+    const itemTemplate = document.getElementById('item-row-template');
+
+    // Xóa các rows cũ (trừ template)
+    const oldRows = itemsTbody.querySelectorAll('tr:not(#item-row-template)');
+    oldRows.forEach(row => row.remove());
+
+    if (order.items && order.items.length > 0) {
+        order.items.forEach((item, index) => {
+            // Clone template
+            const row = itemTemplate.cloneNode(true);
+            row.removeAttribute('id');
+            row.style.display = '';
+
+            // Fill dữ liệu
+            row.querySelector('.item-index').textContent = index + 1;
+            row.querySelector('.item-name').textContent = item.productName || 'N/A';
+            row.querySelector('.item-color').textContent = item.color || 'N/A';
+            row.querySelector('.item-size').textContent = item.size || 'N/A';
+            row.querySelector('.item-price').textContent = formatMoney(item.price);
+            row.querySelector('.item-quantity').textContent = item.quantity;
+            row.querySelector('.item-total').textContent = formatMoney(item.totalPrice);
+
+            // Xử lý image - DB đã có path đầy đủ, chỉ cần thêm baseUrl
+            const img = row.querySelector('.item-image');
+            const imgPath = item.productImage || '/images/default-product.png';
+            img.src = baseUrl ? baseUrl + imgPath : imgPath;
+            img.alt = item.productName || 'Product';
+            img.onerror = function() {
+                this.src = baseUrl + '/images/default-product.png';
+            };
+
+            itemsTbody.appendChild(row);
+        });
+    }
+
+    // Fill tổng tiền
+    const subtotal = order.total && order.shippingFee ? order.total - order.shippingFee : order.total;
+    document.getElementById('detail-subtotal').textContent = formatMoney(subtotal);
+    document.getElementById('detail-shipping-fee-2').textContent = formatMoney(order.shippingFee);
+    document.getElementById('detail-total').textContent = formatMoney(order.total);
+
+    // Render action buttons bằng cách clone template
+    const actionsDiv = document.getElementById('detail-actions');
+    const progressBtnTemplate = document.getElementById('btn-progress-template');
+    const cancelBtnTemplate = document.getElementById('btn-cancel-template');
+
+    // Xóa buttons cũ (trừ template)
+    const oldBtns = actionsDiv.querySelectorAll('button:not([id$="-template"])');
+    oldBtns.forEach(btn => btn.remove());
+
+    if (order.status !== 'Cancelled') {
+        // Nút tiến độ (nếu chưa hoàn thành)
+        if (order.status !== 'Completed') {
+            const progressBtn = progressBtnTemplate.cloneNode(true);
+            progressBtn.removeAttribute('id');
+            progressBtn.style.display = '';
+
+            const nextStatusText = order.status === 'Pending' ? 'Xác nhận đơn hàng' : 'Đánh dấu hoàn thành';
+            progressBtn.querySelector('.btn-text').textContent = nextStatusText;
+            progressBtn.onclick = function() {
+                closeOrderDetailModal();
+                progressOrder(order.id, order.status);
+            };
+
+            actionsDiv.appendChild(progressBtn);
+        }
+
+        // Nút hủy
+        const cancelBtn = cancelBtnTemplate.cloneNode(true);
+        cancelBtn.removeAttribute('id');
+        cancelBtn.style.display = '';
+        cancelBtn.onclick = function() {
+            closeOrderDetailModal();
+            cancelOrder(order.id);
+        };
+
+        actionsDiv.appendChild(cancelBtn);
+    }
+}
+
+function closeOrderDetailModal() {
+    const modal = document.getElementById('orderDetailModal');
+    modal.classList.remove('show');
 }
 
 function progressOrder(orderId, currentStatus) {
@@ -217,4 +390,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-

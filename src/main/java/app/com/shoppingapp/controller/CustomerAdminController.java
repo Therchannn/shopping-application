@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-public class CustomerAdminController extends BaseAdminController {
+public class CustomerAdminController extends Admin {
 
     private final UserService userService;
 

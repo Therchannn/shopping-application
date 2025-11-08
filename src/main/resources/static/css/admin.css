@@ -549,8 +549,8 @@ button.btn-cancel i {
 }
 
 .btn-danger:hover {
-  background: #dc2626;
-  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.25);
+  background: #b91c1c;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35);
 }
 
 /* ========== ANIMATIONS ========== */

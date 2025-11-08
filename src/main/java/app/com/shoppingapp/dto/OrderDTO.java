@@ -1,7 +1,5 @@
 package app.com.shoppingapp.dto;
 
-import app.com.shoppingapp.entity.Order;
-import app.com.shoppingapp.entity.OrderItem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,12 +17,13 @@ public class OrderDTO {
     String id;
     BigDecimal total;
     String status;
-    BigDecimal shipping_fee;
+    BigDecimal shippingFee;
     String paymentMethod;
     LocalDateTime createdAt;
-    List<OrderItem> items;
+    List<OrderItemDTO> items;
     String userId;
     String userName;
     String userUsername;
     String userPhone;
+    String userAddress;
 }

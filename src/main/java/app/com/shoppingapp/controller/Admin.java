@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BaseAdminController {
+public class Admin {
 
     protected static final String AUTH_SESSION_KEY = "isAdmin";
     protected static final String ADMIN_LOGIN_URL = "redirect:/admin/login";

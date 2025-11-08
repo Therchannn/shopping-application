@@ -20,7 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/admin")
-public class AdminController extends BaseAdminController {
+public class AdminController extends Admin {
 
     private final ProductService productService;
     private final OrderService orderService;

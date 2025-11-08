@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
-public class PageController extends BaseAdminController{
+public class PageController extends Admin{
 
     private static final String ADMIN_DASHBOARD_URL = "redirect:/admin/dashboard";
 

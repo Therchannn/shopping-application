@@ -149,4 +149,14 @@ public class OrderService {
             return "Có lỗi xảy ra: " + e.getMessage();
         }
     }
+
+    public OrderDTO getOrderDetailById(String orderId) {
+        Optional<Order> orderOpt = orderRepository.findById(orderId);
+        
+        if (orderOpt.isEmpty()) {
+            return null;
+        }
+        
+        return OrderMapper.toDTO(orderOpt.get());
+    }
 }
