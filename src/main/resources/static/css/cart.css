@@ -9,9 +9,9 @@
   height: 100vh;
 
 }
-.cart.is-hidden {
+/* .cart.is-hidden {
   display: none;
-}
+} */
 
 .cart_list {
   position: absolute;

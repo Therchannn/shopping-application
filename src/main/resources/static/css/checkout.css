@@ -10,12 +10,12 @@
   gap: 20px;
 }
 .checkout_title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--medium-grey77);
-    padding: 3.8rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--medium-grey77);
+  padding: 3.8rem 0;
 }
-.order__products{
+.order__products {
   display: flex;
   flex-direction: column;
   gap: 3rem;
@@ -60,7 +60,7 @@
   text-transform: uppercase;
 }
 .checkout__btn {
-  text-transform: unset; 
+  text-transform: unset;
 }
 .payment {
   border: 1px solid #ccc;
@@ -81,38 +81,75 @@
   gap: 6px;
   cursor: pointer;
 }
-.checkout__payment-options{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.checkout__payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.checkout__info{
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 20px 30px;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
+.checkout__info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 30px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
 }
-.checkout_name{
-    font-weight: bold;
+.checkout_name {
+  font-weight: bold;
 }
-.checkout_phone{
-    color: var(--medium-grey77);
+.checkout_phone {
+  color: var(--medium-grey77);
 }
-.checkout__address{
-    color: var(--medium-grey77);
+.checkout__address {
+  color: var(--medium-grey77);
 }
-.checkout_phone{
-    color: var(--medium-grey77);
+.checkout_phone {
+  color: var(--medium-grey77);
+}
+/* Modal Layout */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  width: 500px;
+}
+.modal-icon {
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.modal-content p {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 80px;
+}
+.modal-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.modal-btn {
+  text-transform: unset;
+  border-radius: none;
+  
 }
 
 /* Mobile */
-@media screen and (min-width: 374px) and (max-width: 812px)  {
-.checkout {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 60px;
-}
+@media screen and (min-width: 374px) and (max-width: 812px) {
+  .checkout {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 60px;
+  }
 }

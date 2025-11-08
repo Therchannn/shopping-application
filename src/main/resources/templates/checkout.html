@@ -92,7 +92,7 @@
             </div>
           </div>
 
-          <button class="btn checkout__btn">Hoàn tất đơn hàng</button>
+          <button class="btn checkout__btn" onclick="openModal()">Hoàn tất đơn hàng</button>
         </div>
 
         <!-- ================== THÔNG TIN GIAO HÀNG + THANH TOÁN ================== -->
@@ -140,8 +140,20 @@
 </div>
 </div>
 
-
+  <!-- Modal Box -->
+  <div id="modal" class="modal" onclick="closeModal()">
+    <div class="modal-content">
+      <i class="modal-icon fa-solid fa-circle-check"></i>
+      <p>Đơn hàng của bạn đã được tạo thành công</p>
+      <div class="modal-buttons">
+        <a th:href="@{/layoutOrder}" class="btn-secondary">Tiếp tục mua sắm</a>
+        <a th:href="@{/layoutOrder}" class="btn-secondary is-active">Xem đơn hàng</a>
+      </div>
+    </div>
+  </div>
     <div th:replace="layout :: footer"></div>
-        <script th:src="@{/js/openCart.js}"></script>
-      </body>
+
+      <script th:src="@{/js/openCart.js}"></script>
+      <script th:src="@{/js/layoutOrder.js}"></script>
+  </body>
 </html>
