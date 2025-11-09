@@ -16,165 +16,260 @@
     </div>
   </div>
 
-  <!-- Statistics Cards -->
+  <!-- KPI Cards -->
   <section class="kpi-grid">
     <div class="kpi-card yellow">
       <div class="kpi-header">
         <i class="bi bi-graph-up"></i>
         <span>Tăng trưởng doanh thu</span>
       </div>
-      <div class="kpi-value">+15.3%</div>
-      <small style="color: #6b7280;">So với tháng trước</small>
-    </div>
-
-    <div class="kpi-card green">
-      <div class="kpi-header">
-        <i class="bi bi-people"></i>
-        <span>Khách hàng mới</span>
-      </div>
-      <div class="kpi-value">+234</div>
-      <small style="color: #6b7280;">Tháng này</small>
+      <div class="kpi-value" th:text="${revenueGrowth >= 0 ? '+' + revenueGrowth + '%' : revenueGrowth + '%'}">+15.3%</div>
+      <small style="color: #6b7280;">So với quý trước</small>
+      <i class="bi bi-graph-up-arrow growth-icon"></i>
     </div>
 
     <div class="kpi-card blue">
       <div class="kpi-header">
-        <i class="bi bi-cart-check"></i>
-        <span>Tỷ lệ chuyển đổi</span>
+        <i class="bi bi-people"></i>
+        <span>Khách hàng quay lại</span>
       </div>
-      <div class="kpi-value">3.8%</div>
-      <small style="color: #6b7280;">Trung bình</small>
+      <div class="kpi-value" th:text="${returningCustomers}">234</div>
+      <small style="color: #6b7280;">Đã mua hàng từ 2 lần trở lên</small>
+      <i class="bi bi-people-fill growth-icon"></i>
     </div>
 
-    <div class="kpi-card purple">
+    <div class="kpi-card green">
       <div class="kpi-header">
-        <i class="bi bi-star"></i>
-        <span>Đánh giá trung bình</span>
+        <i class="bi bi-cart-check"></i>
+        <span>Tỷ lệ đơn hàng hoàn tất</span>
       </div>
-      <div class="kpi-value">4.6/5</div>
-      <small style="color: #6b7280;">Từ 892 đánh giá</small>
+      <div class="kpi-value" th:text="${completedOrderRate + '%'}">3.8%</div>
+      <small style="color: #6b7280;">So với tổng đơn hàng</small>
+      <i class="bi bi-check-circle-fill growth-icon"></i>
+    </div>
+
+    <div class="kpi-card red">
+      <div class="kpi-header">
+        <i class="bi bi-x-circle"></i>
+        <span>Tỉ lệ đơn hàng bị hủy</span>
+      </div>
+      <div class="kpi-value" th:text="${cancelledOrderRate + '%'}">4.6%</div>
+      <small style="color: #6b7280;">So với tổng đơn hàng</small>
+      <i class="bi bi-x-circle-fill growth-icon"></i>
     </div>
   </section>
 
-  <!-- Charts Section -->
+  <!-- BIỂU ĐỒ -->
   <section class="charts">
     <div class="chart-card">
-      <h3>Doanh thu theo tháng</h3>
-      <canvas id="revenueMonthlyChart"></canvas>
+      <h3>Doanh thu theo quý</h3>
+      <canvas id="revenueQuarterlyChart"></canvas>
     </div>
 
+    // FROM SẢN PHẨM BÁN CHẠY
     <div class="chart-card">
       <h3>Sản phẩm bán chạy nhất</h3>
       <div class="table-section">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>STT</th>
-              <th>Tên sản phẩm</th>
-              <th>Số lượng bán</th>
-              <th>Doanh thu</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Áo thun nam</td>
-              <td>156</td>
-              <td>31,200,000 đ</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Quần jean nữ</td>
-              <td>142</td>
-              <td>28,400,000 đ</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Áo khoác</td>
-              <td>98</td>
-              <td>24,500,000 đ</td>
-            </tr>
-          </tbody>
-        </table>
+        <!-- Wrapper với scroll, max height cho 5 rows -->
+        <div style="max-height: 450px; overflow-y: auto; overflow-x: hidden;">
+          <table class="data-table" id="topProductsTable">
+            <thead style="position: sticky; top: 0; background: white; z-index: 10;">
+              <tr>
+                <th style="width: 60px; text-align: center;">STT</th>
+                <th>Tên sản phẩm</th>
+                <th style="width: 100px; text-align: center;">Hình ảnh</th>
+                <th style="width: 120px; text-align: center;">Số lượng bán</th>
+                <th style="width: 150px;">Doanh thu</th>
+                <th style="width: 100px; text-align: center;">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="topProductsTbody">
+              <!-- Template row (ẩn) -->
+              <tr id="product-row-template" style="display: none;">
+                <td class="product-stt" style="text-align: center; font-weight: 600; color: #6b7280;"></td>
+                <td class="product-name" style="font-weight: 500;"></td>
+                <td style="text-align: center; padding: 8px;">
+                  <img class="product-image"
+                       style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 1px solid #e5e7eb;"
+                       alt="Product">
+                </td>
+                <td class="product-quantity" style="text-align: center; font-weight: 600;"></td>
+                <td class="product-revenue" style="font-weight: 600; color: #059669;"></td>
+                <td style="text-align: center;">
+                  <button class="btn-view-detail" style="background: none; border: none; cursor: pointer; padding: 4px;" title="Xem chi tiết">
+                    <i class="bi bi-eye-fill" style="font-size: 18px; color: #3b82f6;"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Additional Stats -->
+  // FORM DANH MỤC
   <section style="margin-top: 30px;">
     <div class="table-section">
       <h3 style="margin-bottom: 20px;">Thống kê theo danh mục</h3>
-      <table class="data-table">
+      <table class="data-table" id="categoryStatsTable">
         <thead>
           <tr>
             <th>Danh mục</th>
-            <th>Số sản phẩm</th>
-            <th>Đã bán</th>
-            <th>Doanh thu</th>
-            <th>Tỷ lệ</th>
+            <th style="text-align: center;">Số sản phẩm</th>
+            <th style="text-align: center;">Đã vào đơn</th>
+            <th>Doanh thu<br><small style="font-weight: normal; opacity: 0.7;">(Đơn hoàn thành)</small></th>
+            <th style="text-align: center;">Tồn kho</th>
+            <th style="width: 100px; text-align: center;">Thao tác</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>Áo</td>
-            <td>45</td>
-            <td>523</td>
-            <td>104,600,000 đ</td>
-            <td><span class="badge badge-success">42%</span></td>
-          </tr>
-          <tr>
-            <td>Quần</td>
-            <td>38</td>
-            <td>412</td>
-            <td>82,400,000 đ</td>
-            <td><span class="badge badge-success">33%</span></td>
-          </tr>
-          <tr>
-            <td>Phụ kiện</td>
-            <td>52</td>
-            <td>289</td>
-            <td>62,000,000 đ</td>
-            <td><span class="badge badge-warning">25%</span></td>
+        <tbody id="categoryStatsTbody">
+          <!-- Template row (ẩn) -->
+          <tr id="category-row-template" style="display: none;">
+            <td class="category-name" style="font-weight: 600;"></td>
+            <td class="category-product-count" style="text-align: center;"></td>
+            <td class="category-sold-count" style="text-align: center;"></td>
+            <td class="category-revenue" style="font-weight: 600; color: #059669;"></td>
+            <td class="category-stock-count" style="text-align: center;"></td>
+            <td style="text-align: center;">
+              <button class="btn-view-category-detail" style="background: none; border: none; cursor: pointer; padding: 4px;" title="Xem chi tiết">
+                <i class="bi bi-eye-fill" style="font-size: 18px; color: #3b82f6;"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
+
+  <!-- MODAL CHI TIẾT SẢN PHẨM BÁN CHẠY -->
+  <div id="productDetailModal" class="modal">
+    <div class="modal-content" style="max-width: 900px;">
+      <div class="modal-header">
+        <h3><i class="bi bi-box-seam"></i> Chi tiết sản phẩm bán chạy</h3>
+        <span class="close-delete" onclick="closeProductDetailModal()">&times;</span>
+      </div>
+      <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+        <!-- Thông tin sản phẩm -->
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+          <h4 style="margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
+            <i class="bi bi-info-circle"></i> Thông tin sản phẩm
+          </h4>
+          <div style="display: grid; grid-template-columns: auto 1fr; gap: 12px 20px; font-size: 14px;">
+            <strong>Tên sản phẩm:</strong>
+            <span id="product-detail-name"></span>
+            <strong>Số lượng đã bán:</strong>
+            <span id="product-detail-quantity"></span>
+            <strong>Tổng doanh thu:</strong>
+            <span id="product-detail-revenue"></span>
+          </div>
+        </div>
+
+        <!-- Danh sách đơn hàng chứa sản phẩm này -->
+        <div>
+          <h4 style="margin: 0 0 12px 0; color: #1f2937;">
+            <i class="bi bi-cart3"></i> Đơn hàng chứa sản phẩm này
+          </h4>
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <thead style="background-color: #f9fafb;">
+                <tr>
+                  <th style="padding: 12px; text-align: center; border-bottom: 2px solid #e5e7eb; width: 50px;">STT</th>
+                  <th style="padding: 12px; text-align: center; border-bottom: 2px solid #e5e7eb;">Mã đơn</th>
+                  <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e5e7eb;">Khách hàng</th>
+                  <th style="padding: 12px; text-align: center; border-bottom: 2px solid #e5e7eb;">Ngày đặt</th>
+                  <th style="padding: 12px; text-align: center; border-bottom: 2px solid #e5e7eb;">Size</th>
+                  <th style="padding: 12px; text-align: center; border-bottom: 2px solid #e5e7eb;">Màu</th>
+                  <th style="padding: 12px; text-align: center; border-bottom: 2px solid #e5e7eb;">Số lượng</th>
+                  <th style="padding: 12px; text-align: right; border-bottom: 2px solid #e5e7eb;">Giá trị</th>
+                </tr>
+              </thead>
+              <tbody id="product-orders-tbody">
+                <!-- Template row - ẩn đi -->
+                <tr id="product-order-row-template" style="display: none;">
+                  <td class="order-index" style="text-align: center; font-weight: 600; padding: 12px;"></td>
+                  <td class="order-code" style="text-align: center; padding: 12px"></td>
+                  <td style="padding: 12px;">
+                    <div class="order-customer-name" style="font-weight: 500;"></div>
+                    <div class="order-customer-username" style="font-size: 0.85em; color: #6b7280;"></div>
+                  </td>
+                  <td class="order-date" style="text-align: center; padding: 12px;"></td>
+                  <td class="order-size" style="text-align: center; padding: 12px; font-weight: 600;"></td>
+                  <td class="order-color" style="text-align: center; padding: 12px;"></td>
+                  <td class="order-quantity" style="text-align: center; padding: 12px; font-weight: 600;"></td>
+                  <td class="order-value" style="text-align: right; padding: 12px; font-weight: 600; color: #059669;"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CHI TIẾT DANH MỤC -->
+  <div id="categoryDetailModal" class="modal">
+    <div class="modal-content" style="max-width: 900px;">
+      <div class="modal-header">
+        <h3><i class="bi bi-tag"></i> Chi tiết danh mục</h3>
+        <span class="close-delete" onclick="closeCategoryDetailModal()">&times;</span>
+      </div>
+      <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+        <!-- Thông tin danh mục -->
+        <div style="background: linear-gradient(to bottom right, #ec4899 0%, #f9a8d4 80%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+          <h4 style="margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
+            <i class="bi bi-info-circle"></i> Thống kê danh mục
+          </h4>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; font-size: 14px;">
+            <div><strong>Danh mục:</strong> <span id="category-detail-name"></span></div>
+            <div><strong>Số sản phẩm:</strong> <span id="category-detail-product-count"></span></div>
+            <div><strong>Đã vào đơn:</strong> <span id="category-detail-sold-count"></span></div>
+            <div><strong>Tồn kho:</strong> <span id="category-detail-stock-count"></span></div>
+            <div style="grid-column: span 2;"><strong>Doanh thu (Đơn hoàn thành):</strong> <span id="category-detail-revenue"></span></div>
+          </div>
+        </div>
+
+        <!-- Danh sách sản phẩm trong danh mục -->
+        <div>
+          <h4 style="margin: 0 0 12px 0; color: #1f2937;">
+            <i class="bi bi-box-seam"></i> Sản phẩm trong danh mục
+          </h4>
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <thead style="background-color: #f9fafb;">
+                <tr>
+                  <th style="padding: 12px; text-align: center; border-bottom: 2px solid #e5e7eb; width: 50px;">STT</th>
+                  <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e5e7eb;">Tên sản phẩm</th>
+                  <th style="padding: 12px; text-align: center; border-bottom: 2px solid #e5e7eb;">Hình ảnh</th>
+                  <th style="padding: 12px; text-align: center; border-bottom: 2px solid #e5e7eb;">Đã vào đơn<br><small style="font-weight: normal; opacity: 0.7;">(Tất cả đơn)</small></th>
+                  <th style="padding: 12px; text-align: center; border-bottom: 2px solid #e5e7eb;">Tồn kho<br><small style="font-weight: normal; opacity: 0.7;">(Khả dụng)</small></th>
+                  <th style="padding: 12px; text-align: center; border-bottom: 2px solid #e5e7eb;">Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody id="category-products-tbody">
+                <!-- Template row - ẩn đi -->
+                <tr id="category-product-row-template" style="display: none;">
+                  <td class="cat-product-index" style="text-align: center; font-weight: 600; padding: 12px;"></td>
+                  <td class="cat-product-name" style="padding: 12px; font-weight: 500;"></td>
+                  <td style="text-align: center; padding: 12px;">
+                    <img class="cat-product-image" alt="" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid #e5e7eb;">
+                  </td>
+                  <td class="cat-product-sold" style="text-align: center; padding: 12px; font-weight: 600;"></td>
+                  <td class="cat-product-stock" style="text-align: center; padding: 12px; font-weight: 600;"></td>
+                  <td class="cat-product-status" style="text-align: center; padding: 12px;"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-
-
 <th:block th:fragment="scripts">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    // Revenue Monthly Chart
-    const ctx = document.getElementById('revenueMonthlyChart');
-    if (ctx) {
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
-          datasets: [{
-            label: 'Doanh thu (triệu đồng)',
-            data: [50, 65, 80, 75, 90, 105, 120, 110, 130, 145, 160, 175],
-            borderColor: 'rgb(59, 130, 246)',
-            backgroundColor: 'rgba(59, 130, 246, 0.1)',
-            tension: 0.4
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              display: true
-            }
-          }
-        }
-      });
-    }
-  </script>
+  <script th:src="@{/js/statistics.js}"></script>
 </th:block>
-
-
 </body>
 </html>
 

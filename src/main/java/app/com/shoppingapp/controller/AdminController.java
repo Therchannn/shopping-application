@@ -5,6 +5,7 @@ import app.com.shoppingapp.dto.UserDTO;
 import app.com.shoppingapp.service.ProductService;
 import app.com.shoppingapp.service.OrderService;
 import app.com.shoppingapp.service.UserService;
+import app.com.shoppingapp.service.StatisticsService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ public class AdminController extends Admin {
     private final ProductService productService;
     private final OrderService orderService;
     private final UserService userService;
+    private final StatisticsService statisticsService;
 
 
     @GetMapping("/dashboard")
@@ -53,7 +55,7 @@ public class AdminController extends Admin {
         model.addAttribute("categoryData", categoryCounts.values());
 
         // Doanh thu tháng hiện tại
-        model.addAttribute("revenue", currentMonthRevenue != null ? currentMonthRevenue.intValue() : 0);
+        model.addAttribute("revenue", currentMonthRevenue != null ? currentMonthRevenue : 0.0);
 
         return "admin/dashboard";
     }
@@ -124,6 +126,12 @@ public class AdminController extends Admin {
         addUsernameToModel(model, session);
 
         model.addAttribute("currentPage", "statistics");
+
+        model.addAttribute("revenueGrowth", statisticsService.getRevenueGrowthRate());
+        model.addAttribute("returningCustomers", statisticsService.getReturningCustomersCount());
+        model.addAttribute("completedOrderRate", statisticsService.getCompletedOrderRate());
+        model.addAttribute("cancelledOrderRate", statisticsService.getCancelledOrderRate());
+
         return "admin/statistics";
     }
 

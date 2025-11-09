@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         //Validate
         if (!formData.username || !formData.name) {
-            alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
+            showError('Vui lòng điền đầy đủ thông tin bắt buộc!');
             return;
         }
 

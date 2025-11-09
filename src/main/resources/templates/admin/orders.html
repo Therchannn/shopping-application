@@ -76,6 +76,7 @@
     <table class="data-table">
       <thead>
         <tr>
+          <th>Mã hóa đơn</th>
           <th>Khách hàng</th>
           <th>Ngày đặt</th>
           <th>Phương thức thanh toán</th>
@@ -90,6 +91,11 @@
             th:data-payment="${order.paymentMethod}"
             th:data-total="${order.total}"
             th:data-date="${order.createdAt}">
+          <td>
+            <span th:text="${order.id != null && order.id.length() > 8 ? order.id.substring(0, 8) + '...' : order.id}"
+                  th:title="${order.id}">
+            </span>
+          </td>
           <td>
             <div style="line-height: 1.4;">
               <div style="font-weight: 500;" th:text="${order.userName}">Nguyễn Văn A</div>
@@ -149,7 +155,7 @@
           </td>
         </tr>
         <tr th:if="${#lists.isEmpty(orders)}">
-          <td colspan="6" style="text-align: center; padding: 40px;">
+          <td colspan="7" style="text-align: center; padding: 40px;">
             <i class="bi bi-inbox" style="font-size: 48px; color: #9ca3af;"></i>
             <p style="color: #6b7280; margin-top: 16px;">Chưa có đơn hàng nào</p>
           </td>
@@ -360,12 +366,9 @@
     </div>
   </div>
 </div>
-
 <th:block th:fragment="scripts">
   <script th:src="@{/js/orders.js}"></script>
 </th:block>
-
-
 </body>
 </html>
 

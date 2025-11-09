@@ -129,23 +129,19 @@
   </section>
 </div>
 <!-- END CONTENT -->
-
 <!-- SCRIPTS -->
 <th:block th:fragment="scripts">
   <script>
-    console.log('Settings page loaded');
-
-    // Handle form submissions
-    document.querySelectorAll('form').forEach(form => {
-      form.addEventListener('submit', function(e) {
+    // Handle button clicks for all save buttons
+    document.querySelectorAll('.btn.btn-primary').forEach(button => {
+      button.addEventListener('click', function(e) {
         e.preventDefault();
-        alert('Cài đặt đã được lưu thành công!');
+        window.showSuccess('Cài đặt đã được lưu thành công!');
       });
     });
   </script>
 </th:block>
 <!-- END SCRIPTS -->
-
 </body>
 </html>
 

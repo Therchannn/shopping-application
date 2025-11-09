@@ -22,7 +22,6 @@ function viewOrderDetail(orderId) {
             }
         })
         .catch(error => {
-            console.error('Error:', error);
             showError('Có lỗi xảy ra khi tải thông tin đơn hàng');
         });
 }
@@ -295,7 +294,6 @@ function updateOrderStatus(orderId, newStatus) {
         }
     })
     .catch(error => {
-        console.error('Error:', error);
         showError('Có lỗi xảy ra khi cập nhật trạng thái: ' + error.message);
     });
 }

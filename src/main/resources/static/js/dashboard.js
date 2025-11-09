@@ -7,19 +7,20 @@ document.addEventListener("DOMContentLoaded", () =>{
   const revCanvas = document.getElementById('revenueChart');
   const catCanvas = document.getElementById('categoryChart');
   if (typeof Chart === 'undefined' || !revCanvas || !catCanvas) {
-    console.warn('Dashboard charts not initialized: missing Chart.js or canvas elements');
     return;
   }
 
   const monthLabels = revenueData.map((_, i) => `Tháng ${i+1}`);
+
+  const revenueInMillions = revenueData.map(value => Math.round((value / 1_000_000) * 100) / 100);
 
   new Chart(revCanvas, {
     type: 'line',
     data: {
       labels: monthLabels,
       datasets: [{
-        label: 'Doanh thu (nghìn đồng)',
-        data: revenueData,
+        label: 'Doanh thu (triệu đồng)',
+        data: revenueInMillions,
         borderColor: '#2563eb',
         backgroundColor: 'rgba(37,99,235,0.1)',
         tension: 0.4,
@@ -28,7 +29,26 @@ document.addEventListener("DOMContentLoaded", () =>{
     },
     options: {
       responsive: true,
-      scales: { y: { beginAtZero: true } }
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function(value) {
+              return value.toLocaleString('vi-VN') + ' tr';
+            }
+          }
+        }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.dataset.label + ': ' +
+                     context.parsed.y.toLocaleString('vi-VN') + ' triệu đồng';
+            }
+          }
+        }
+      }
     }
   });
 
