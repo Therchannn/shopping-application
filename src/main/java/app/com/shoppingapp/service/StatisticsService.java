@@ -111,7 +111,18 @@ public class StatisticsService {
             order.put("color", row[5]);
             order.put("quantity", row[6]);
 
-            Object valueObj = row[7];
+            // Price at index 7
+            Object priceObj = row[7];
+            double price = 0.0;
+            if (priceObj instanceof BigDecimal bigDecimal) {
+                price = bigDecimal.doubleValue();
+            } else if (priceObj instanceof Double doubleValue) {
+                price = doubleValue;
+            }
+            order.put("price", price);
+
+            // Value at index 8
+            Object valueObj = row[8];
             double value = 0.0;
             if (valueObj instanceof BigDecimal bigDecimal) {
                 value = bigDecimal.doubleValue();

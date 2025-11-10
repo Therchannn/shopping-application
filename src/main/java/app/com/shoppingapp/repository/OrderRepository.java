@@ -66,7 +66,7 @@ public interface OrderRepository extends JpaRepository <Order, String> {
     // Lấy danh sách đơn hàng chứa sản phẩm cụ thể
     // Dùng Native SQL vì cần tính toán giá trị đơn hàng từ variant price
     @Query(value = "SELECT o.id, u.name, u.username, o.created_at, pv.size, pv.color, oi.quantity, " +
-           "(oi.quantity * pv.price) as value " +
+           "pv.price, (oi.quantity * pv.price) as value " +
            "FROM `Order` o " +
            "JOIN User u ON u.id = o.id_user " +
            "JOIN Order_items oi ON oi.id_order = o.id " +

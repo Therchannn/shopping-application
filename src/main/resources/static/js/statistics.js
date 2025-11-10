@@ -329,6 +329,9 @@ function renderProductOrders(orders) {
             // Size và Màu
             row.querySelector('.order-size').textContent = order.size || 'N/A';
 
+            // Giá tiền
+            row.querySelector('.order-price').textContent = formatCurrency(order.price);
+
             // Màu - dùng getColorDisplay như orders.js
             const colorCell = row.querySelector('.order-color');
             colorCell.innerHTML = getColorDisplay(order.color || 'N/A', false); // false = không hiện text
