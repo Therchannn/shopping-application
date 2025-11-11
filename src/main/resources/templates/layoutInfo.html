@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/base.css}">
     <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/cart.css}">
     <link rel="stylesheet" th:href="@{/css/layoutInfo.css}">
     <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}">
     <link rel="stylesheet" th:href="@{/fontawesome-free-7.1.0-web/css/all.min.css}">
@@ -17,19 +18,18 @@
 
         <div class="main__heading">
             <p class="heading__title">Xin chào bạn !</p>
-            <p class="heading__name">Name</p>
         </div>
 
         <div class="main__nav">
             <ul>
                 <li class="nav__item">
-                    <a href="">
+                    <a href="/info">
                         <i class="nav__item-icon ti-id-badge"></i>
                         Thông tin của tôi
                     </a>
                 </li>
                 <li class="nav__item">
-                    <a href="">
+                    <a href="/order">
                         <i class="nav__item-icon ti-package"></i>
                         Đơn hàng của tôi
                     </a>
@@ -48,14 +48,14 @@
     
             <div class="logout__body">
     
-                <div class="logout_form">
+                <form action="/logout" method="post" class="logout_form">
                     <div class="logout__container">
                         <i class="btn logout__icon fa-solid fa-square-xmark"></i>
                         <h2 class="logout__heading">Bạn muốn đăng xuất khỏi Outerity</h2>
-                        <button class="btn btn__confirm">Xác nhận</button>
-                        <button class="btn btn__back">Quay lại</button>
+                        <button type="submit" class="btn btn__confirm">Xác nhận</button>
+                        <button type="button" class="btn btn__back">Quay lại</button>
                     </div>
-                </div>
+                </form>
     
             </div>
         </div>
@@ -63,6 +63,8 @@
     </div>
 
 
-    <script th:src=@{/js/logoutHandle.js} th:fragment="logoutHandle"></script>
+    <script th:src="@{/js/logoutHandle.js}" th:fragment="logoutHandle"></script>
+    <script th:src="@{/js/openCart.js}"></script>
+
 </body>
 </html>

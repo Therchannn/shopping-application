@@ -45,6 +45,8 @@ body {
 
 .home__product-img{
     width: 95%;
+    height: 50%;
+    object-fit: contain;
 }
 
 .home__product-name{
@@ -71,7 +73,7 @@ body {
     color: var(--black-color);
     background-color: var(--white-color);
     border: 1px solid var(--border-color);
-    transform: scaleX(10px);
+    transform: scaleX(1);
     transition: all ease-in-out 0.5s;
 }
 

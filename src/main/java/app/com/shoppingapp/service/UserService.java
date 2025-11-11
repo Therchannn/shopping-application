@@ -40,7 +40,6 @@ import java.util.Optional;
                         .name(data.getName())
                         .password(data.getPassword())
                         .phone(data.getPhone())
-                        .address(data.getAddress())
                         .build();
 
                 userRepository.save(user);

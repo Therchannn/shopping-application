@@ -8,5 +8,4 @@ public class UserToSignUp {
     String name;
     String password;
     String phone;
-    String address;
 }

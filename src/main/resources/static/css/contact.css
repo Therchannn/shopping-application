@@ -1,0 +1,47 @@
+h2{
+    margin-bottom: 4rem;
+}
+
+.contact{
+    padding-top: 150px;
+}
+
+.contact_list{
+    display: flex;
+    flex-direction: column;
+    max-width: 370px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    gap: 3.5rem;
+    
+}
+.contact_item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.contact-btn{
+    min-width: 12rem;
+    width: auto;
+    color: var(--white-color);
+    background-color: var(--black-color);
+    padding: 1rem 2rem;
+    text-transform: unset;
+    text-align: center;
+}
+.contact_content span{
+    display: block;
+    line-height: 2.5rem;
+}
+
+@media screen and (min-width: 1024px) {
+    .contact{
+        margin: 0 5rem;
+    }
+}
+@media screen and (max-width: 812px) {
+.contact{
+        margin: 0 1rem;
+    }
+}
+

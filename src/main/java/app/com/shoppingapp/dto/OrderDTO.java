@@ -22,5 +22,5 @@ public class OrderDTO {
     BigDecimal shipping_fee;
     Order.PaymentMethod paymentMethod;
     LocalDateTime createdAt;
-    List<OrderItem> items;
+    List<OrderItemDTO> items;
 }

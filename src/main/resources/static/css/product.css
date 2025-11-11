@@ -1,10 +1,8 @@
-html, body {
-    height: 100%;
-    margin: 0;
-}
-
 body {
     display: flex;
+    height: 100%;
+    width: 100%;
+    margin: 0;
     flex-direction: column;
 }
 
@@ -33,7 +31,8 @@ body {
 
 /* product */
 .product{
-    margin: 100px;
+    width: 100%;
+    padding: 100px;
 }
 
 .product__heading{
@@ -41,18 +40,23 @@ body {
     padding: 15px 15px 30px 15px;
 }
 
+.product img{
+    height: 160px;
+    width: 160px;
+    object-fit: cover;
+}
+
 /* PC */
 @media(min-width: 1024px) and (max-width: 1439px){
     .product{
         margin: 11px;
-    }   
+    }
 }
 
 /* Tablet */
 @media(min-width: 740px) and (max-width: 1023px){
-    
+
     .product{
         margin: 13px;
-    }   
+    }
 }
-

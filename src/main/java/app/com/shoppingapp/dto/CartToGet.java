@@ -8,7 +8,9 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class CartToGet {
+    private String id;
     private String name;
     private String description;
     private String category;

@@ -28,7 +28,6 @@
 
 /* pop-up */
 .logout{
-    display: flex;
     position: fixed;
     top: 0;
     right: 0;
@@ -63,7 +62,6 @@
     height: 420px;
     background-color: var(--white-color);
     border-radius: 10px;
-    border: 1px solid var(--black-color);
 }
 
 .logout__container{
@@ -136,4 +134,3 @@
 
     
 }
-

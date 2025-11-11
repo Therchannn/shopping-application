@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `Order` (
   `id` varchar(50) PRIMARY KEY,
   `id_user` varchar(50) NOT NULL,
   `total` DECIMAL(10,2) NOT NULL,
-  `status` varchar(10) DEFAULT 'Enrolled',
+  `status` varchar(10) DEFAULT 'Pending',
   `shipping_fee` DECIMAL(10,2),
   `payment_method` ENUM('TIEN_MAT', 'CHUYEN_KHOAN'),
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP

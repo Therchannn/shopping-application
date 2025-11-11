@@ -2,13 +2,27 @@ package app.com.shoppingapp.mapper;
 
 import app.com.shoppingapp.dto.*;
 import app.com.shoppingapp.entity.*;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.LinkedHashMap;
 
 public class ProductMapper {
 
     public static ProductDTO toDTO(Product product) {
         if (product == null) return null;
+
+        List<ProductVariantDTO> variantDTOs = toVariantDTOList(product.getVariants());
+
+        Map<String, List<ProductVariantDTO>> groupedByColor = new LinkedHashMap<>();
+
+        for (ProductVariantDTO v : variantDTOs) {
+            groupedByColor
+                    .computeIfAbsent(v.getColor(), k -> new ArrayList<>())
+                    .add(v);
+        }
 
         return ProductDTO.builder()
                 .id(product.getId())
@@ -16,7 +30,8 @@ public class ProductMapper {
                 .description(product.getDescription())
                 .category(product.getCategory())
                 .status(product.getStatus())
-                .variants(toVariantDTOList(product.getVariants()))
+                .variants(variantDTOs)
+                .groupedVariants(groupedByColor)
                 .build();
     }
 
@@ -27,8 +42,10 @@ public class ProductMapper {
                 .collect(Collectors.toList());
     }
 
-     public static ProductVariantDTO toVariantDTO(ProductVariant variant) {
+     public static ProductVariantDTO toVariantDTO(ProductVariant variant)
+     {
         return ProductVariantDTO.builder()
+                .id_product(variant.getProduct().getId())
                 .id_product_variant(variant.getIdProductVariant())
                 .code_product_variant(variant.getCodeProductVariant())
                 .color(variant.getColor())

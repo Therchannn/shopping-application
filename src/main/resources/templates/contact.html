@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vn" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact</title>
+    <!-- CSS  -->
+    <link rel="stylesheet" th:href="@{/css/base.css}" />
+    <link rel="stylesheet" th:href="@{/css/contact.css}" />
+    <link rel="stylesheet" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart.css}" />
+    <link rel="icon" th:href="@{/images/favicon.png}" />
+
+    <!-- ICON FONTAWESOME -->
+    <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}" />
+    <!-- ICON IONICS -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </head>
+
+  <body>
+    <div th:replace="layout ::header"></div>
+
+    <div class="container">
+      <div class="contact">
+        <h2>Thông tin liên hệ</h2>
+        <div class="contact_list">
+          <div class="contact_item">
+            <div class="contact_content">
+              <span>Hotline</span>
+              <span>1900 633028</span>
+            </div>
+            <a href="tel:1900633028" class="btn contact-btn">Gọi Ngay</a>
+          </div>
+          <div class="contact_item">
+            <div class="contact_content">
+              <span>Email for customer</span>
+              <span>customer@outerity.asia</span>
+            </div>
+            <a href="mailto:customer@outerity.asia" class="btn contact-btn"
+              >Gửi Email</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div th:replace="layout ::footer"></div>
+
+    <script th:src="@{/js/openCart.js}"></script>
+  </body>
+</html>

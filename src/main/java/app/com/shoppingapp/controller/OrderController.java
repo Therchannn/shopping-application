@@ -2,6 +2,7 @@ package app.com.shoppingapp.controller;
 
 import app.com.shoppingapp.dto.OrderDTO;
 import app.com.shoppingapp.dto.OrderToChange;
+import app.com.shoppingapp.dto.OrderToGet;
 import app.com.shoppingapp.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
@@ -20,9 +21,9 @@ public class OrderController {
         return orderService.get(id);
     }
 
-    @PatchMapping("/change")
-    public String deleteOrder(@RequestBody OrderToChange data){
-        return orderService.change(data);
-    }
+//    @PatchMapping("/change")
+//    public String deleteOrder(@RequestBody OrderToChange data){
+//        return orderService.change(data);
+//    }
 
 }

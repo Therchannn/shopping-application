@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vn" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="stylesheet" th:href="@{/css/checkout.css}" />
+          <link rel="stylesheet" th:href="@{/css/cart.css}" />
+          <link rel="stylesheet" th:href="@{/css/base.css}" />
+          <link rel="stylesheet" th:href="@{/css/layout.css}" />
+          <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}" />
+          <link rel="icon" th:href="@{/images/favicon.png}">
+    <title>Thanh toán</title>
+    <!-- ICONS -->
+      </head>
+
+  <body>
+    <div th:replace="layout :: header"></div>
+
+      <div class="checkout">
+<!-- ================== DANH SÁCH SẢN PHẨM TRONG ĐƠN HÀNG ================== -->
+        <div class="checkout__product">
+          <h3 class="checkout_title">Tổng quan đơn hàng</h3>
+
+          <!-- Lặp qua từng đơn hàng -->
+          <div class="order__products">
+            <!-- Lặp qua từng sản phẩm trong đơn hàng -->
+            <div th:each="item : ${items}" class="order__product">
+              <div class="order__img">
+                <img
+                  th:src="${item.imageUrl}"
+                  alt="Ảnh sản phẩm"
+                />
+              </div>
+
+              <div class="order__hero">
+                <h4
+                  class="order__title"
+                  th:text="${item.name}"
+                >
+                  Tên sản phẩm
+                </h4>
+
+                <div class="order__wrapper">
+                  <p>
+                    Size:
+                    <span th:text="${item.size}">M</span> /
+                    <span th:text="${item.color}">Xám</span>
+                  </p>
+                  <p>
+                    Số lượng:
+                    <span th:text="${item.quantity}"></span>
+                  </p>
+                  <p>
+                    Giá:
+                    <span
+                      th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"
+                    >
+                      0đ
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tổng cộng -->
+            <div class="order__wrapper">
+              <p>Tạm tính:</p>
+              <p
+                th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')} + ' đ'"
+              >
+                0đ
+              </p>
+            </div>
+            <div class="order__wrapper">
+              <p>Phí vận chuyển:</p>
+              <p
+                th:text="${#numbers.formatDecimal(10000, 0, 'COMMA', 0, 'POINT')} + ' đ'"
+              >
+                0đ
+              </p>
+            </div>
+            <div class="order__wrapper checkout__total">
+              <p>Tổng cộng:</p>
+              <!-- Sử dụng ${order.total + order.shipping_fee} không được vì BigDecimal -->
+              <p
+                th:text="${#numbers.formatDecimal((total + 10000), 0, 'COMMA', 0, 'POINT')} + ' đ'"
+              >
+                0đ
+              </p>
+            </div>
+          </div>
+
+          <button class="btn checkout__btn" id="submit_order">Hoàn tất đơn hàng</button>
+        </div>
+
+        <!-- ================== THÔNG TIN GIAO HÀNG + THANH TOÁN ================== -->
+        <div class="checkout__methods">
+          <div class="checkout__delivery">
+            <h3 class="checkout_title">Giao hàng</h3>
+            <div class="checkout__info">
+              <div class="checkout__info-user">
+                <i class="fa-solid fa-location-dot"></i>
+                <span class="checkout_name" th:text="${info.name}"
+                  >Tên người nhận</span
+                >
+                <span class="checkout_phone" th:text="${info.phone}">SĐT</span>
+              </div>
+              <div class="checkout__info-address">
+                <span class="checkout__address" th:text="${info.address}">
+                  Địa chỉ giao hàng
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="checkout__payment">
+            <h3 class="checkout_title">Phương thức thanh toán</h3>
+            <div class="checkout__payment-options">
+              <div class="payment">
+                <input type="radio" name="payment" id="bank" value="CHUYEN_KHOAN"/>
+                <label for="bank">
+                  <i class="fa-regular fa-credit-card"></i>
+                  Thanh toán khi chuyển khoản
+                </label>
+              </div>
+              <div class="payment">
+                <input type="radio" name="payment" id="deli" value="TIEN_MAT" checked/>
+                <label for="deli">
+                  <i class="fa-solid fa-truck"></i>
+                  Thanh toán khi nhận hàng
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+  <!-- Modal Box -->
+  <div id="modal" class="modal" onclick="closeModal()">
+    <div class="modal-content">
+      <i class="modal-icon fa-solid fa-circle-check"></i>
+      <p>Đơn hàng của bạn đã được tạo thành công</p>
+      <div class="modal-buttons">
+        <a th:href="@{/product}" class="btn-secondary">Tiếp tục mua sắm</a>
+        <a th:href="@{/order}" class="btn-secondary is-active">Xem đơn hàng</a>
+      </div>
+    </div>
+  </div>
+      </div>
+    <div th:replace="layout :: footer"></div>
+
+      <script th:src="@{/js/openCart.js}"></script>
+      <script th:src="@{/js/checkout.js}"></script>
+  </body>
+</html>

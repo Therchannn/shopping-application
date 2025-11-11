@@ -16,6 +16,7 @@ public interface CartRepository extends JpaRepository<Cart, CartId> {
     @Query(
             value = """
                     SELECT 
+                        v.id_product_variant AS id,
                         p.name, 
                         p.description, 
                         p.category, 
@@ -34,5 +35,5 @@ public interface CartRepository extends JpaRepository<Cart, CartId> {
     )
     List<CartToGet> getAllCart(@Param("userId") String userId);
 
-    Optional<Cart> findCartByIdProductVariantId(String id);
+    Optional<Cart> findByIdProductVariantIdAndIdUserId(String productVariantId, String userId);
 }
