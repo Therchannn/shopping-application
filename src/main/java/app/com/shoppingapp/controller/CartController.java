@@ -1,6 +1,8 @@
 package app.com.shoppingapp.controller;
 
 import app.com.shoppingapp.dto.*;
+import app.com.shoppingapp.entity.ProductVariant;
+import app.com.shoppingapp.repository.ProductVariantsRepository;
 import app.com.shoppingapp.service.CartService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import java.util.Map;
 @RequestMapping("api/cart")
 public class CartController {
     private final CartService cartService;
+    private final ProductVariantsRepository productVariantsRepository;
 
     @GetMapping("get")
     public List<CartToGet> getCart(@RequestParam("id") String data){
@@ -53,7 +56,7 @@ public class CartController {
     public String updateCart(@RequestBody Map<String, String> body, HttpSession session){
         String userId = (String) session.getAttribute("id");
         if(userId == null){
-            return "Something is missing";
+            return "Lỗi, vui lòng thử lại !";
         }
 
         CartToUpdate data = new CartToUpdate();

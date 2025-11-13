@@ -23,13 +23,13 @@
         <div class="main__nav">
             <ul>
                 <li class="nav__item">
-                    <a href="/info">
+                    <a th:href="@{/info}">
                         <i class="nav__item-icon ti-id-badge"></i>
                         Thông tin của tôi
                     </a>
                 </li>
                 <li class="nav__item">
-                    <a href="/order">
+                    <a th:href="@{/order}">
                         <i class="nav__item-icon ti-package"></i>
                         Đơn hàng của tôi
                     </a>
@@ -48,12 +48,12 @@
     
             <div class="logout__body">
     
-                <form action="/logout" method="post" class="logout_form">
+                <form th:action="@{/logout}" method="post" class="logout_form">
                     <div class="logout__container">
-                        <i class="btn logout__icon fa-solid fa-square-xmark"></i>
+                        <i class="logout__icon fa-solid fa-square-xmark"></i>
                         <h2 class="logout__heading">Bạn muốn đăng xuất khỏi Outerity</h2>
-                        <button type="submit" class="btn btn__confirm">Xác nhận</button>
-                        <button type="button" class="btn btn__back">Quay lại</button>
+                        <button type="submit" class="btn__confirm">Xác nhận</button>
+                        <button type="button" class="btn__back">Quay lại</button>
                     </div>
                 </form>
     

@@ -37,13 +37,13 @@ public class CartService {
 
         for(OrderItemDTO item : order.getItems()){
             CartToGet newItem = CartToGet.builder()
-                    .id(item.getIdVariant())
+                    .id(item.getVariantId())
                     .color(item.getColor())
                     .price(item.getPrice())
-                    .name(item.getNameProduct())
+                    .name(item.getProductName())
                     .size(item.getSize())
                     .quantity(item.getQuantity())
-                    .imageUrl(item.getImage())
+                    .imageUrl(item.getProductImage())
                     .build();
 
             items.add(newItem);
@@ -69,9 +69,10 @@ public class CartService {
             if(result.isPresent())
             {
                 Cart updateCart = result.get();
-                updateCart.setQuantity(updateCart.getQuantity() + data.getQuantity());
+                int newQuantity = updateCart.getQuantity() + data.getQuantity();
+                updateCart.setQuantity(newQuantity > variant.getQuantity() ? variant.getQuantity() : newQuantity);
                 cartRepository.save(updateCart);
-                return "Cart has been updated";
+                return "Sản phẩm đã được cập nhật";
             }
             else{
                 CartId id = new CartId(data.getProductVariantId(), data.getUserId());
@@ -84,7 +85,7 @@ public class CartService {
                     .build();
 
                 cartRepository.save(cart);
-                return "Product has been added";
+                return "Sản phẩm đã thêm vào giỏ hàng";
             }
         }
         catch (Exception e){
@@ -114,7 +115,7 @@ public class CartService {
 
             Order newOrder = Order.builder()
                     .user(user)
-                    .status("Enrolled")
+                    .status("Pending")
                     .shippingFee(new BigDecimal("10000.00"))
                     .paymentMethod(method)
                     .createdAt(LocalDateTime.now())
@@ -180,14 +181,14 @@ public class CartService {
 
                 cartRepository.save(cart);
 
-                return "Update cart successfully";
+                return "Sản phẩm đã được cập nhật";
             }
             else{
-                return "Something is missing, try again";
+                return "Lỗi, vui lòng thử lại !";
             }
         }
         catch (Exception e){
-            return "Something is error: " + e.getMessage();
+            return "Lỗi: " + e.getMessage();
         }
     }
 }

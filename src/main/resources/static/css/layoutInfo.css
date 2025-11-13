@@ -22,7 +22,7 @@
 }
 
 .logout__btn{
-    background-color: transparent;
+    text-decoration: none;
     font-size: 16px;
 }
 
@@ -72,6 +72,8 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    border-radius: 10px;
+    border: 2px solid var(--black-color);
 }
 
 .logout__icon{

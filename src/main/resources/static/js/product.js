@@ -1,12 +1,20 @@
 //Product
-const form_add = document.getElementById("form_add");
+const form_add = document.getElementById("modal_add");
+const form_edit = document.getElementById("modal_edit")
+const modal_delete = document.getElementById("modal_delete");
+
 document.getElementById("add_product").addEventListener("click", () => {
-    form_add.classList.add("shown")
+    form_add.classList.add("show")
 })
 
 document.getElementById("close_form_add_btn").addEventListener('click', () => {
-    form_add.classList.remove("shown")
+    form_add.classList.remove("show")
 })
+
+document.getElementById("close_edit_form_btn").addEventListener("click", () => {
+    form_edit.classList.remove("show")
+})
+
 
 document.querySelectorAll('.list_btn').forEach(btn => {
     btn.addEventListener('click', function () {
@@ -30,6 +38,31 @@ document.querySelectorAll('.import_btn').forEach((btn) => {
     });
 });
 
+//Modify
+document.querySelectorAll(".edit_btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const product = btn.closest(".product"); // lấy phần tử .product gần nhất
+
+        const id = product.dataset.id;
+        const name = product.dataset.name;
+        const desc = product.dataset.description;
+        const category = product.dataset.category;
+        const status = product.dataset.status;
+
+        document.getElementById("edit_id").value = id;
+        document.getElementById("edit_name").value = name;
+        document.getElementById("edit_description").value = desc;
+
+        document.getElementById("edit_category_ao").checked = category === "Áo";
+        document.getElementById("edit_category_quan").checked = category === "Quần";
+
+        document.getElementById("edit_status").value = status;
+
+        form_edit.classList.add("show")
+    });
+});
+
+//Add variant
 document.querySelectorAll('.form_variant').forEach(form => {
     form.addEventListener('submit', function (e) {
         e.preventDefault();

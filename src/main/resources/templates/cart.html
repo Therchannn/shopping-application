@@ -8,7 +8,7 @@
           <i class="cart-icon fa-solid fa-inbox"></i>
           <span class="cart-desc">Giỏ hàng của bạn đang trống</span>
         </div>
-        <a th:href="@{/home}" class="btn cart-btn">Tiếp tục mua sắm</a>
+        <a th:href="@{/product}" class="btn cart-btn">Tiếp tục mua sắm</a>
       </div>
 
       <!-- Giỏ hàng có sản phẩm  -->
@@ -16,8 +16,9 @@
         <h2 class="cart-heading">Giỏ hàng của bạn</h2>
         <div class="cart_item">
           <div th:each="item : ${cartItems}" class="cart_solid">
+            <input type="hidden" name="quantity" class="limit" th:value="${item.amount}">
             <div class="cart_image">
-              <img th:src="${item.imageUrl}" alt="Sản phẩm" />
+              <img th:src="@{${item.imageUrl}}" alt="Sản phẩm" />
             </div>
 
             <div class="cart_content">
@@ -41,9 +42,10 @@
                     <i class="fa-solid fa-minus"></i>
                   </button>
                   <input
-                    type="text"
+                    type="number"
                     name="amount"
                     class="amount"
+                    min="1"
                     th:value="${item.quantity}"
                   />
                   <button type="button" class="btn-justify" onclick="handlePlus(this)">
@@ -64,48 +66,10 @@
           </div>
         </div>
         <div class="cart_bottom">
-          <!-- <div class="cart_wrapper">
-            <span class="cart_info">TỔNG TIỀN:</span>
-            <span
-              class="cart_total"
-              th:text="${item.total}"
-            ></span>
-
-                    <p>Xin chào, <span th:text="${session.username}">User</span>!</p>
-
-          </div> -->
-
           <button type="submit" class="btn cart-btn">THANH TOÁN</button>
         </div>
       </form>
           </div>
-
-      <!-- <p>Xin chào, <span th:text="${session.username}">User</span>!</p> -->
-
-      <!--
-<div th:if="${#lists.isEmpty(cartItems)}">
-    <p>Giỏ hàng trống</p>
-</div>
-
-<div th:unless="${#lists.isEmpty(cartItems)}">
-    <table>
-        <tr>
-            <th>Tên sản phẩm</th>
-            <th>Mô tả</th>
-            <th>Giá</th>
-            <th>Số lượng</th>
-        </tr>
-        <tr th:each="item : ${cartItems}">
-            <td th:text="${item.name}"></td>
-            <td th:text="${item.price}"></td>
-            <td th:text="${item.quantity}"></td>
-            <td th:text="${item.size}"></td>
-            <td th:text="${item.color}"></td>
-            <img th:src="${item.imageUrl}"></img>
-            <td th:text="${item.quantity}"></td>
-        </tr>
-    </table>
-</div> -->
 
       <script th:src="@{/js/cart.js}"></script>
     </div>

@@ -39,7 +39,6 @@ public class Order {
     @Enumerated(EnumType.STRING)
     @Column(
             name = "payment_method",
-            nullable = false,
             columnDefinition = "ENUM('TIEN_MAT', 'CHUYEN_KHOAN')"
     )
 

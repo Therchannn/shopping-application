@@ -20,4 +20,5 @@ public class CartToGet {
     private String imageUrl;
     private BigDecimal price;
     private Integer quantity;
+    private Integer amount;
 }

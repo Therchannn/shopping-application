@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/adminLayout :: layout('Cài đặt', ~{::content}, ~{::scripts})}">
+<head>
+  <title>Cài đặt</title>
+</head>
+<body>
+
+<!-- CONTENT -->
+<div th:fragment="content">
+  <h2>Cài đặt hệ thống</h2>
+
+  <div class="content-header">
+    <p style="color: #6b7280;">Quản lý cấu hình và thông tin hệ thống</p>
+  </div>
+
+  <!-- Settings Sections -->
+  <section style="margin-top: 30px;">
+    <!-- General Settings -->
+    <div class="table-section" style="margin-bottom: 24px;">
+      <h3 style="margin-bottom: 20px;">Thông tin chung</h3>
+      <form>
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Tên cửa hàng</label>
+          <input type="text" value="Outerity Shop" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 6px;">
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Địa chỉ nhà máy</label>
+          <textarea rows="3" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 6px;">123 Đường ABC, Quận 1, TP.HCM</textarea>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Số điện thoại</label>
+          <input type="tel" value="0123-456-789" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 6px;">
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Địa chỉ</label>
+          <textarea rows="3" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 6px;">123 Đường ABC, Quận 1, TP.HCM</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <i class="bi bi-check-circle"></i> Lưu thay đổi
+        </button>
+      </form>
+    </div>
+
+    <!-- Payment Settings -->
+    <div class="table-section" style="margin-bottom: 24px;">
+      <h3 style="margin-bottom: 20px;">Cài đặt thanh toán</h3>
+      <div style="margin-bottom: 16px;">
+        <label style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" checked style="width: 18px; height: 18px;">
+          <span style="font-weight: 600; color: #374151;">Thanh toán khi nhận hàng</span>
+        </label>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" checked style="width: 18px; height: 18px;">
+          <span style="font-weight: 600; color: #374151;">Chuyển khoản</span>
+        </label>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" style="width: 18px; height: 18px;">
+          <span style="font-weight: 600; color: #374151;">Thanh toán qua VNPay</span>
+        </label>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" style="width: 18px; height: 18px;">
+          <span style="font-weight: 600; color: #374151;">Thanh toán qua MoMo</span>
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-check-circle"></i> Lưu cài đặt
+      </button>
+    </div>
+
+    <!-- Shipping Settings -->
+    <div class="table-section" style="margin-bottom: 24px;">
+      <h3 style="margin-bottom: 20px;">Cài đặt vận chuyển</h3>
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Phí vận chuyển cơ bản</label>
+        <input type="number" value="30000" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 6px;">
+        <small style="color: #6b7280;">Đơn vị: VNĐ</small>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Miễn phí vận chuyển cho đơn hàng từ</label>
+        <input type="number" value="500000" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 6px;">
+        <small style="color: #6b7280;">Đơn vị: VNĐ</small>
+      </div>
+
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-check-circle"></i> Lưu cài đặt
+      </button>
+    </div>
+
+    <!-- System Info -->
+    <div class="table-section">
+      <h3 style="margin-bottom: 20px;">Thông tin hệ thống</h3>
+      <table class="data-table">
+        <tbody>
+          <tr>
+            <td style="font-weight: 600;">Phiên bản</td>
+            <td>1.0.0</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">Framework</td>
+            <td>Spring Boot 3.x</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">Database</td>
+            <td>MySQL</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">Ngày triển khai</td>
+            <td>28/10/2025</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+<!-- END CONTENT -->
+<!-- SCRIPTS -->
+<th:block th:fragment="scripts">
+  <script>
+    // Handle button clicks for all save buttons
+    document.querySelectorAll('.btn.btn-primary').forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.showSuccess('Cài đặt đã được lưu thành công!');
+      });
+    });
+  </script>
+</th:block>
+<!-- END SCRIPTS -->
+</body>
+</html>
+

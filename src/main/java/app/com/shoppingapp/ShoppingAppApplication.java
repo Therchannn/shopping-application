@@ -1,4 +1,3 @@
-
 package app.com.shoppingapp;
 
 import org.springframework.boot.SpringApplication;

@@ -3,16 +3,18 @@
     <p>Bạn chưa có đơn hàng nào.</p>
   </div>
   <div class="order__new" th:each="order : ${orders}">
+    <input type="hidden" class="orderId" th:value="${order.id}">
+    <input type="hidden" class="payment" th:value="${order.paymentMethod}">
     <div class="order__category">
       <div class="order__product" th:each="item : ${order.items}">
         <div class="order__img">
           <img
-                  th:src="${item.image}"
+                  th:src="@{${item.productImage}}"
                   alt="image"
           />
         </div>
         <div class="order__hero">
-          <h4 class="order__title" th:text="${item.nameProduct}"></h4>
+          <h4 class="order__title" th:text="${item.productName}"></h4>
           <div class="order__wrapper">
             <p>
               Size:
@@ -36,16 +38,18 @@
     </div>
 
     <div class="order__control">
-      <button class="btn order__status" onclick="openModal()">
+      <button class="btn order__status" onclick="openModal(this)">
         Hủy đơn hàng
       </button>
       <a class="btn order__status" th:href="@{/home}">Về trang chủ</a>
     </div>
+  </div>
 
   <!-- Modal Box -->
   <form id="modal" th:action="@{/order/update}" method="post" class="modal">
-    <input type="hidden" name="status" value="Cancelled">
-    <input type="hidden" name="orderId" th:value="${order.id}">
+    <input type="hidden" name="status" id="status" value="Cancelled">
+    <input type="hidden" name="orderId" id="orderId">
+    <input type="hidden" name="payment" id="payment">
     <div class="modal-content">
       <h2>Xác nhận hủy đơn</h2>
       <p>Bạn có chắc chắn muốn hủy đơn hàng này không?</p>
@@ -60,5 +64,4 @@
       </div>
     </div>
   </form>
-  </div>
 </div>

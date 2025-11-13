@@ -1,3 +1,29 @@
+document.querySelectorAll(".amount").forEach(input =>
+    input.addEventListener("change", async () => {
+      const solid = input.closest(".cart_solid");
+      const quantity = Number(solid.querySelector(".limit").value);
+      const id = solid.querySelector(".item_id").value;
+      let amount = Number(input.value);
+
+      if (isNaN(amount) || amount <= 0) {
+        amount = 1;
+      }
+
+      if (amount > quantity) {
+        amount = quantity;
+      }
+
+      input.value = amount;
+
+      const body = {
+        productVariantId: id,
+        quantity: amount
+      };
+
+      await handleUpdate(body);
+    })
+);
+
 let render = (input, amount) => {
   input.value = amount;
 };
@@ -11,7 +37,7 @@ const debounce = (func, delay) => {
 }
 
 const handleUpdate = async (data) => {
-  await fetch("/api/cart/update", {
+  await fetch("/outerity/api/cart/update", {
     headers: {
       "Content-Type": "application/json"
     },
@@ -22,40 +48,58 @@ const handleUpdate = async (data) => {
 
 const handlePlus = async (btn) => {
   const solid = btn.closest(".cart_solid");
+  const quantity = Number(solid.querySelector(".limit").value);
   const amountElement = solid.querySelector(".amount");
-  const id = solid.querySelector(".item_id").value
+  const id = solid.querySelector(".item_id").value;
 
-  let amount = parseInt(amountElement.value) || 1;
-  ++amount;
+  let amount = Number(amountElement.value);
+
+  if (isNaN(amount) || amount <= 0) amount = 1;
+  amount += 1;
+  if (amount > quantity) amount = quantity;
 
   render(amountElement, amount);
 
   const body = {
     productVariantId: id,
     quantity: amount
-  }
+  };
 
-  await handleUpdate(body)
+  await handleUpdate(body);
 };
 
 const handleMinus = async (btn) => {
   const solid = btn.closest(".cart_solid");
+  const quantity = Number(solid.querySelector(".limit").value);
   const amountElement = solid.querySelector(".amount");
-  const id = solid.querySelector(".item_id").value
+  const id = solid.querySelector(".item_id").value;
 
-  let amount = parseInt(amountElement.value) || 1;
-  --amount;
-  if (amount < 1) amount = 1;
+  let amount = Number(amountElement.value);
+
+  if (isNaN(amount) || amount <= 0) {
+    amount = 1;
+  }
+
+  amount -= 1;
+
+  if (amount < 1) {
+    amount = 1;
+  }
+
+  if (amount > quantity) {
+    amount = quantity;
+  }
 
   render(amountElement, amount);
 
   const body = {
     productVariantId: id,
-    quantity: amount
-  }
+    quantity: amount,
+  };
 
-  await handleUpdate(body)
+  await handleUpdate(body);
 };
+
 
 debounce(handleMinus, 500)
 debounce(handlePlus, 500)
@@ -76,7 +120,7 @@ const handleDelete = async (btn) => {
 }
 
 async function deleteCart(data){
-  const res = await fetch("/api/cart/delete", {
+  const res = await fetch("/outerity/api/cart/delete", {
     headers: {
       "Content-Type": "application/json",
     },

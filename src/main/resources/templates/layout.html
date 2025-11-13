@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" th:href="@{/css/base.css}" />
     <link rel="stylesheet" th:href="@{/css/cart.css}" />
+    <link rel="stylesheet" th:href="@{/css/auth.css}" />
     <link rel="stylesheet" th:href="@{/css/layout.css}" />
     <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}" />
     <link
@@ -43,12 +44,12 @@
             ></i>
 
             <div class="info__content">
-              <div class="info__content-wrap">
+              <div class="info__content-wrap" th:if="${isAuth} == true">
                 <a th:href="@{/signIn}" class="info__login">Đăng nhập </a>/
                 <a th:href="@{/signUp}" class="info__login">Đăng ký</a>
               </div>
 
-              <a th:href="@{/info}" class="info__title">Tài khoản của tôi</a>
+              <a th:if="${isAuth} == false" th:href="@{/info}" class="info__title">Tài khoản của tôi</a>
             </div>
           </div>
 

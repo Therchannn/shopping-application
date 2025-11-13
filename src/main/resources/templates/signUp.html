@@ -59,7 +59,8 @@
               name="phone"
               class="auth_input register_input"
               placeholder="Số điện thoại"
-              required
+              pattern="^\d{10}$"
+              title="Số điện thoại phải gồm đúng 10 chữ số"
             />
             <div class="input_wrapper">
               <input

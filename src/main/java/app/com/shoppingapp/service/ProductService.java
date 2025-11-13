@@ -1,10 +1,13 @@
 package app.com.shoppingapp.service;
 
+import app.com.shoppingapp.dto.CartDTO;
+import app.com.shoppingapp.dto.CartToGet;
 import app.com.shoppingapp.dto.ProductDTO;
 import app.com.shoppingapp.dto.ProductVariantDTO;
 import app.com.shoppingapp.entity.Product;
 import app.com.shoppingapp.entity.ProductVariant;
 import app.com.shoppingapp.mapper.ProductMapper;
+import app.com.shoppingapp.repository.CartRepository;
 import app.com.shoppingapp.repository.ProductRepository;
 import app.com.shoppingapp.repository.ProductVariantsRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductVariantsRepository productVariantsRepository;
+    private final CartRepository cartRepository;
 
     public List<ProductDTO> get() {
         return productRepository.findAll().stream()
@@ -96,5 +100,42 @@ public class ProductService {
         productRepository.save(newProduct);
 
         return "Thêm sản phẩm thành công!";
+    }
+
+    public String updateProduct(ProductDTO data) {
+        Optional<Product> optionalProduct = productRepository.findById(data.getId());
+
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+
+            product.setName(data.getName());
+            product.setDescription(data.getDescription());
+            product.setCategory(data.getCategory());
+            product.setStatus(data.getStatus());
+
+            productRepository.save(product);
+
+            return "Cập nhật sản phẩm thành công";
+        } else {
+            return "Không tìm thấy sản phẩm với ID: " + data.getId();
+        }
+    }
+
+
+    public long count(){
+        return productRepository.count();
+    }
+
+    public List<Object[]> countByCategory(){
+        return productRepository.countByCategory();
+    }
+
+    public Map<String, Long> getCategoryCounts() {
+        List<Object[]> counts = productRepository.countByCategory();
+        return counts.stream()
+                .collect(Collectors.toMap(
+                        arr -> (String) arr[0],  // category name
+                        arr -> (Long) arr[1]     // count
+                ));
     }
 }

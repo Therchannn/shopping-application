@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
     <link rel="stylesheet" th:href="@{/css/layout.css}">
     <link rel="stylesheet" th:href="@{/css/cart.css}">
     <link rel="stylesheet" th:href="@{/css/layoutInfo.css}">
@@ -39,6 +40,8 @@
                         class="info__input"
                         th:field="*{phone}"
                         placeholder="0377219288"
+                        pattern="^\d{10}$"
+                        title="Số điện thoại phải gồm đúng 10 chữ số"
                         required
                 >
                 <input

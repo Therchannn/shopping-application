@@ -5,8 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="stylesheet" th:href="@{/css/checkout.css}" />
-          <link rel="stylesheet" th:href="@{/css/cart.css}" />
           <link rel="stylesheet" th:href="@{/css/base.css}" />
+      <link rel="stylesheet" th:href="@{/css/auth.css}" />
+          <link rel="stylesheet" th:href="@{/css/cart.css}" />
           <link rel="stylesheet" th:href="@{/css/layout.css}" />
           <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}" />
           <link rel="icon" th:href="@{/images/favicon.png}">
@@ -21,6 +22,7 @@
 <!-- ================== DANH SÁCH SẢN PHẨM TRONG ĐƠN HÀNG ================== -->
         <div class="checkout__product">
           <h3 class="checkout_title">Tổng quan đơn hàng</h3>
+          <input type="hidden" id="orderId" th:if="${orderId} != null" th:value="${orderId}">
 
           <!-- Lặp qua từng đơn hàng -->
           <div class="order__products">
@@ -28,7 +30,7 @@
             <div th:each="item : ${items}" class="order__product">
               <div class="order__img">
                 <img
-                  th:src="${item.imageUrl}"
+                  th:src="@{${item.imageUrl}}"
                   alt="Ảnh sản phẩm"
                 />
               </div>
@@ -136,13 +138,13 @@
         </div>
 
   <!-- Modal Box -->
-  <div id="modal" class="modal" onclick="closeModal()">
+  <div id="modal" class="modal">
     <div class="modal-content">
       <i class="modal-icon fa-solid fa-circle-check"></i>
       <p>Đơn hàng của bạn đã được tạo thành công</p>
       <div class="modal-buttons">
         <a th:href="@{/product}" class="btn-secondary">Tiếp tục mua sắm</a>
-        <a th:href="@{/order}" class="btn-secondary is-active">Xem đơn hàng</a>
+        <a th:href="@{/order(type=pending)}" class="btn-secondary is-active">Xem đơn hàng</a>
       </div>
     </div>
   </div>

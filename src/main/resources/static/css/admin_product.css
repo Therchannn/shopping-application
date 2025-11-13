@@ -99,6 +99,7 @@ body{
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 5px var(--gray-color);
+    background: var(--white-color);
     flex-direction: column;
     gap: 20px
 }
@@ -136,6 +137,7 @@ body{
     height: max-content;
     flex-grow: 1;
     flex-direction: column;
+    background: transparent;
     gap: 15px;
 }
 
@@ -423,10 +425,8 @@ body{
 
 /*Model*/
 .form-container {
-    display: none;
-    position: fixed;
-    left: calc(50% - 200px);
-    top: 50px;
+    display: flex;
+    position: relative;
     width: 400px;
     max-height: 500px;
     background: #f9f9f9;
@@ -441,10 +441,6 @@ body{
 
 .form-container::-webkit-scrollbar{
     display: none;
-}
-
-.form-container.shown{
-    display: flex;
 }
 
 .form-container form{
@@ -514,4 +510,60 @@ textarea {
     background: var(--white-color);
     color: var(--black-color);
     cursor: pointer;
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    gap: 20px;
+}
+
+#save_edit_btn {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    background: #222;
+    padding: 10px 20px;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+#save_edit_btn:hover {
+    background: #444;
+}
+
+#close_edit_form_btn {
+    padding: 10px 20px;
+    background: var(--gray-color);
+    border: none;
+    color: #555;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+#close_delete_form_btn,
+#confirm_delete_btn{
+    display: flex;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    border: 0;
+    outline: 0;
+}
+
+#confirm_delete_btn{
+    color: var(--white-color);
+    background: red;
+    cursor: pointer;
+}
+
+#close_delete_form_btn{
+    background: var(--gray-color);
+    color: var(--black-color);
 }

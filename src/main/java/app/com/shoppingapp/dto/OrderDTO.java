@@ -19,8 +19,13 @@ public class OrderDTO {
     String id;
     BigDecimal total;
     String status;
-    BigDecimal shipping_fee;
-    Order.PaymentMethod paymentMethod;
+    BigDecimal shippingFee;
+    String paymentMethod;
     LocalDateTime createdAt;
     List<OrderItemDTO> items;
+    String userId;
+    String userName;
+    String userUsername;
+    String userPhone;
+    String userAddress;
 }

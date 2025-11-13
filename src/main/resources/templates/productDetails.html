@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/auth.css}" />
     <link rel="stylesheet" th:href="@{/css/cart.css}">
     <link rel="stylesheet" th:href="@{/css/layout.css}">
     <link rel="stylesheet" th:href="@{/css/productDetails.css}">
@@ -71,7 +72,6 @@
                            id="quantity"
                            name="quantity"
                            class="quantity"
-                           readonly
                            min=1
                            th:field="*{quantity}"
                     />
@@ -129,8 +129,10 @@
         const labelText = document.querySelector('.pd__color-label')
         const codeText = document.querySelector('.pd__code');
         const priceText = document.querySelector('.pd__price');
+        const quantity = document.querySelector(".quantity")
+        const decrease = document.querySelector(".quantity__decrease")
+        const increase = document.querySelector(".quantity__increase")
         const variantId = document.getElementById('variantId');
-
 
         const variants = [[${product.variants}]];
 
@@ -161,31 +163,64 @@
             if (variant) {
                 codeText.textContent = "Mã biến thể: " + variant.code_product_variant;
                 priceText.textContent = variant.price.toLocaleString() + "₫";
-                image.src = variant.imageUrl;
+                image.src = window.location.origin + "/outerity" + variant.imageUrl;
                 variantId.value = variant.id_product_variant
+                quantity.value = variant.quantity > 0 ? 1 : 0
             }
         }
 
         updateVariantInfo();
 
-        const quantity = document.querySelector(".quantity")
-        const decrease = document.querySelector(".quantity__decrease")
-        const increase = document.querySelector(".quantity__increase")
-
         decrease.addEventListener('click', () => updateQuantity(-1))
         increase.addEventListener('click', () => updateQuantity(1))
 
+        quantity.addEventListener("change", () => {
+            const variant = variants.find(
+                v => v.color === selectedColor && v.size === selectedSize
+            );
+
+            if(Number(variant.quantity) === 0){
+                quantity.value = 0;
+                return;
+            }
+
+            let value = parseInt(quantity.value);
+
+            if (isNaN(value) || value <= 0) {
+                quantity.value = 1;
+                return;
+            }
+
+            if (value > variant.quantity) {
+                quantity.value = variant.quantity;
+            } else {
+                quantity.value = value;
+            }
+        });
+
+
         function updateQuantity(value){
+            const variant = variants.find(v => v.color === selectedColor && v.size === selectedSize);
+
+            if(Number(variant.quantity) === 0){
+                quantity.value = 0;
+                return;
+            }
+
             let number = parseInt(quantity.value) || 0;
             number += value;
             if (number < 1) number = 1;
+            if(number >= variant.quantity) number = variant.quantity
             quantity.value = number;
         }
 
-        setTimeout(() => {
-            document.querySelector('.toaster').remove()
-        }, 1000)
+        const toaster = document.querySelector('.toaster')
 
+        if(toaster){
+            setTimeout(() => {
+                toaster.remove()
+            }, 1000)
+        }
     </script>
 
     <script th:src="@{/js/openCart.js}"></script>

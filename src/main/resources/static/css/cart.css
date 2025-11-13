@@ -7,8 +7,8 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.25);
   height: 100vh;
-
 }
+
 .cart.is-hidden {
   display: none;
 }
@@ -81,6 +81,11 @@
   gap: 4rem;
   padding: 2rem 1.5rem;
 }
+
+.cart_item::-webkit-scrollbar{
+  display: none;
+}
+
 .cart_solid {
   display: flex;
   gap: 1.5rem;

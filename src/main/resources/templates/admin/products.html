@@ -1,18 +1,14 @@
 <!DOCTYPE html>
-<html lang="vn" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/adminLayout :: layout('Quản lí sản phẩm', ~{::content}, ~{::scripts})}">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Sản phẩm</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/admin_product.css}">
-    <link rel="stylesheet" th:href="@{/css/base.css}">
-    <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}">
-    <link rel="stylesheet" th:href="@{/fontawesome-free-7.1.0-web/css/all.min.css}">
-    <link rel="icon" th:href="@{/images/favicon.png}">
+    <title>Quản lí sản phẩm</title>
 </head>
 <body>
-    <section class="product_frame">
-        <form class="header" th:action="@{/admin/product}" method="get">
+    <section th:fragment="content" class="product_frame">
+        <h2>Quản lí sản phẩm</h2>
+        <form class="header" th:action="@{/admin/products}" method="get">
             <div class="input_frame">
                 <input
                         type="text"
@@ -30,7 +26,14 @@
             </button>
         </form>
     <div id="product_container">
-        <div class="product" th:each="product: ${products}">
+        <div class="product"
+             th:each="product: ${products}"
+             th:attr="data-id=${product.id},
+              data-name=${product.name},
+              data-description=${product.description},
+              data-category=${product.category},
+              data-status=${product.status}"
+        >
             <div class="product_content" th:attr="data-product-id=${product.id}">
                 <div class="beside">
                     <img th:if="${not #lists.isEmpty(product.variants)}"
@@ -65,8 +68,7 @@
                 </div>
             </div>
             <div class="product_variant_container">
-
-                <div class="product_variant" th:if="${!product.variants.isEmpty()}" th:each="variant : ${product.groupedVariants}">
+                    <div class="product_variant" th:if="${!product.variants.isEmpty()}" th:each="variant : ${product.groupedVariants}">
                     <div class="variant_heading">
                         <h4>Màu sắc: </h4>
                         <span th:text="${variant.key}"></span>
@@ -129,7 +131,6 @@
                         </div>
                     </div>
                 </form>
-
             </div>
             <div class="func_btns">
                 <button class="edit_btn">
@@ -138,12 +139,10 @@
                 <button class="list_btn">
                     <i class="fa-solid fa-list-ul"></i>
                 </button>
-                <button class="close_btn">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
             </div>
         </div>
     </div>
+        <div class="modal" id="modal_add">
         <div class="form-container" id="form_add">
             <h2>Thêm sản phẩm</h2>
 
@@ -175,7 +174,56 @@
                 </button>
             </form>
         </div>
+        </div>
+        <div class="modal" id="modal_edit">
+            <div class="form-container" id="form_edit">
+                <h2>Chỉnh sửa sản phẩm</h2>
+
+                <form id="edit_form" th:action="@{/admin/product/modify}" method="post" th:object="${editProduct}">
+                    <div class="form-group">
+                        <label>Mã sản phẩm</label>
+                        <input type="text" th:field="*{id}" id="edit_id" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tên sản phẩm</label>
+                        <input type="text" th:field="*{name}" id="edit_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mô tả</label>
+                        <textarea th:field="*{description}" id="edit_description" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Danh mục</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" th:field="*{category}" value="Áo" id="edit_category_ao"> Áo
+                            </label>
+                            <label>
+                                <input type="radio" th:field="*{category}" value="Quần" id="edit_category_quan"> Quần
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Trạng thái</label>
+                        <select th:field="*{status}" id="edit_status">
+                            <option value="ACTIVE">Hoạt động</option>
+                            <option value="INACTIVE">Tạm ngừng</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" id="save_edit_btn">Lưu thay đổi</button>
+                        <button type="button" id="close_edit_form_btn">Đóng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </section>
-    <script th:src="@{/js/admin.js}"></script>
+    <th:block th:fragment="scripts">
+    <script th:src="@{/js/product.js}"></script                                                  >
+    </th:block>
 </body>
-</html>

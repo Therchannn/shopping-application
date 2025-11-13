@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" th:href="@{/css/base.css}" />
+      <link rel="stylesheet" th:href="@{/css/auth.css}" />
     <link rel="stylesheet" th:href="@{/css/cart.css}" />
     <link rel="stylesheet" th:href="@{/css/layout.css}" />
     <link rel="stylesheet" th:href="@{/css/product.css}" />
@@ -27,8 +28,9 @@
             <div class="grid__row">
 
                 <div class="grid__column-2 side__bar">
-                    <a href="" class="side__bar-item">TEE -</a>
-                    <a href="" class="side__bar-item">SHORT -</a>
+                    <a th:href="@{/product}" class="side__bar-item">Tất cả -</a>
+                    <a th:href="@{/product(type=Áo)}" class="side__bar-item">Áo -</a>
+                    <a th:href="@{/product(type=Quần)}" class="side__bar-item">Quần -</a>
                 </div>
 
                 <div class="grid__column-10">

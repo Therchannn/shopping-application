@@ -7,12 +7,12 @@
       <div class="order__product" th:each="item : ${order.items}">
         <div class="order__img">
           <img
-                  th:src="${item.image}"
+                  th:src="@{${item.productImage}}"
                   alt="image"
           />
         </div>
         <div class="order__hero">
-          <h4 class="order__title" th:text="${item.nameProduct}"></h4>
+          <h4 class="order__title" th:text="${item.productName}"></h4>
             <div class="order__wrapper">
                 <p>
                     Size:

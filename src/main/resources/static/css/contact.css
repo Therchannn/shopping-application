@@ -2,10 +2,6 @@ h2{
     margin-bottom: 4rem;
 }
 
-.contact{
-    padding-top: 150px;
-}
-
 .contact_list{
     display: flex;
     flex-direction: column;

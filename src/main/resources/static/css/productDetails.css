@@ -91,6 +91,7 @@ body {
     color: var(--black-color);
     font-weight: 600;
     margin: 0 5px;
+    padding: 0 !important;
     transition: 0.2s all ease;
 }
 
