@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vn" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign In</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/base.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart.css}" />
+    <link rel="stylesheet" th:href="@{/css/auth.css}" />
+    <link rel="stylesheet" th:href="@{/css/signIn.css}" />
+        <link rel="stylesheet" th:href="@{/css/layout.css}" />
+    <link rel="icon" th:href="@{/images/favicon.png}" />
+
+
+    <!-- ICON FONTAWESOME -->
+    <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}" />
+  </head>
+
+  <body>
+    <div th:replace="layout ::header"></div>
+
+    <div class="container">
+      <div class="auth login">
+        <div class="auth_title login_title">
+          <h1>Đăng nhập</h1>
+        </div>
+
+        <div class="auth_content login_content">
+          <p
+            id="message"
+            th:if="${loginError}"
+            th:text="${loginError}"
+            class="error"
+          ></p>
+
+          <form
+            th:action="@{/signIn}"
+            method="post"
+            class="auth_form login_form"
+          >
+            <input
+              type="text"
+              class="auth_input login_input"
+              name="username"
+              placeholder="Nhập tên đăng nhập"
+              required
+            />
+
+            <div class="input_wrapper">
+              <input
+                type="password"
+                class="auth_input login_input"
+                name="password"
+                placeholder="Nhập mật khẩu"
+                required
+              />
+              <ion-icon name="eye-off-outline" class="icon-password"></ion-icon>
+            </div>
+
+            <button type="submit" class="login_btn btn">Đăng nhập</button>
+
+            <p class="auth_guest login_guest">
+              Khách hàng mới
+              <a th:href="@{/signUp}">Tạo tài khoản</a>
+            </p>
+
+            <a th:href="@{/home}" class="login_btn-back btn_back">
+              <i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ
+            </a>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div th:replace="layout ::footer"></div>
+
+    <!-- ICON IONICS -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+
+    <!-- JS -->
+    <script th:src="@{/js/signIn.js}"></script>
+    <script th:src="@{/js/openCart.js}"></script>
+  </body>
+</html>

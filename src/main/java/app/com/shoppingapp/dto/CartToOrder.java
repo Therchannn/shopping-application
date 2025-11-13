@@ -16,4 +16,3 @@ public class CartToOrder {
     Order.PaymentMethod paymentMethod;
     String userId;
 }
-

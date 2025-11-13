@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" th:href="@{/css/base.css}" />
+  <link rel="stylesheet" th:href="@{/css/auth.css}" />
+  <link rel="stylesheet" th:href="@{/css/layout.css}" />
+  <link rel="stylesheet" th:href="@{/css/cart.css}" />
+  <link rel="stylesheet" th:href="@{/css/layoutInfo.css}" />
+  <link rel="stylesheet" th:href="@{/css/layoutOrder.css}" />
+  <link rel="stylesheet" th:href="@{/css/layout.css}" />
+  <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}" />
+  <link
+          rel="stylesheet"
+          th:href="@{/fontawesome-free-7.1.0-web/css/all.min.css}"
+  />
+  <link rel="icon" th:href="@{/images/favicon.png}" />
+  <title>Đơn hàng của bạn</title>
+</head>
+
+<body>
+<div th:replace="layout :: header"></div>
+
+<h1 class="order__heading">Đơn hàng của bạn</h1>
+
+<div class="order__wrap">
+  <div th:replace="layoutInfo :: sidebar"></div>
+
+  <div class="order__list">
+    <!-- Tabs -->
+    <div class="order__items">
+
+      <form class="order__items" th:action="@{/order}" method="get">
+        <a
+                th:href="@{/order(type='all')}"
+                class="order__status"
+                th:classappend="${param.type == null or param.type[0] == 'all'} ? ' active' : ''"
+        >Tất cả đơn</a
+        >
+
+        <a
+                th:href="@{/order(type='pending')}"
+                class="order__status"
+                th:classappend="${param.type != null and param.type[0] == 'pending'} ? ' active' : ''"
+        >Đơn mới</a
+        >
+
+        <a
+                th:href="@{/order(type='confirmed')}"
+                class="order__status"
+                th:classappend="${param.type != null and param.type[0] == 'confirmed'} ? ' active' : ''"
+        >Đã xác nhận</a
+        >
+
+        <a
+                th:href="@{/order(type='cancelled')}"
+                class="order__status"
+                th:classappend="${param.type != null and param.type[0] == 'cancelled'} ? ' active' : ''"
+        >Đã hủy</a
+        >
+      </form>
+    </div>
+
+
+    <!-- Dynamic content -->
+    <div
+            th:switch="${param.type != null ? param.type[0] : 'all'}"
+    >
+      <div
+              th:case="'all'"
+              th:include="fragments/order-all :: content"
+      ></div>
+      <div
+              th:case="'pending'"
+              th:include="fragments/order-new :: content"
+      ></div>
+      <div
+              th:case="'confirmed'"
+              th:include="fragments/order-confirmed :: content"
+      ></div>
+      <div
+              th:case="'cancelled'"
+              th:include="fragments/order-cancelled :: content"
+      ></div>
+    </div>
+  </div>
+</div>
+
+<div th:replace="layout :: footer"></div>
+
+<span class="footer">Copyright © 2025 Outerity. Powered by Haravan</span>
+
+<script th:src="@{/js/logoutHandle.js}"></script>
+<script th:src="@{/js/checkout.js}"></script>
+<script th:src="@{/js/openCart.js}"></script>
+</body>
+</html>

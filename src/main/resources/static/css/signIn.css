@@ -1,0 +1,28 @@
+.login_content{
+  order: 1;
+}
+
+.login_title{
+  order: 2;
+}
+
+.login_btn {
+  margin-top: 4rem;
+}
+.form_btn-back {
+  margin-top: 4rem;
+}
+/* Tablet */
+@media screen and (max-width: 812px) {
+  .auth {
+    display: flex;
+    flex-direction: column;
+  }
+  .auth_title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  .auth_title::after {
+    display: none;
+  }
+}

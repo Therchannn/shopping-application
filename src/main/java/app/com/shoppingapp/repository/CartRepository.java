@@ -1,5 +1,6 @@
 package app.com.shoppingapp.repository;
 
+import app.com.shoppingapp.dto.CartDTO;
 import app.com.shoppingapp.dto.CartToGet;
 import app.com.shoppingapp.entity.Cart;
 import app.com.shoppingapp.entity.CartId;
@@ -16,6 +17,7 @@ public interface CartRepository extends JpaRepository<Cart, CartId> {
     @Query(
             value = """
                     SELECT 
+                        v.id_product_variant AS id,
                         p.name, 
                         p.description, 
                         p.category, 
@@ -24,7 +26,8 @@ public interface CartRepository extends JpaRepository<Cart, CartId> {
                         v.color, 
                         v.image_url, 
                         v.price, 
-                        c.quantity 
+                        c.quantity,
+                        v.quantity as amount
                     FROM cart c
                     JOIN product_variants v ON c.id_product_variant = v.id_product_variant
                     JOIN product p ON p.id = v.id_product
@@ -33,6 +36,5 @@ public interface CartRepository extends JpaRepository<Cart, CartId> {
             nativeQuery = true
     )
     List<CartToGet> getAllCart(@Param("userId") String userId);
-
-    Optional<Cart> findCartByIdProductVariantId(String id);
+    Optional<Cart> findByIdProductVariantIdAndIdUserId(String productVariantId, String userId);
 }

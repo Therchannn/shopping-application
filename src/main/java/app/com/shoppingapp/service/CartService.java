@@ -23,8 +23,33 @@ public class CartService {
     private final ProductVariantsRepository productVariantsRepository;
     private final OrderRepository orderRepository;
 
-    public List<CartToGet> get(String id){
-        return cartRepository.getAllCart(id);
+    public List<CartToGet> get(String userid){
+        return cartRepository.getAllCart(userid);
+    }
+
+    public List<CartToGet> getFromOrder(List<OrderDTO> data, String orderId){
+        List<CartToGet> items = new ArrayList<>();
+
+        OrderDTO order = data.stream().filter(el -> el.getId().equals(orderId))
+                .findFirst().orElse(null);
+
+        if (order == null) return List.of();
+
+        for(OrderItemDTO item : order.getItems()){
+            CartToGet newItem = CartToGet.builder()
+                    .id(item.getVariantId())
+                    .color(item.getColor())
+                    .price(item.getPrice())
+                    .name(item.getProductName())
+                    .size(item.getSize())
+                    .quantity(item.getQuantity())
+                    .imageUrl(item.getProductImage())
+                    .build();
+
+            items.add(newItem);
+        }
+
+        return items;
     }
 
     public String add(ProductAddToCart data){
@@ -36,13 +61,18 @@ public class CartService {
                 return  "Missing value, try again";
             }
 
-            Optional<Cart> result = cartRepository.findCartByIdProductVariantId(data.getProductVariantId());
+            Optional<Cart> result = cartRepository.findByIdProductVariantIdAndIdUserId(
+                    data.getProductVariantId(),
+                    data.getUserId()
+            );
+
             if(result.isPresent())
             {
                 Cart updateCart = result.get();
-                updateCart.setQuantity(updateCart.getQuantity() + data.getQuantity());
+                int newQuantity = updateCart.getQuantity() + data.getQuantity();
+                updateCart.setQuantity(newQuantity > variant.getQuantity() ? variant.getQuantity() : newQuantity);
                 cartRepository.save(updateCart);
-                return "Cart has been updated";
+                return "Sản phẩm đã được cập nhật";
             }
             else{
                 CartId id = new CartId(data.getProductVariantId(), data.getUserId());
@@ -55,7 +85,7 @@ public class CartService {
                     .build();
 
                 cartRepository.save(cart);
-                return "Product has been added";
+                return "Sản phẩm đã thêm vào giỏ hàng";
             }
         }
         catch (Exception e){
@@ -63,9 +93,9 @@ public class CartService {
         }
     }
 
-    public String delete(ProductDeleteFromCart data){
+    public String delete(String productVariantId, String userId){
         try {
-            CartId id = new CartId(data.getProductVariantId(), data.getUserId());
+            CartId id = new CartId(productVariantId, userId);
             cartRepository.deleteById(id);
             return "Product has been deleted";
         }
@@ -74,9 +104,10 @@ public class CartService {
         }
     }
 
-    public String order(CartToOrder data){
+    public String order(String userId, String payment){
         try {
-            User user = userRepository.findUserById(data.getUserId());
+            User user = userRepository.findUserById(userId);
+            Order.PaymentMethod method = Order.PaymentMethod.valueOf(payment);
 
             if(user == null){
                 return "Something is missing, try again !";
@@ -84,16 +115,26 @@ public class CartService {
 
             Order newOrder = Order.builder()
                     .user(user)
-                    .status("Enrolled")
+                    .status("Pending")
                     .shippingFee(new BigDecimal("10000.00"))
-                    .paymentMethod(data.getPaymentMethod())
+                    .paymentMethod(method)
                     .createdAt(LocalDateTime.now())
                     .build();
 
             BigDecimal total = BigDecimal.ZERO;
+            List<CartToGet> items = cartRepository.getAllCart(userId);
+
+            if(items == null){
+                return "Nothing can be order";
+            }
+
             List<OrderItem> orderItems = new ArrayList<>();
-            for(CartToOrder.productToOrder item : data.getProductVariants()){
-                ProductVariant variant = productVariantsRepository.findByIdProductVariant(item.getProductVariantId());
+            for(CartToGet item : items){
+                ProductVariant variant = productVariantsRepository.findByIdProductVariant(item.getId());
+
+                if(variant == null){
+                    return "Missing something, try again";
+                }
 
                 if(variant.getQuantity() == 0){
                     continue;
@@ -113,7 +154,7 @@ public class CartService {
 
                 orderItems.add(newItem);
 
-                CartId id  = new CartId(item.getProductVariantId(), data.getUserId());
+                CartId id  = new CartId(item.getId(), userId);
                 cartRepository.deleteById(id);
             }
 
@@ -140,14 +181,14 @@ public class CartService {
 
                 cartRepository.save(cart);
 
-                return "Update cart successfully";
+                return "Sản phẩm đã được cập nhật";
             }
             else{
-                return "Something is missing, try again";
+                return "Lỗi, vui lòng thử lại !";
             }
         }
         catch (Exception e){
-            return "Something is error: " + e.getMessage();
+            return "Lỗi: " + e.getMessage();
         }
     }
 }

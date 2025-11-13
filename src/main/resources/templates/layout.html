@@ -1,120 +1,125 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/base.css}">
-    <link rel="stylesheet" th:href="@{/css/layout.css}">
-    <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}">
-    <link rel="stylesheet" th:href="@{/fontawesome-free-7.1.0-web/css/all.min.css}">
-    
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart.css}" />
+    <link rel="stylesheet" th:href="@{/css/auth.css}" />
+    <link rel="stylesheet" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" th:href="@{/themify-icons/themify-icons.css}" />
+    <link
+      rel="stylesheet"
+      th:href="@{/fontawesome-free-7.1.0-web/css/all.min.css}"
+    />
+
     <title>Outerity</title>
-</head>
-<body>
-    
+  </head>
+  <body>
     <!-- header -->
     <header class="header-wrap" th:fragment="header">
+      <div class="header__logo-wrap">
+        <!-- name -->
+        <img
+          th:src="@{/images/logo.svg}"
+          alt="Outerity"
+          class="header__title-img"
+        />
 
-        <div class="header__logo-wrap">
-            <!-- name -->
-            <img th:src="@{/images/logo.svg}" alt="Outerity" class="header__title-img">
-    
-            <!-- navbar -->
-            <ul class="navbar">
-                <a href= "#" class="navbar__item">HOME</a>
-                <a href= "" class="navbar__item">ALL PRODUCT</a>
-                <a href= "" class="navbar__item">ABOUT</a>
-                <a href= "" class="navbar__item">CONTACT</a>
-            </ul>
-        </div>
-    
-        <!-- another -->
-        <div class="another">
+        <!-- navbar -->
+        <ul class="navbar">
+          <a th:href="@{/home}" class="navbar__item">TRANG CHỦ</a>
+          <a th:href="@{/product}" class="navbar__item">SẢN PHẨM</a>
+          <a th:href="@{/about}" class="navbar__item">VỀ CHÚNG TÔI</a>
+          <a th:href="@{/contact}" class="navbar__item">LIÊN HỆ</a>
+        </ul>
+      </div>
 
-            <div class="another__wrap">
+      <!-- another -->
+      <div class="another">
+        <div class="another__wrap">
+          <div class="another__info">
+            <i
+              class="info__logo-user info__logo-user fa-solid fa-circle-user"
+            ></i>
 
-                <div class="another__info">
+            <div class="info__content">
+              <div class="info__content-wrap" th:if="${isAuth} == true">
+                <a th:href="@{/signIn}" class="info__login">Đăng nhập </a>/
+                <a th:href="@{/signUp}" class="info__login">Đăng ký</a>
+              </div>
 
-                    <i class="info__logo-user info__logo-user fa-solid fa-circle-user"></i>
-
-                    <div class="info__content">
-
-                        <div class="info__content-wrap">
-                            <a href= "" class="info__login">Đăng nhập </a>/
-                            <a href="" class="info__login">Đăng ký</a>
-                        </div>
-
-                        <a href="" class="info__title">Tài khoản của tôi</a>
-
-                    </div>
-
-                </div>
-    
-                <div class="another__cart">
-
-                    <i class="cart__icon fa-solid fa-cart-plus"></i>
-                    <p class="cart__title">Giỏ hàng</p>
-                </div>
-
+              <a th:if="${isAuth} == false" th:href="@{/info}" class="info__title">Tài khoản của tôi</a>
             </div>
+          </div>
 
-            <div class="another__search">
-
-                <input type="text" class="search__input" placeholder="Tìm kiếm sản phẩm...">
-
-                <button class="search__btn btn">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-
-            </div>
-
+          <div class="another__cart">
+            <i class="cart__icon fa-solid fa-cart-plus"></i>
+            <p class="cart__title" id="openCart">Giỏ hàng</p>
+          </div>
         </div>
+        <!-- Fragment giỏ hàng -->
+        <div th:replace="~{cart :: cartPanel}"></div>
 
+        <form th:action="@{/product}" method="get" class="another__search">
+          <input
+            type="text"
+            name="search"
+            class="search__input"
+            th:value="${param.search}"
+            placeholder="Tìm kiếm sản phẩm..."
+          />
+
+          <button type="submit" class="search__btn btn">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+      </div>
     </header>
 
     <main>
-        <div style="min-height: 200px;"></div>
+      <div style="min-height: 200px"></div>
     </main>
 
     <!-- footer -->
     <footer class="footer-wrap" th:fragment="footer">
+      <ul class="footer__list">
+        <li class="footer__item footer_title">ĐỊA CHỈ</li>
 
-        <ul class="footer__list">
+        <li class="footer__item">
+          <span class="footer__item-bold">Trụ sở chính: </span>
+          Công ty Cổ Phần Phúc Long Heritage - ĐKKD: 0316 871719 do sở KHĐT
+          TPHCM cấp lần đầu ngày 21/05/2021
+        </li>
 
-            <li class="footer__item footer_title">ĐỊA CHỈ</li>
+        <li class="footer__item">
+          <span class="footer__item-bold">Nhà máy: </span>
+          D_8D_CN Đường XE 1, Khu Công Nghiệp Mỹ Phước III, phường Mỹ Phước, thị
+          xã Bến Cát, tỉnh Bình Dương, Việt Nam.
+        </li>
 
-            <li class="footer__item">
-                <span class="footer__item-bold">Trụ sở chính: </span>
-                Công ty Cổ Phần Phúc Long Heritage - ĐKKD: 0316 871719 do sở KHĐT TPHCM cấp lần đầu ngày 21/05/2021
-            </li>
-            
-            <li class="footer__item">
-                <span class="footer__item-bold">Nhà máy: </span>
-                D_8D_CN Đường XE 1, Khu Công Nghiệp Mỹ Phước III, phường Mỹ Phước, thị xã Bến Cát, tỉnh Bình Dương, Việt Nam.
-            </li>
+        <li class="footer__item">
+          <span class="footer__item-bold">Địa chỉ: </span>
+          Phòng 702, Tầng 7, Tòa nhà Central Plaza, số 17 Lê Duẩn, phường Bến
+          Nghé, quận 1, Hồ Chí Minh.
+        </li>
+      </ul>
 
-            <li class="footer__item">
-                <span class="footer__item-bold">Địa chỉ: </span>
-                Phòng 702, Tầng 7, Tòa nhà Central Plaza, số 17 Lê Duẩn, phường Bến Nghé, quận 1, Hồ Chí Minh.
-            </li>
-        </ul>
-
-        <ul class="footer__list">
-            <li class="footer__item footer_title">LIÊN KẾT</li>
-            <li class="footer__item">Tìm kiếm</li>
-            <li class="footer__item">Giới thiệu</li>
-            <li class="footer__item">Chính sách thanh toán</li>
-            <li class="footer__item">Chính sách khiếu nại</li>
-            <li class="footer__item">Chính sách vận chuyển</li>
-            <li class="footer__item">Chính sách đổi trả</li>
-            <li class="footer__item">Chính sách bảo hành</li>
-            <li class="footer__item">Chính sách kiểm hàng</li>
-            <li class="footer__item">Chính sách bảo mật</li>
-        </ul>
-
+      <ul class="footer__list">
+        <li class="footer__item footer_title">LIÊN KẾT</li>
+        <li class="footer__item">Tìm kiếm</li>
+        <li class="footer__item">Giới thiệu</li>
+        <li class="footer__item">Chính sách thanh toán</li>
+        <li class="footer__item">Chính sách khiếu nại</li>
+        <li class="footer__item">Chính sách vận chuyển</li>
+        <li class="footer__item">Chính sách đổi trả</li>
+        <li class="footer__item">Chính sách bảo hành</li>
+        <li class="footer__item">Chính sách kiểm hàng</li>
+        <li class="footer__item">Chính sách bảo mật</li>
+      </ul>
     </footer>
 
     <span class="footer">Copyright © 2025 Outerity. Powered by Haravan</span>
-
-</body>
+    <script th:src="@{/js/openCart.js}"></script>
+  </body>
 </html>

@@ -1,0 +1,38 @@
+<div th:fragment="content" class="order__content">
+  <div th:if="${#lists.isEmpty(orders)}">
+    <p>Bạn chưa có đơn hàng nào.</p>
+  </div>
+  <div class="order__new" th:each="order : ${orders}">
+    <div class="order__category">
+      <div class="order__product" th:each="item : ${order.items}">
+        <div class="order__img">
+          <img
+                  th:src="@{${item.productImage}}"
+                  alt="image"
+          />
+        </div>
+        <div class="order__hero">
+          <h4 class="order__title" th:text="${item.productName}"></h4>
+          <div class="order__wrapper">
+            <p>
+              Size:
+              <span th:text="${item.size} + '/' "></span>
+              <span th:text="${item.color}"></span>
+            </p>
+            <p>
+              Số lượng:
+              <span th:text="${item.quantity}"></span>
+            </p>
+            <p th:text="${item.price}"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="order__total">
+      <p>
+        Tổng số tiền:
+        <span th:text="${order.total}"></span>
+      </p>
+    </div>
+  </div>
+</div>

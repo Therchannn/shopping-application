@@ -1,0 +1,22 @@
+
+.register_btn {
+  margin-top: 5rem;
+}
+.form_btn-back {
+  margin-top: 4rem;
+  align-self: flex-start;
+}
+/* Tablet */
+@media screen and (max-width: 812px) {
+  .auth {
+    display: flex;
+    flex-direction: column;
+  }
+  .auth_title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  .auth_title::after {
+    display: none;
+  }
+}

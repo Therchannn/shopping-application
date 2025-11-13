@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/adminLayout :: layout('Quản lý khách hàng', ~{::content}, ~{::scripts})}">
+<head>
+  <meta charset="UTF-8" />
+  <title>Khách hàng</title>
+</head>
+<body>
+
+<!-- CONTENT -->
+<div th:fragment="content">
+  <h2>Quản lý khách hàng</h2>
+
+  <div class="content-header">
+    <div>
+      <p style="color: #6b7280;">Quản lý tài khoản khách hàng và phân quyền</p>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <section class="kpi-grid">
+    <div class="kpi-card green">
+      <div class="kpi-header">
+        <i class="bi bi-person-check-fill"></i>
+        <span>Đang hoạt động</span>
+      </div>
+      <div class="kpi-value" th:text="${activeCount}">0</div>
+      <small style="color: #6b7280;">Tài khoản hiện hành</small>
+      <i class="bi bi-check-circle growth-icon"></i>
+    </div>
+
+    <div class="kpi-card red">
+      <div class="kpi-header">
+        <i class="bi bi-person-x-fill"></i>
+        <span>Đã khóa</span>
+      </div>
+      <div class="kpi-value" th:text="${bannedCount}">0</div>
+      <small style="color: #6b7280;">Tài khoản đã khóa</small>
+      <i class="bi bi-ban growth-icon"></i>
+    </div>
+
+    <div class="kpi-card blue">
+      <div class="kpi-header">
+        <i class="bi bi-person-fill"></i>
+        <span>Người dùng</span>
+      </div>
+      <div class="kpi-value" th:text="${userCount}">0</div>
+      <small style="color: #6b7280;">Người dùng web</small>
+      <i class="bi bi-people-fill growth-icon"></i>
+    </div>
+
+    <div class="kpi-card yellow">
+      <div class="kpi-header">
+        <i class="bi bi-shield-fill-check"></i>
+        <span>Quản trị viên</span>
+      </div>
+      <div class="kpi-value" th:text="${adminCount}">0</div>
+      <small style="color: #6b7280;">Người dùng hệ thống</small>
+      <i class="bi bi-award growth-icon"></i>
+    </div>
+  </section>
+
+  <div class="content-header">
+    <form class="search-box" method="get" th:action="@{/admin/customers}">
+      <i class="bi bi-search"></i>
+      <input type="text" name="q" th:value="${q}" placeholder="Tìm kiếm khách hàng...">
+    </form>
+    <button class="btn btn-primary" id="btnAddCustomer">
+      <i class="bi bi-plus-circle"></i> Thêm khách hàng
+    </button>
+  </div>
+
+  <section class="table-section">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Tên tài khoản</th>
+          <th>Tên khách hàng</th>
+          <th>Vai trò</th>
+          <th>Trạng thái</th>
+          <th>Số điện thoại</th>
+          <th>Địa chỉ</th>
+          <th>Ngày đăng ký</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="customer : ${customers}">
+          <td th:text="${customer.username}">nguyenvana</td>
+          <td th:text="${customer.name}">Nguyễn Văn A</td>
+          <td>
+            <span th:if="${customer.role}" class="role-badge role-admin">
+              <i class="bi bi-shield-fill-check"></i> Quản trị viên
+            </span>
+            <span th:if="${!customer.role}" class="role-badge role-user">
+              <i class="bi bi-person-fill"></i> Người dùng
+            </span>
+          </td>
+          <td>
+            <span th:if="${customer.status}" style="background-color: #10b981; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.875rem; display: inline-flex; align-items: center; gap: 4px;">
+              <i class="bi bi-check-circle-fill"></i> Hoạt động
+            </span>
+            <span th:if="${!customer.status}" style="background-color: #ef4444; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.875rem; display: inline-flex; align-items: center; gap: 4px;">
+              <i class="bi bi-lock-fill"></i> Đã khóa
+            </span>
+          </td>
+          <td th:text="${customer.phone}">0123456789</td>
+          <td th:text="${customer.address}">TP.HCM</td>
+          <td th:text="${#temporals.format(customer.createdAt, 'dd/MM/yyyy HH:mm')}">01/01/2024</td>
+          <td>
+            <button class="btn-icon btn-edit" title="Chỉnh sửa"
+                    th:data-id="${customer.id}"
+                    th:data-username="${customer.username}"
+                    th:data-name="${customer.name}"
+                    th:data-phone="${customer.phone}"
+                    th:data-address="${customer.address}"
+                    th:data-role="${customer.role}">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn-icon btn-toggle-status"
+                    th:title="${customer.status ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}"
+                    th:data-id="${customer.id}"
+                    th:data-username="${customer.username}"
+                    th:data-status="${customer.status}">
+              <i th:class="${customer.status ? 'bi bi-ban' : 'bi bi-check-circle'}"></i>
+            </button>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(customers)}">
+          <td colspan="8" style="text-align: center; padding: 40px;">
+            <i class="bi bi-people" style="font-size: 48px; color: #9ca3af;"></i>
+            <p style="color: #6b7280; margin-top: 16px;">Chưa có khách hàng nào</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Trang thêm/sửa sản phẩm -->
+  <div id="customerModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Thêm khách hàng</h3>
+        <span class="close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <form id="customerForm">
+          <input type="hidden" id="customerId">
+
+          <div class="form-group">
+            <label for="username">Tên tài khoản <span style="color: red;">*</span></label>
+            <input type="text" id="username" name="username">
+          </div>
+
+          <div class="form-group" id="passwordGroup">
+            <label for="password">Mật khẩu <span style="color: red;">*</span></label>
+            <input type="password" id="password" name="password">
+            <small style="color: #6b7280;">Mật khẩu phải có ít nhất 6 ký tự</small>
+          </div>
+
+          <div class="form-group">
+            <label for="name">Tên khách hàng <span style="color: red;">*</span></label>
+            <input type="text" id="name" name="name">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Số điện thoại</label>
+            <input type="tel" id="phone" name="phone" pattern="\d{1,11}" maxlength="11">
+          </div>
+
+          <div class="form-group">
+            <label for="address">Địa chỉ</label>
+            <textarea id="address" name="address" rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="checkbox" id="role" name="role" style="display: none;">
+              <span class="role-toggle">
+                <i class="bi bi-person-fill" id="roleIcon"></i>
+              </span>
+              <span id="roleText">Người dùng</span>
+            </label>
+            <small style="color: #6b7280;">Click để chuyển đổi vai trò</small>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="btnCancel">Hủy</button>
+            <button type="submit" class="btn btn-primary" id="btnTitle">Lưu</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal xác nhận khóa/mở khóa -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content" style="max-width: 400px;">
+      <div class="modal-header">
+        <h3 id="toggleStatusTitle">Xác nhận</h3>
+        <span class="close-delete">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p id="toggleStatusMessage">Bạn có chắc chắn?</p>
+        <input type="hidden" id="deleteCustomerId">
+        <input type="hidden" id="toggleStatusAction">
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="btnCancelDelete">Hủy</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmDelete">Xác nhận</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<th:block th:fragment="scripts">
+  <script th:src="@{/js/customers.js}"></script>
+</th:block>
+</body>
+</html>
+

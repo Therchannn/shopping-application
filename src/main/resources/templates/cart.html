@@ -1,0 +1,75 @@
+<div th:fragment="cartPanel">
+
+    <div class="cart is-hidden">
+      <!-- Nếu trống -->
+      <div class="cart_list" th:if="${#lists.isEmpty(cartItems)}">
+        <h2 class="cart-heading">Giỏ hàng của bạn</h2>
+        <div class="cart_empty">
+          <i class="cart-icon fa-solid fa-inbox"></i>
+          <span class="cart-desc">Giỏ hàng của bạn đang trống</span>
+        </div>
+        <a th:href="@{/product}" class="btn cart-btn">Tiếp tục mua sắm</a>
+      </div>
+
+      <!-- Giỏ hàng có sản phẩm  -->
+      <form th:action="@{/confirm/checkout}" method="post" class="cart_list" th:unless="${#lists.isEmpty(cartItems)}">
+        <h2 class="cart-heading">Giỏ hàng của bạn</h2>
+        <div class="cart_item">
+          <div th:each="item : ${cartItems}" class="cart_solid">
+            <input type="hidden" name="quantity" class="limit" th:value="${item.amount}">
+            <div class="cart_image">
+              <img th:src="@{${item.imageUrl}}" alt="Sản phẩm" />
+            </div>
+
+            <div class="cart_content">
+              <input type="hidden" class="item_id" th:value="${item.id}">
+              <h3 class="cart_title" th:text="${item.name}">Tên sản phẩm</h3>
+              <span
+                class="cart_price"
+                th:text="${#numbers.formatInteger(item.price, 3, 'POINT')} + ' VND'"
+              >
+              </span>
+
+              <div class="cart_wrapper">
+                <span class="cart_info">Size:</span>
+                <span th:text="${item.size}"></span>
+              </div>
+
+              <div class="cart_wrapper">
+                <span class="cart_info">Số lượng:</span>
+                <div class="cart_amount">
+                  <button type="button" class="btn-justify" onclick="handleMinus(this)">
+                    <i class="fa-solid fa-minus"></i>
+                  </button>
+                  <input
+                    type="number"
+                    name="amount"
+                    class="amount"
+                    min="1"
+                    th:value="${item.quantity}"
+                  />
+                  <button type="button" class="btn-justify" onclick="handlePlus(this)">
+                    <i class="fa-solid fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="cart_wrapper">
+                <span class="cart_info">Màu:</span>
+                <span th:text="${item.color}"></span>
+              </div>
+
+              <button type="button" class="btn cart_del" onclick="handleDelete(this)">
+                <i class="fa-solid fa-trash"></i> Xóa
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="cart_bottom">
+          <button type="submit" class="btn cart-btn">THANH TOÁN</button>
+        </div>
+      </form>
+          </div>
+
+      <script th:src="@{/js/cart.js}"></script>
+    </div>

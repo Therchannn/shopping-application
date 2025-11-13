@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/adminLayout :: layout('Tổng quan', ~{::content}, ~{::scripts})}">
+<head>
+  <title>Dashboard</title>
+</head>
+
+<body>
+<!-- CONTENT -->
+<div th:fragment="content">
+  <h2>Dashboard</h2>
+
+  <div class="content-header">
+    <div>
+      <p style="color: #6b7280;">Tổng quan hoạt động kinh doanh</p>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <section class="kpi-grid">
+    <div class="kpi-card yellow">
+      <div class="kpi-header">
+        <i class="bi bi-people-fill"></i>
+        <span>Tổng số khách hàng</span>
+      </div>
+      <div class="kpi-value" th:text="${userCount}">567,899</div>
+      <small style="color: #6b7280;">Đã đăng ký</small>
+      <i class="bi bi-graph-up-arrow growth-icon"></i>
+    </div>
+
+    <div class="kpi-card purple">
+      <div class="kpi-header">
+        <i class="bi bi-coin"></i>
+        <span>Tổng doanh thu</span>
+      </div>
+      <div class="kpi-value" th:text="${#numbers.formatDecimal(revenue, 0, 'COMMA', 0, 'POINT')} + ' đ'">$3,465 M</div>
+      <small style="color: #6b7280;">Từ đơn hàng hoàn tất</small>
+      <i class="bi bi-graph-up-arrow growth-icon"></i>
+    </div>
+
+    <div class="kpi-card green">
+      <div class="kpi-header">
+        <i class="bi bi-cart-check-fill"></i>
+        <span>Tổng đơn hàng</span>
+      </div>
+      <div class="kpi-value" th:text="${orderCount}">1,136 M</div>
+      <small style="color: #6b7280;">Đã được tạo</small>
+      <i class="bi bi-graph-up-arrow growth-icon"></i>
+    </div>
+
+    <div class="kpi-card blue">
+      <div class="kpi-header">
+        <i class="bi bi-box-fill"></i>
+        <span>Tổng số sản phẩm</span>
+      </div>
+      <div class="kpi-value" th:text="${productCount}">1,789</div>
+      <small style="color: #6b7280;">Đang hiển thị</small>
+      <i class="bi bi-graph-up-arrow growth-icon"></i>
+    </div>
+  </section>
+
+  <!-- CHARTS -->
+  <section class="charts">
+    <div class="chart-card">
+      <h3>Doanh thu theo tháng</h3>
+      <canvas id="revenueChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Bán theo từng sản phẩm</h3>
+      <canvas id="categoryChart"></canvas>
+    </div>
+  </section>
+</div>
+
+
+<th:block th:fragment="scripts">
+  <script th:inline="javascript">
+    window.DASHBOARD_DATA = {
+      monthlyRevenue: /*[[${monthlyRevenue}]]*/ [],
+      categoryLabels: /*[[${categoryLabels}]]*/ [],
+      categoryData: /*[[${categoryData}]]*/ []
+    };
+  </script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script th:src="@{/js/dashboard.js}"></script>
+</th:block>
+</body>
+</html>

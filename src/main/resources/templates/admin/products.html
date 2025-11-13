@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/adminLayout :: layout('Quản lí sản phẩm', ~{::content}, ~{::scripts})}">
+
+<head>
+    <title>Quản lí sản phẩm</title>
+</head>
+<body>
+    <section th:fragment="content" class="product_frame">
+        <h2>Quản lí sản phẩm</h2>
+        <form class="header" th:action="@{/admin/products}" method="get">
+            <div class="input_frame">
+                <input
+                        type="text"
+                        aria-label="search"
+                        name="search"
+                        placeholder="Tìm kiếm sản phẩm"
+                        th:value="${param.search}"
+                >
+                <button type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+            <button type="button" id="add_product">
+                Thêm sản phẩm
+            </button>
+        </form>
+    <div id="product_container">
+        <div class="product"
+             th:each="product: ${products}"
+             th:attr="data-id=${product.id},
+              data-name=${product.name},
+              data-description=${product.description},
+              data-category=${product.category},
+              data-status=${product.status}"
+        >
+            <div class="product_content" th:attr="data-product-id=${product.id}">
+                <div class="beside">
+                    <img th:if="${not #lists.isEmpty(product.variants)}"
+                         th:src="@{${product.variants[0].imageUrl}}"
+                         alt="image">
+
+                    <img th:if="${#lists.isEmpty(product.variants)}"
+                         th:src="@{/images/placeholder.png}"
+                         alt="no image">
+                    <h5>
+                    Mã sản phẩm
+                </h5>
+                    <p th:text="${product.id}"></p>
+                </div>
+                <div class="content">
+                    <h2 th:text="${product.name}"></h2>
+                    <p>
+                        <strong>Mô tả: </strong>
+                        <span th:text="${product.description}"></span>
+                    </p>
+                    <p>
+                        <strong>Loại: </strong>
+                        <span th:text="${product.category}"></span>
+                    </p>
+                    <p>
+                        <strong>Trạng thái: </strong>
+                        <span th:utext="${product.status.toString() == 'ACTIVE'
+                            ? 'Đang bán <i id=&quot;active&quot; class=&quot;fa-solid fa-circle-check&quot;></i>'
+                            : 'Tạm ngưng <i id=&quot;inactive&quot; class=&quot;fa-solid fa-circle-xmark&quot;></i>'}">
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="product_variant_container">
+                    <div class="product_variant" th:if="${!product.variants.isEmpty()}" th:each="variant : ${product.groupedVariants}">
+                    <div class="variant_heading">
+                        <h4>Màu sắc: </h4>
+                        <span th:text="${variant.key}"></span>
+                    </div>
+                    <div class="variant_item">
+                        <div class="item_heading">
+                            <img th:src="@{${variant.value[0].imageUrl}}" alt="image">
+                        </div>
+                        <div class="item_content">
+                            <div class="item_header">
+                                <h4>Mã biển thể</h4>
+                                <h4>Kích cỡ</h4>
+                                <h4>Số lượng</h4>
+                                <h4>Giá</h4>
+                            </div>
+                            <div class="item_info" th:each="item : ${variant.value}">
+                                <p th:text="${item.code_product_variant}"></p>
+                                <p th:text="${item.size}"></p>
+                                <p th:text="${item.quantity}"></p>
+                                <p th:text="${item.price} + '&#8363'"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form th:action="@{/admin/variant/add}" method="post" class="form_variant">
+                    <div class="input_heading">
+                        <img src="" alt="image" class="newImage">
+                        <div class="button_import">
+                            <button type="button">Chọn ảnh</button>
+                            <input type="file" class="import_btn">
+                        </div>
+                    </div>
+                    <div class="input_content">
+                        <div class="input_header">
+                            <label for="color">Màu sắc:</label>
+                            <input type="text" id="color" placeholder="Nhập màu">
+                        </div>
+                        <div class="input_info">
+                            <div class="size_input">
+                                <h4>Kích cỡ</h4>
+                                <span>S</span>
+                                <span>M</span>
+                                <span>L</span>
+                            </div>
+                            <div class="quantity_input">
+                                <h4>Số lượng</h4>
+                                <input type="number" placeholder="Nhập số lượng">
+                                <input type="number" placeholder="Nhập số lượng">
+                                <input type="number" placeholder="Nhập số lượng">
+                            </div>
+                            <div class="price_input">
+                                <h4>Giá</h4>
+                                <input type="number" placeholder="Nhập giá">
+                                <input type="number" placeholder="Nhập giá">
+                                <input type="number" placeholder="Nhập giá">
+                            </div>
+                        </div>
+                        <div class="footer_form">
+                            <button class="submit_form_variant" type="submit">Thêm</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="func_btns">
+                <button class="edit_btn">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button class="list_btn">
+                    <i class="fa-solid fa-list-ul"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+        <div class="modal" id="modal_add">
+        <div class="form-container" id="form_add">
+            <h2>Thêm sản phẩm</h2>
+
+            <form th:action="@{/admin/product/add}" method="post" th:object="${newProduct}">
+                <label>Mã sản phẩm</label>
+                <input type="text" th:field="*{id}" required placeholder="VD: P001">
+
+                <label>Tên sản phẩm</label>
+                <input type="text" th:field="*{name}" required placeholder="VD: Áo thun Outerity">
+
+                <label>Mô tả</label>
+                <textarea th:field="*{description}" required placeholder="Mô tả sản phẩm..."></textarea>
+
+                <label>Danh mục</label>
+                <div class="radio-group">
+                    <label><input type="radio" th:field="*{category}" value="Áo" checked> Áo</label>
+                    <label><input type="radio" th:field="*{category}" value="Quần"> Quần</label>
+                </div>
+
+                <label>Trạng thái</label>
+                <select th:field="*{status}">
+                    <option value="ACTIVE">Hoạt động</option>
+                    <option value="INACTIVE">Tạm ngừng</option>
+                </select>
+
+                <button type="submit" id="add_product_btn">Thêm sản phẩm</button>
+                <button type="button" id="close_form_add_btn">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </form>
+        </div>
+        </div>
+        <div class="modal" id="modal_edit">
+            <div class="form-container" id="form_edit">
+                <h2>Chỉnh sửa sản phẩm</h2>
+
+                <form id="edit_form" th:action="@{/admin/product/modify}" method="post" th:object="${editProduct}">
+                    <div class="form-group">
+                        <label>Mã sản phẩm</label>
+                        <input type="text" th:field="*{id}" id="edit_id" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tên sản phẩm</label>
+                        <input type="text" th:field="*{name}" id="edit_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mô tả</label>
+                        <textarea th:field="*{description}" id="edit_description" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Danh mục</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" th:field="*{category}" value="Áo" id="edit_category_ao"> Áo
+                            </label>
+                            <label>
+                                <input type="radio" th:field="*{category}" value="Quần" id="edit_category_quan"> Quần
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Trạng thái</label>
+                        <select th:field="*{status}" id="edit_status">
+                            <option value="ACTIVE">Hoạt động</option>
+                            <option value="INACTIVE">Tạm ngừng</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" id="save_edit_btn">Lưu thay đổi</button>
+                        <button type="button" id="close_edit_form_btn">Đóng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <th:block th:fragment="scripts">
+    <script th:src="@{/js/product.js}"></script                                                  >
+    </th:block>
+</body>

@@ -14,15 +14,15 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/signIn")
-    public UserDTO findUser(@RequestBody UserToSignIn data){
-        return userService.getUser(data);
-    }
+    // @PostMapping("/signIn")
+    // public UserDTO findUser(@RequestBody UserToSignIn data){
+    //     return userService.getUser(data);
+    // }
 
-    @PostMapping("/signUp")
-    public String createUser(@RequestBody UserToSignUp data){
-        return userService.setUser(data);
-    }
+    // @PostMapping("/signUp")
+    // public String createUser(@RequestBody UserToSignUp data){
+    //     return userService.setUser(data);
+    // }
 
     @GetMapping("/info")
     public UserDTO getInfoUser(@Param("id") String id){
