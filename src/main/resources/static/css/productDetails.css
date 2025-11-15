@@ -139,7 +139,7 @@ body {
     height: 350px;
     display: flex;
     border: 1px solid var(--black-color);
-    margin-left: -200px;
+    margin-left: -50px;
 }
 
 .db__img-item{
