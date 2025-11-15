@@ -72,10 +72,36 @@
             th:include="fragments/order-new :: content"
           ></div>
 
+<<<<<<< Updated upstream
           <div
             th:if="${param.type != null and param.type[0] == 'confirmed'}"
             th:include="fragments/order-confirmed :: content"
           ></div>
+=======
+    <!-- Dynamic content -->
+    <div 
+            th:switch="${param.type != null ? param.type[0] : 'all'}"
+    >
+      <div
+              th:case="'all'"
+              th:include="fragments/order-all :: content"
+      ></div>
+      <div
+              th:case="'pending'"
+              th:include="fragments/order-new :: content"
+      ></div>
+      <div
+              th:case="'confirmed'"
+              th:include="fragments/order-confirmed :: content"
+      ></div>
+      <div
+              th:case="'cancelled'"
+              th:include="fragments/order-cancelled :: content"
+      ></div>
+    </div>
+  </div>
+</div>
+>>>>>>> Stashed changes
 
           <div
             th:if="${param.type != null and param.type[0] == 'cancelled'}"

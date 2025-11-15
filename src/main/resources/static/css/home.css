@@ -44,7 +44,13 @@ body {
 }
 
 .home__product-img{
+<<<<<<< Updated upstream
     width: 95%;
+=======
+    height: 300px;
+    width: 300px;
+    object-fit: contain;
+>>>>>>> Stashed changes
 }
 
 .home__product-name{

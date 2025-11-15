@@ -1,7 +1,7 @@
 .order__heading {
   display: block;
   text-align: center;
-  padding: 200px 0 50px 0;
+  padding: 200px;
   font-size: 40px;
 }
 .order__content{
@@ -86,11 +86,12 @@
 }
 .order__hero {
   display: flex;
+  align-items: flex-start;
   flex-direction: column;
   gap: 2rem;
 }
 .order__title {
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   font-weight: bold;
 }
 .order__img {
@@ -153,7 +154,8 @@
 
 
 /* Tablet */
-@media(min-width: 740px){
+/* Tablet */
+@media(min-width: 740px) and (max-width: 1023px){
     
     .main__sidebar{
         width: 31%;

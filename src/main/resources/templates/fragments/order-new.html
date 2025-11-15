@@ -1,5 +1,15 @@
+<<<<<<< Updated upstream
 <div th:fragment="content" class="order__content">
   <div class="order__new">
+=======
+<div th:fragment="content" class="order__content" style="width: 100%;">
+  <div th:if="${#lists.isEmpty(orders)}">
+    <p style="text-align: center;">Bạn chưa có đơn hàng nào.</p>
+  </div>
+  <div class="order__new" th:each="order : ${orders}">
+    <input type="hidden" class="orderId" th:value="${order.id}">
+    <input type="hidden" class="payment" th:value="${order.paymentMethod}">
+>>>>>>> Stashed changes
     <div class="order__category">
       <div class="order__product">
         <div class="order__img">
