@@ -1,11 +1,8 @@
 package app.com.shoppingapp.service;
 
 import app.com.shoppingapp.dto.*;
-import app.com.shoppingapp.repository.OrderRepository;
+import app.com.shoppingapp.repository.*;
 import app.com.shoppingapp.entity.*;
-import app.com.shoppingapp.repository.CartRepository;
-import app.com.shoppingapp.repository.ProductVariantsRepository;
-import app.com.shoppingapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +19,7 @@ public class CartService {
     private final UserRepository userRepository;
     private final ProductVariantsRepository productVariantsRepository;
     private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
 
     public List<CartToGet> get(String userid){
         return cartRepository.getAllCart(userid);
@@ -58,7 +56,17 @@ public class CartService {
             ProductVariant variant= productVariantsRepository.findByIdProductVariant(data.getProductVariantId());
 
             if(user == null || variant == null){
-                return  "Missing value, try again";
+                return  "Có lỗi, vui lòng thử lại";
+            }
+
+            Product product = variant.getProduct();
+
+            if(product.getStatus() == Product.Status.INACTIVE){
+                return "Sản phẩm hiện tại đang tạm ngưng bán";
+            }
+
+            if(variant.getQuantity() == 0){
+                return "Sản phẩm đã hết hàng";
             }
 
             Optional<Cart> result = cartRepository.findByIdProductVariantIdAndIdUserId(

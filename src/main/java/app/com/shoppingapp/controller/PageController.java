@@ -6,8 +6,13 @@ import java.util.List;
 
 import app.com.shoppingapp.dto.ProductVariantDTO;
 import app.com.shoppingapp.dto.UserDTO;
+import app.com.shoppingapp.entity.Order;
 import app.com.shoppingapp.entity.Product;
+import app.com.shoppingapp.entity.ProductVariant;
 import app.com.shoppingapp.entity.User;
+import app.com.shoppingapp.mapper.OrderMapper;
+import app.com.shoppingapp.repository.OrderRepository;
+import app.com.shoppingapp.repository.ProductVariantsRepository;
 import app.com.shoppingapp.service.UserService;
 import app.com.shoppingapp.service.OrderService;
 import app.com.shoppingapp.service.CartService;
@@ -22,6 +27,7 @@ import app.com.shoppingapp.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +60,8 @@ public class PageController extends Admin{
     private final CartService cartService;
     private final AuthService authService;
     private final OrderService orderService;
+    private final ProductVariantsRepository productVariantsRepository;
+    private final OrderRepository orderRepository;
 
     @ModelAttribute
     public void addCartData(Model model, HttpSession session) {
@@ -166,7 +174,7 @@ public class PageController extends Admin{
     }
 
     @PostMapping("/confirm/checkout")
-    public String confirmCheckout(HttpSession session, RedirectAttributes attr){
+    public String confirmCheckout(HttpServletRequest req, HttpSession session, RedirectAttributes attr){
         String userId = (String) session.getAttribute("id");
         UserDTO user = userService.getInfo(userId);
 
@@ -174,13 +182,23 @@ public class PageController extends Admin{
             return "redirect:/signIn";
         }
 
+        List<CartToGet> items = cartService.get(userId);
+        if(items == null || items.isEmpty()){
+            attr.addFlashAttribute("messageType", "error");
+            attr.addFlashAttribute("message", "Vui lòng thêm sản phẩm vào giỏ hàng");
+
+            return "redirect:"+ req.getHeader("Referer");
+        }
+
         if (user.getAddress() == null || user.getAddress().isEmpty()){
+            attr.addFlashAttribute("messageType", "error");
             attr.addFlashAttribute("message", "Vui lòng cập nhật địa chỉ");
 
             return "redirect:/info";
         }
 
         if(user.getPhone().isEmpty()){
+            attr.addFlashAttribute("messageType", "error");
             attr.addFlashAttribute("message", "Vui lòng cập nhật số điện thoại");
 
             return "redirect:/info";
@@ -190,7 +208,7 @@ public class PageController extends Admin{
     }
 
     @GetMapping("/checkout")
-    public String checkoutPage(HttpSession session, Model model, @RequestParam(required = false) String orderId) {
+    public String checkoutPage(HttpSession session, HttpServletRequest request, Model model, @RequestParam(required = false) String orderId) {
         String userId = (String) session.getAttribute("id");
 
         if(userId == null ){
@@ -198,22 +216,72 @@ public class PageController extends Admin{
         }
 
         List<CartToGet> items;
+        UserDTO info = userService.getInfo(userId);
+        BigDecimal total = BigDecimal.ZERO;
 
         if(orderId == null){
             items = cartService.get(userId);
         }
+
         else{
             List<OrderDTO> orders = orderService.getById(userId);
-            items = cartService.getFromOrder(orders, orderId);
-            model.addAttribute("orderId", orderId);
-        }
+            OrderDTO order = orders.stream()
+                    .filter(o -> o.getId().equals(orderId))
+                    .findFirst()
+                    .orElse(null);
 
-        UserDTO info = userService.getInfo(userId);
-        BigDecimal total = BigDecimal.ZERO;
+            if(order == null){
+                return "redirect:" + request.getHeader("Referer");
+            }
+
+            List<CartToGet> cartOrder = cartService.getFromOrder(orders, orderId);
+            model.addAttribute("orderId", orderId);
+
+            List<CartToGet> newUpdateOrder = new ArrayList<>();
+
+            for(OrderItemDTO item : order.getItems()){
+                ProductVariant variant = productVariantsRepository.findByIdProductVariant(item.getVariantId());
+
+                if(variant.getQuantity() < item.getQuantity()){
+                    item.setQuantity(variant.getQuantity());
+                }
+
+                if(variant.getQuantity() == 0){
+                    item.setQuantity(0);
+                }
+            }
+
+            for(CartToGet item : cartOrder){
+                ProductVariant variant = productVariantsRepository.findByIdProductVariant(item.getId());
+
+                if(variant.getQuantity() < item.getQuantity()){
+                    item.setQuantity(variant.getQuantity());
+                    newUpdateOrder.add(item);
+                    BigDecimal totalPrice = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
+                    total = total.add(totalPrice);
+                }
+                else if(variant.getQuantity() == 0){
+                    item.setQuantity(0);
+                }
+                else{
+                    newUpdateOrder.add(item);
+                    BigDecimal totalPrice = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
+                    total = total.add(totalPrice);
+                }
+            }
+
+            items = newUpdateOrder;
+            order.setTotal(total);
+            orderRepository.save(OrderMapper.toEntity(order));
+        }
 
         for(CartToGet item : items){
             BigDecimal totalPrice = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
             total = total.add(totalPrice);
+        }
+
+        if(items.isEmpty()){
+            return "redirect:"+ request.getHeader("Referer");
         }
 
         model.addAttribute("items", items);
@@ -224,6 +292,7 @@ public class PageController extends Admin{
     }
 
         @GetMapping("/admin")
+
         public String adminRoot() {
             return "redirect:/admin/login";
         }

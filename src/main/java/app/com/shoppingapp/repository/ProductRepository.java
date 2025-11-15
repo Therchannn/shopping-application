@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository  extends JpaRepository<Product, String>{
     List<Product> findByNameContainingIgnoreCase(String name);
+    Product findProductById(String id);
 
     @Query("SELECT p.category, COUNT(p) FROM Product p GROUP BY p.category")
     List<Object[]> countByCategory();

@@ -26,8 +26,14 @@ public class AuthService {
         User user = userRepository
                 .findUserByUsernameAndPassword(request.getUsername(), request.getPassword())
                 .orElse(null);
-        if(user == null) return null;
-
-        return user.getId();
+        if(user == null){
+            return null;
+        }
+        else if(!user.isStatus()){
+            return null;
+        }
+        else{
+            return user.getId();
+        }
     }
 }

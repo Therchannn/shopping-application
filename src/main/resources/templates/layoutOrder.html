@@ -54,6 +54,13 @@
         >
 
         <a
+                th:href="@{/order(type='completed')}"
+                class="order__status"
+                th:classappend="${param.type != null and param.type[0] == 'completed'} ? ' active' : ''"
+        >Đã hoàn thành</a
+        >
+
+        <a
                 th:href="@{/order(type='cancelled')}"
                 class="order__status"
                 th:classappend="${param.type != null and param.type[0] == 'cancelled'} ? ' active' : ''"
@@ -78,6 +85,10 @@
       <div
               th:case="'confirmed'"
               th:include="fragments/order-confirmed :: content"
+      ></div>
+      <div
+              th:case="'completed'"
+              th:include="fragments/order-completed :: content"
       ></div>
       <div
               th:case="'cancelled'"

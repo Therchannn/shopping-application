@@ -3,6 +3,7 @@ package app.com.shoppingapp.service;
 import app.com.shoppingapp.dto.OrderToChange;
 import app.com.shoppingapp.entity.Order;
 import app.com.shoppingapp.entity.OrderItem;
+import app.com.shoppingapp.entity.Product;
 import app.com.shoppingapp.entity.ProductVariant;
 import app.com.shoppingapp.mapper.OrderMapper;
 import app.com.shoppingapp.repository.OrderRepository;
@@ -85,7 +86,7 @@ public class OrderService {
             }
 
             // Xử lý logic inventory khi chuyển sang Pending (đã ghi nhận)
-            if (newStatus.equals("Pending") && !oldStatus.equals("Pending")) {
+            if (newStatus.equals("Confirmed") && oldStatus.equals("Pending")) {
                 List<OrderItem> items = order.getItems();
                 for (OrderItem item : items) {
                     ProductVariant variant = item.getProductVariant();
@@ -95,7 +96,7 @@ public class OrderService {
             }
 
             // Xử lý logic inventory khi hủy đơn
-            if (newStatus.equals("Cancelled") && oldStatus.equals("Pending")) {
+            if (newStatus.equals("Cancelled") && oldStatus.equals("Confirmed")) {
                 List<OrderItem> items = order.getItems();
                 for (OrderItem item : items) {
                     ProductVariant variant = item.getProductVariant();

@@ -7,7 +7,10 @@
 </head>
 <body>
     <section th:fragment="content" class="product_frame">
-        <h2>Quản lí sản phẩm</h2>
+        <div class="frame_header">
+            <h2>Quản lí sản phẩm</h2>
+            <p style="color: #6b7280;">Theo dõi và xử lý các sản phẩm</p>
+        </div>
         <form class="header" th:action="@{/admin/products}" method="get">
             <div class="input_frame">
                 <input

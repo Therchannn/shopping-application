@@ -72,7 +72,7 @@
                            id="quantity"
                            name="quantity"
                            class="quantity"
-                           min=1
+                           min=0
                            th:field="*{quantity}"
                     />
                     <button type="button" class="quantity-common quantity__increase">+</button>
@@ -165,7 +165,7 @@
                 priceText.textContent = variant.price.toLocaleString() + "₫";
                 image.src = window.location.origin + "/outerity" + variant.imageUrl;
                 variantId.value = variant.id_product_variant
-                quantity.value = variant.quantity > 0 ? 1 : 0
+                quantity.value = parseInt(variant.quantity) > 0 ? 1 : 0
             }
         }
 

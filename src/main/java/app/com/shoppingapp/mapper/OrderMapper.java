@@ -4,9 +4,7 @@ import app.com.shoppingapp.dto.OrderDTO;
 import app.com.shoppingapp.dto.OrderItemDTO;
 import app.com.shoppingapp.dto.OrderToGet;
  import app.com.shoppingapp.dto.OrderItemDTO;
-import app.com.shoppingapp.entity.Order;
-import app.com.shoppingapp.entity.OrderItem;
-import app.com.shoppingapp.entity.ProductVariant;
+import app.com.shoppingapp.entity.*;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -107,4 +105,57 @@ public class OrderMapper {
                 .userAddress(data.getUser() != null ? data.getUser().getAddress() : "N/A")
                 .build();
     }
+
+    public static Order toEntity(OrderDTO dto) {
+        if (dto == null) return null;
+
+        Order order = Order.builder()
+                .id(dto.getId())
+                .total(dto.getTotal())
+                .shippingFee(dto.getShippingFee())
+                .status(dto.getStatus())
+                .paymentMethod(
+                        dto.getPaymentMethod() != null ?
+                                Order.PaymentMethod.valueOf(dto.getPaymentMethod()) : null
+                )
+                .createdAt(dto.getCreatedAt())
+                .build();
+
+        if (dto.getUserId() != null) {
+            User user = new User();
+            user.setId(dto.getUserId());
+            order.setUser(user);
+        }
+
+        if (dto.getItems() != null && !dto.getItems().isEmpty()) {
+
+            List<OrderItem> items = dto.getItems().stream().map(itemDto -> {
+
+                OrderItem orderItem = new OrderItem();
+
+                OrderItemId id = new OrderItemId();
+                id.setIdOrder(dto.getId());
+                id.setIdProductVariant(itemDto.getVariantId());
+                orderItem.setOrderId(id);
+
+                orderItem.setQuantity(itemDto.getQuantity());
+
+                orderItem.setOrder(order);
+
+                if (itemDto.getVariantId() != null) {
+                    ProductVariant variant = new ProductVariant();
+                    variant.setIdProductVariant(itemDto.getVariantId());
+                    orderItem.setProductVariant(variant);
+                }
+
+                return orderItem;
+
+            }).collect(Collectors.toList());
+
+            order.setItems(items);
+        }
+
+        return order;
+    }
+
 }
