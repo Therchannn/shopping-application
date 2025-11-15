@@ -4,42 +4,41 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="stylesheet" th:href="@{/css/checkout.css}" />
-          <link rel="stylesheet" th:href="@{/css/base.css}" />
-      <link rel="stylesheet" th:href="@{/css/auth.css}" />
-          <link rel="stylesheet" th:href="@{/css/cart.css}" />
-          <link rel="stylesheet" th:href="@{/css/layout.css}" />
-          <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}" />
-          <link rel="icon" th:href="@{/images/favicon.png}">
+    <link rel="stylesheet" th:href="@{/css/checkout.css}" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" />
+    <link rel="stylesheet" th:href="@{/css/auth.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart.css}" />
+    <link rel="stylesheet" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}" />
+    <link rel="icon" th:href="@{/images/favicon.png}" />
     <title>Thanh toán</title>
     <!-- ICONS -->
-      </head>
+  </head>
 
   <body>
     <div th:replace="layout :: header"></div>
-
+    <div class="container2">
       <div class="checkout">
-<!-- ================== DANH SÁCH SẢN PHẨM TRONG ĐƠN HÀNG ================== -->
+        <!-- ================== DANH SÁCH SẢN PHẨM TRONG ĐƠN HÀNG ================== -->
         <div class="checkout__product">
           <h3 class="checkout_title">Tổng quan đơn hàng</h3>
-          <input type="hidden" id="orderId" th:if="${orderId} != null" th:value="${orderId}">
+          <input
+            type="hidden"
+            id="orderId"
+            th:if="${orderId} != null"
+            th:value="${orderId}"
+          />
 
           <!-- Lặp qua từng đơn hàng -->
           <div class="order__products">
             <!-- Lặp qua từng sản phẩm trong đơn hàng -->
             <div th:each="item : ${items}" class="order__product">
               <div class="order__img">
-                <img
-                  th:src="@{${item.imageUrl}}"
-                  alt="Ảnh sản phẩm"
-                />
+                <img th:src="@{${item.imageUrl}}" alt="Ảnh sản phẩm" />
               </div>
 
               <div class="order__hero">
-                <h4
-                  class="order__title"
-                  th:text="${item.name}"
-                >
+                <h4 class="order__title" th:text="${item.name}">
                   Tên sản phẩm
                 </h4>
 
@@ -93,7 +92,9 @@
             </div>
           </div>
 
-          <button class="btn checkout__btn" id="submit_order">Hoàn tất đơn hàng</button>
+          <button class="btn checkout__btn" id="submit_order">
+            Hoàn tất đơn hàng
+          </button>
         </div>
 
         <!-- ================== THÔNG TIN GIAO HÀNG + THANH TOÁN ================== -->
@@ -120,14 +121,25 @@
             <h3 class="checkout_title">Phương thức thanh toán</h3>
             <div class="checkout__payment-options">
               <div class="payment">
-                <input type="radio" name="payment" id="bank" value="CHUYEN_KHOAN"/>
+                <input
+                  type="radio"
+                  name="payment"
+                  id="bank"
+                  value="CHUYEN_KHOAN"
+                />
                 <label for="bank">
                   <i class="fa-regular fa-credit-card"></i>
                   Thanh toán khi chuyển khoản
                 </label>
               </div>
               <div class="payment">
-                <input type="radio" name="payment" id="deli" value="TIEN_MAT" checked/>
+                <input
+                  type="radio"
+                  name="payment"
+                  id="deli"
+                  value="TIEN_MAT"
+                  checked
+                />
                 <label for="deli">
                   <i class="fa-solid fa-truck"></i>
                   Thanh toán khi nhận hàng
@@ -136,22 +148,26 @@
             </div>
           </div>
         </div>
+      </div>
 
-  <!-- Modal Box -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <i class="modal-icon fa-solid fa-circle-check"></i>
-      <p>Đơn hàng của bạn đã được tạo thành công</p>
-      <div class="modal-buttons">
-        <a th:href="@{/product}" class="btn-secondary">Tiếp tục mua sắm</a>
-        <a th:href="@{/order(type=pending)}" class="btn-secondary is-active">Xem đơn hàng</a>
+      <!-- Modal Box -->
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <i class="modal-icon fa-solid fa-circle-check"></i>
+          <p>Đơn hàng của bạn đã được tạo thành công</p>
+          <div class="modal-buttons">
+            <a th:href="@{/product}" class="btn-secondary">Tiếp tục mua sắm</a>
+            <a th:href="@{/order(type=pending)}" class="btn-secondary is-active"
+              >Xem đơn hàng</a
+            >
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-      </div>
+
     <div th:replace="layout :: footer"></div>
 
-      <script th:src="@{/js/openCart.js}"></script>
-      <script th:src="@{/js/checkout.js}"></script>
+    <script th:src="@{/js/openCart.js}"></script>
+    <script th:src="@{/js/checkout.js}"></script>
   </body>
 </html>
