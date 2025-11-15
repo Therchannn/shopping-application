@@ -71,26 +71,26 @@
 
 
     <!-- Dynamic content -->
-    <div
+    <div style="width: 100%;"
             th:switch="${param.type != null ? param.type[0] : 'all'}"
     >
-      <div
+      <div style="width: 100%;"
               th:case="'all'"
               th:include="fragments/order-all :: content"
       ></div>
-      <div
+      <div style="width: 100%;"
               th:case="'pending'"
               th:include="fragments/order-new :: content"
       ></div>
-      <div
+      <div style="width: 100%;"
               th:case="'confirmed'"
               th:include="fragments/order-confirmed :: content"
       ></div>
-      <div
+      <div style="width: 100%;"
               th:case="'completed'"
               th:include="fragments/order-completed :: content"
       ></div>
-      <div
+      <div style="width: 100%;"
               th:case="'cancelled'"
               th:include="fragments/order-cancelled :: content"
       ></div>

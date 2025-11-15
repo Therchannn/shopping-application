@@ -67,10 +67,15 @@ html {
     --blue-color: #202c6f;
     --medium-grey77: #777777;
 }
-.container {
+.container2 {
     max-width: 1410px;
     padding: 0 15px;
     margin: 200px auto;
+}
+.container2 {
+    max-width: 1410px;
+    padding: 0 15px;
+    margin: 50px auto;
 }
 /* BUTTON CSS */
 .btn {

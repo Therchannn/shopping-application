@@ -25,6 +25,17 @@
                 </p>
                 <p th:text="${item.price}"></p>
             </div>
+            <div class="order__wrapper">
+              <p>
+                Phương thức thanh toán:
+                <span th:text="${order.paymentMethod}"></span>
+              </p>
+              <p>
+                Trạng thái đơn:
+                <span th:text="${order.status}"></span>
+              </p>
+
+            </div>
         </div>
       </div>
     </div>
