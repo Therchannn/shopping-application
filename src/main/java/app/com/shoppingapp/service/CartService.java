@@ -157,10 +157,13 @@ public class CartService {
                         .orderId(itemId)
                         .productVariant(variant)
                         .order(newOrder)
-                        .quantity(item.getQuantity() > variant.getQuantity() ? variant.getQuantity() : item.getQuantity())
+                        .quantity(item.getQuantity())
                         .build();
 
                 orderItems.add(newItem);
+
+                variant.setQuantity(variant.getQuantity() - item.getQuantity());
+                productVariantsRepository.save(variant);
 
                 CartId id  = new CartId(item.getId(), userId);
                 cartRepository.deleteById(id);

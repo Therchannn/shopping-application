@@ -1,7 +1,10 @@
-function handleStatusClick(el) {
-  document.querySelectorAll(".order__status").forEach(e => e.classList.remove("active"));
-  el.classList.add("active");
-}
+document.addEventListener("DOMContentLoaded", () => {
+    const toaster = document.querySelector(".toaster")
+    setTimeout(() => {
+        toaster.remove();
+    }, 2000)
+})
+
 // Modal JS
 const orderId_model = document.getElementById("orderId");
 const payment_model = document.getElementById("payment");
@@ -64,3 +67,5 @@ function openModal(btn) {
 function closeModal() {
   modal.style.display = "none";
 }
+
+

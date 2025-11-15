@@ -20,6 +20,7 @@
 </head>
 
 <body>
+<div class="toaster" th:if="${messageType}" th:text="${message}"></div>
 <div th:replace="layout :: header"></div>
 
 <h1 class="order__heading">Đơn hàng của bạn</h1>

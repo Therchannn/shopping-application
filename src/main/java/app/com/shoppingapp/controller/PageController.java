@@ -208,7 +208,7 @@ public class PageController extends Admin{
     }
 
     @GetMapping("/checkout")
-    public String checkoutPage(HttpSession session, HttpServletRequest request, Model model, @RequestParam(required = false) String orderId) {
+    public String checkoutPage(HttpSession session, HttpServletRequest request, Model model, @RequestParam(required = false) String orderId, RedirectAttributes attr) {
         String userId = (String) session.getAttribute("id");
 
         if(userId == null ){
@@ -254,34 +254,35 @@ public class PageController extends Admin{
             for(CartToGet item : cartOrder){
                 ProductVariant variant = productVariantsRepository.findByIdProductVariant(item.getId());
 
+                if(variant.getQuantity() == 0){
+                    item.setQuantity(0);
+                    continue;
+                }
+
                 if(variant.getQuantity() < item.getQuantity()){
                     item.setQuantity(variant.getQuantity());
-                    newUpdateOrder.add(item);
-                    BigDecimal totalPrice = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
-                    total = total.add(totalPrice);
                 }
-                else if(variant.getQuantity() == 0){
-                    item.setQuantity(0);
-                }
-                else{
-                    newUpdateOrder.add(item);
-                    BigDecimal totalPrice = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
-                    total = total.add(totalPrice);
-                }
+
+                newUpdateOrder.add(item);
+                BigDecimal totalPrice = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
+                total = total.add(totalPrice);
             }
 
-            items = newUpdateOrder;
-            order.setTotal(total);
-            orderRepository.save(OrderMapper.toEntity(order));
+            if(newUpdateOrder.isEmpty()){
+                attr.addFlashAttribute("messageType", "error");
+                attr.addFlashAttribute("message", "Đơn hàng hiện không còn khả dụng");
+                return "redirect:"+ request.getHeader("Referer");
+            }
+            else{
+                items = newUpdateOrder;
+                order.setTotal(total);
+                orderRepository.save(OrderMapper.toEntity(order));
+            }
         }
 
         for(CartToGet item : items){
             BigDecimal totalPrice = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
             total = total.add(totalPrice);
-        }
-
-        if(items.isEmpty()){
-            return "redirect:"+ request.getHeader("Referer");
         }
 
         model.addAttribute("items", items);

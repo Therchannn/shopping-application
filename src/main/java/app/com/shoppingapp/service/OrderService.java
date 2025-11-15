@@ -39,6 +39,26 @@ public class OrderService {
 
     public void update(String orderId, String status, String payment){
         Order order = orderRepository.findOrderById(orderId);
+        List<OrderItem> items = order.getItems();
+
+        if(status.equals("Pending")){
+            for(OrderItem item : items){
+                ProductVariant variant = productVariantsRepository.findByIdProductVariant(item.getProductVariant().getIdProductVariant());
+
+                variant.setQuantity(variant.getQuantity() - item.getQuantity());
+                productVariantsRepository.save(variant);
+            }
+        }
+
+        if(status.equals("Cancelled")){
+            for(OrderItem item : items){
+                ProductVariant variant = productVariantsRepository.findByIdProductVariant(item.getProductVariant().getIdProductVariant());
+
+                variant.setQuantity(variant.getQuantity() + item.getQuantity());
+                productVariantsRepository.save(variant);
+            }
+        }
+
         order.setStatus(status);
         order.setPaymentMethod(Order.PaymentMethod.valueOf(payment));
         order.setCreatedAt(LocalDateTime.now());
