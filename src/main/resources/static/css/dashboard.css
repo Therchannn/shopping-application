@@ -1,7 +1,8 @@
 .layout {
     display: flex;
-    min-height: 100vh;
-    max-height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+    min-width: 100%;
     overflow: hidden;
 }
 
@@ -111,7 +112,6 @@
   height: 100vh;
   overflow-y: auto;
 }
-
 /* === DASHBOARD MAIN === */
 
 .top-logo {

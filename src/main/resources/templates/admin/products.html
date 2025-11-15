@@ -28,6 +28,7 @@
                 Thêm sản phẩm
             </button>
         </form>
+        <p th:if="${products == null or products.isEmpty()}">Hiện không có sản phẩm nào phù hợp</p>
     <div id="product_container">
         <div class="product"
              th:each="product: ${products}"
@@ -71,7 +72,7 @@
                 </div>
             </div>
             <div class="product_variant_container">
-                    <div class="product_variant" th:if="${!product.variants.isEmpty()}" th:each="variant : ${product.groupedVariants}">
+                    <div class="product_variant" th:if="${!product.variants.isEmpty()}" th:attr="data-color=${variant.key}" th:each="variant : ${product.groupedVariants}">
                     <div class="variant_heading">
                         <h4>Màu sắc: </h4>
                         <span th:text="${variant.key}"></span>
@@ -107,7 +108,7 @@
                     <div class="input_content">
                         <div class="input_header">
                             <label for="color">Màu sắc:</label>
-                            <input type="text" id="color" placeholder="Nhập màu">
+                            <input type="text" id="color" placeholder="Nhập màu" required>
                         </div>
                         <div class="input_info">
                             <div class="size_input">
@@ -118,15 +119,15 @@
                             </div>
                             <div class="quantity_input">
                                 <h4>Số lượng</h4>
-                                <input type="number" placeholder="Nhập số lượng">
-                                <input type="number" placeholder="Nhập số lượng">
-                                <input type="number" placeholder="Nhập số lượng">
+                                <input type="number" required placeholder="Nhập số lượng">
+                                <input type="number" required placeholder="Nhập số lượng">
+                                <input type="number" required placeholder="Nhập số lượng">
                             </div>
                             <div class="price_input">
                                 <h4>Giá</h4>
-                                <input type="number" placeholder="Nhập giá">
-                                <input type="number" placeholder="Nhập giá">
-                                <input type="number" placeholder="Nhập giá">
+                                <input type="number" required placeholder="Nhập giá">
+                                <input type="number" required placeholder="Nhập giá">
+                                <input type="number" required placeholder="Nhập giá">
                             </div>
                         </div>
                         <div class="footer_form">

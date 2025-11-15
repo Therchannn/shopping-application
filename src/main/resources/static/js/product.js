@@ -67,10 +67,20 @@ document.querySelectorAll('.form_variant').forEach(form => {
     form.addEventListener('submit', function (e) {
         e.preventDefault();
 
+        const variant =form.closest('.product_variant_container');
+        const colors = Array.from(variant.querySelectorAll('.product_variant')).map(color => color.dataset.color)
+        const color = form.querySelector('#color').value.trim();
+
+        for(let c of colors){
+            if(c.toLowerCase() === color.toLowerCase()){
+                showError("Màu sắc đang bị trùng, vui lòng nhập màu khác")
+                return;
+            }
+        }
+
         const product = form.closest('.product');
         const id = product.querySelector('.product_content').dataset.productId;
 
-        const color = form.querySelector('#color').value.trim();
         const imageElement = form.querySelector('.newImage');
         const imageUrl = imageElement?.dataset.filename || '';
 
