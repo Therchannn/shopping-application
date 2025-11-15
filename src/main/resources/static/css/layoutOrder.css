@@ -1,7 +1,7 @@
 .order__heading {
   display: block;
   text-align: center;
-  padding: 200px;
+  padding: 200px 0 50px 0;
   font-size: 40px;
 }
 .order__content{
@@ -27,13 +27,11 @@
   max-width: 700px;
   flex-direction: column;
   margin: 0 60px;
-  /* margin: 0 auto; */
   gap: 30px 0;
 }
 
 .order__items {
   display: flex;
-  /* width: 100%; */
   gap: 60px;
 }
 .order__status {
@@ -87,12 +85,12 @@
 }
 .order__hero {
   display: flex;
-  align-items: flex-start;
+  text-align: start;
   flex-direction: column;
   gap: 2rem;
 }
 .order__title {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   font-weight: bold;
 }
 .order__img {
@@ -178,7 +176,6 @@
   align-self: flex-end;
 }
 
-/* Tablet */
 /* Tablet */
 @media(min-width: 740px) and (max-width: 1023px){
     

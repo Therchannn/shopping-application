@@ -76,6 +76,7 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 50%;
     margin: 15px 0;
+    accent-color: black;
 }
 
 .pd__size{
