@@ -76,6 +76,7 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 50%;
     margin: 15px 0;
+    accent-color: black;
 }
 
 .pd__size{
@@ -139,7 +140,7 @@ body {
     height: 350px;
     display: flex;
     border: 1px solid var(--black-color);
-    margin-left: -200px;
+    margin-left: -50px;
 }
 
 .db__img-item{

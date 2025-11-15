@@ -41,8 +41,8 @@ body {
 }
 
 .product img{
-    height: 160px;
-    width: 160px;
+    height: 300px;
+    width: 300px;
     object-fit: cover;
 }
 
