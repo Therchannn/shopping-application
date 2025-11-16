@@ -36,7 +36,8 @@
                 <div class="grid__column-10">
                     <h3 class="product__heading">Tất cả sản phẩm</h3>
                     <div class="grid__row">
-                        <div class="grid__column-2-4 home__product-animation" th:each="product: ${products}">
+                        <p th:if="${products == null || products.isEmpty()}">Hiện không có sản phẩm phù hợp</p>
+                        <div class="grid__column-2-4 home__product-animation" th:if="${products != null and !products.isEmpty()}" th:each="product: ${products}">
                             <a th:href="@{/product/{id}(id=${product.id})}" class="">
                                 <img th:src="@{${product.variants[0].imageUrl}}" alt="áo đen" class="home__product-img">
                                 <p class="home__product-name" th:text="${product.name}"></p>

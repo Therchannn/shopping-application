@@ -34,17 +34,6 @@
                         <span th:case="*">Không xác định</span>
                     </span>
                         </p>
-
-                        <p>
-                            Trạng thái đơn:
-                            <span th:switch="${order.status}">
-                        <span th:case="'Cancelled'">Đã hủy</span>
-                        <span th:case="'Pending'">Chờ xác nhận</span>
-                        <span th:case="'Confirmed'">Đã xác nhận</span>
-                        <span th:case="'Completed'">Đã hoàn tất</span>
-                        <span th:case="*">Không xác định</span>
-                    </span>
-                        </p>
                     </div>
                 </div>
             </div>
