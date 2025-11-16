@@ -24,7 +24,7 @@ public class OrderService {
     private final ProductVariantsRepository productVariantsRepository;
 
     public List<OrderDTO> get(){
-        List<Order> orders = orderRepository.findAll();
+        List<Order> orders = orderRepository.getOrdersByOrderByCreatedAtDesc();
         return orders.stream()
                 .map(OrderMapper::toDTO)
                 .collect(Collectors.toList());

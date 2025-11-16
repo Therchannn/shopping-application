@@ -117,4 +117,6 @@ public interface OrderRepository extends JpaRepository<Order, String> {
            "HAVING COUNT(o.id) >= 2" +
            ") as returning_customers", nativeQuery = true)
     long countReturningCustomers();
+
+    List<Order> getOrdersByOrderByCreatedAtDesc();
 }

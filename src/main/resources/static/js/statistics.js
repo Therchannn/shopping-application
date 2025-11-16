@@ -341,7 +341,7 @@ function renderProductOrders(orders) {
 
             // Mã đơn hàng (hiển thị full như Orders)
             const orderCodeCell = row.querySelector('.order-code');
-            orderCodeCell.textContent = order.orderId || 'N/A';
+            orderCodeCell.textContent = (order.orderId.length > 8) ? order.orderId.substring(0, 8) + "..." : order.orderId;
 
             tbody.appendChild(row);
         });
