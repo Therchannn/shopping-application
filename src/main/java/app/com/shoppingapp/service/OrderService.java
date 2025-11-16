@@ -105,16 +105,6 @@ public class OrderService {
                 return "Trạng thái đã được cập nhật trước đó";
             }
 
-            // Xử lý logic inventory khi chuyển sang Pending (đã ghi nhận)
-            if (newStatus.equals("Confirmed") && oldStatus.equals("Pending")) {
-                List<OrderItem> items = order.getItems();
-                for (OrderItem item : items) {
-                    ProductVariant variant = item.getProductVariant();
-                    variant.setQuantity(variant.getQuantity() - item.getQuantity());
-                    productVariantsRepository.save(variant);
-                }
-            }
-
             // Xử lý logic inventory khi hủy đơn
             if (newStatus.equals("Cancelled") && oldStatus.equals("Confirmed")) {
                 List<OrderItem> items = order.getItems();

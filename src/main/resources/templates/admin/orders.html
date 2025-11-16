@@ -145,7 +145,7 @@
               </button>
 
               <!-- Nút hủy đơn - Chỉ hiện khi chưa Cancelled -->
-              <button th:if="${order.status != 'Cancelled'}"
+              <button th:if="${order.status != 'Cancelled' && order.status != 'Completed'}"
                       class="btn-icon btn-cancel" title="Hủy đơn hàng"
                       th:data-order-id="${order.id}"
                       onclick="cancelOrder(this.getAttribute('data-order-id'))">
