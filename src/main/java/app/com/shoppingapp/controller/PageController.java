@@ -226,6 +226,8 @@ public class PageController extends Admin{
                 BigDecimal totalPrice = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
                 total = total.add(totalPrice);
             }
+
+            total = total.add(BigDecimal.valueOf(10000));
         }
 
         else{
@@ -279,6 +281,7 @@ public class PageController extends Admin{
                 return "redirect:"+ request.getHeader("Referer");
             }
             else{
+                total = total.add(order.getShippingFee());
                 items = newUpdateOrder;
                 order.setTotal(total);
                 orderRepository.save(OrderMapper.toEntity(order));

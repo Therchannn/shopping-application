@@ -169,6 +169,8 @@ public class CartService {
                 cartRepository.deleteById(id);
             }
 
+            total = total.add(newOrder.getShippingFee());
+
             newOrder.setItems(orderItems);
             newOrder.setTotal(total);
 

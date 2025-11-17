@@ -68,7 +68,7 @@
             <div class="order__wrapper">
               <p>Tạm tính:</p>
               <p
-                th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')} + ' đ'"
+                th:text="${#numbers.formatDecimal((total - 10000), 0, 'COMMA', 0, 'POINT')} + ' đ'"
               >
                 0đ
               </p>
@@ -85,7 +85,7 @@
               <p>Tổng cộng:</p>
               <!-- Sử dụng ${order.total + order.shipping_fee} không được vì BigDecimal -->
               <p
-                th:text="${#numbers.formatDecimal((total + 10000), 0, 'COMMA', 0, 'POINT')} + ' đ'"
+                th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')} + ' đ'"
               >
                 0đ
               </p>
