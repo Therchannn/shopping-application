@@ -221,6 +221,11 @@ public class PageController extends Admin{
 
         if(orderId == null){
             items = cartService.get(userId);
+
+            for(CartToGet item : items){
+                BigDecimal totalPrice = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
+                total = total.add(totalPrice);
+            }
         }
 
         else{

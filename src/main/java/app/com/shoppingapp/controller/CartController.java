@@ -39,7 +39,7 @@ public class CartController {
     public String deleteFromCart(@RequestBody Map<String, String> body, HttpSession session){
         String userId = (String) session.getAttribute("id");
         if(userId == null){
-            return "Something is missing";
+            return "Có lỗi, vui lòng thử lại";
         }
         String productVariantId = body.get("id");
         return cartService.delete(productVariantId, userId);

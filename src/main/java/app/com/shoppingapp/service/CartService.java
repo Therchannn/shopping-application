@@ -105,10 +105,10 @@ public class CartService {
         try {
             CartId id = new CartId(productVariantId, userId);
             cartRepository.deleteById(id);
-            return "Product has been deleted";
+            return "Sản phẩm đã xóa khỏi giỏ hàng";
         }
         catch (Exception e){
-            return "Something is error: " + e.getMessage();
+            return "Lỗi: " + e.getMessage();
         }
     }
 
