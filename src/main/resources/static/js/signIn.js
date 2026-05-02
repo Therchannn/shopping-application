@@ -7,5 +7,6 @@ if (showPassword) {
     const isPassword = input.type === "password";
     input.type = isPassword ? "text" : "password";
     this.name = isPassword ? "eye-outline" : "eye-off-outline";
+
   });
 }
