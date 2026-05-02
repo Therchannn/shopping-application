@@ -29,8 +29,8 @@ if [ $COUNTER -ge $MAX_ATTEMPTS ]; then
   exit 1
 fi
 
-echo "[$(date +'%Y-%m-%d %H:%M:%S')] MySQL port is open. Waiting 15 seconds for full initialization..."
-sleep 15
+echo "[$(date +'%Y-%m-%d %H:%M:%S')] MySQL port is open. Waiting 30 seconds for full initialization..."
+sleep 30
 
 echo "[$(date +'%Y-%m-%d %H:%M:%S')] Starting Spring Boot application..."
 exec java -jar /app/app.jar
