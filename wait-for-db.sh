@@ -20,5 +20,9 @@ while ! nc -z "$HOST" "$PORT" >/dev/null 2>&1; do
   sleep 1
 done
 
-echo "MySQL is ready! Starting Spring Boot application..."
+echo "MySQL is ready at ${HOST}:${PORT}!"
+echo "Waiting additional 5 seconds for MySQL to stabilize..."
+sleep 5
+
+echo "Starting Spring Boot application..."
 exec java -jar /app/app.jar
