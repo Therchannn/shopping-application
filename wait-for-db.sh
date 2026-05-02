@@ -1,28 +1,36 @@
 #!/bin/sh
-set -eu
+set -e
 
 # Use internal Railway network hostname for MySQL service
 # Railway services communicate via hostname.railway.internal within same environment
 HOST=${DATABASE_HOST:-mysql.railway.internal}
 PORT=${DATABASE_PORT:-3306}
 
-echo "Waiting for MySQL at ${HOST}:${PORT}..."
+echo "[$(date +'%Y-%m-%d %H:%M:%S')] Waiting for MySQL at ${HOST}:${PORT}..."
+echo "[$(date +'%Y-%m-%d %H:%M:%S')] This script will give MySQL 90 seconds to be fully ready"
 
-# Wait until TCP port is open (max 60 seconds)
+# Wait until TCP port is open (max 90 seconds with incremental delays)
 COUNTER=0
-while ! nc -z "$HOST" "$PORT" >/dev/null 2>&1; do
-  COUNTER=$((COUNTER + 1))
-  if [ $COUNTER -gt 60 ]; then
-    echo "ERROR: MySQL not ready after 60 seconds at ${HOST}:${PORT}"
-    exit 1
+MAX_ATTEMPTS=90
+while [ $COUNTER -lt $MAX_ATTEMPTS ]; do
+  if nc -z "$HOST" "$PORT" >/dev/null 2>&1; then
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] MySQL port is open at ${HOST}:${PORT}"
+    break
   fi
-  echo "Attempting ${COUNTER}/60: Waiting for ${HOST}:${PORT}..."
+  COUNTER=$((COUNTER + 1))
+  if [ $((COUNTER % 10)) -eq 0 ]; then
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] Waiting for ${HOST}:${PORT} (${COUNTER}/${MAX_ATTEMPTS})..."
+  fi
   sleep 1
 done
 
-echo "MySQL is ready at ${HOST}:${PORT}!"
-echo "Waiting additional 5 seconds for MySQL to stabilize..."
-sleep 5
+if [ $COUNTER -ge $MAX_ATTEMPTS ]; then
+  echo "[$(date +'%Y-%m-%d %H:%M:%S')] ERROR: MySQL port still closed after ${MAX_ATTEMPTS} seconds"
+  exit 1
+fi
 
-echo "Starting Spring Boot application..."
+echo "[$(date +'%Y-%m-%d %H:%M:%S')] MySQL port is open. Waiting 15 seconds for full initialization..."
+sleep 15
+
+echo "[$(date +'%Y-%m-%d %H:%M:%S')] Starting Spring Boot application..."
 exec java -jar /app/app.jar
